@@ -13,12 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.samuel.expensemanager.ExpenseAplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.HomePagerAdapter;
-import com.example.samuel.expensemanager.model.DaoSession;
-import com.example.samuel.expensemanager.model.Expense;
-import com.example.samuel.expensemanager.model.ExpenseDao;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DaoSession daoSession = ((ExpenseAplication) getApplicationContext()).getDaoSession();
+        /*DaoSession daoSession = ((ExpenseAplication) getApplicationContext()).getDaoSession();
 
         ExpenseDao expenseDao = daoSession.getExpenseDao();
         Expense expense = new Expense();
@@ -43,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         expense.setFigure(50.0);
         expense.setTypeName("午餐");
         expense.setTypeFlag(1);
-        expenseDao.insertOrReplace(expense);
+        expenseDao.insertOrReplace(expense);*/
 
 
         assignViews();
