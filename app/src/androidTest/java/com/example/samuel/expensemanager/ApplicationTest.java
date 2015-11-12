@@ -8,15 +8,19 @@ import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 
+import java.util.List;
 import java.util.Random;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
 public class ApplicationTest extends ApplicationTestCase<Application> {
-    public static final String[] typeExpense = new String[]{"早餐", "午餐", "晚餐", "夜宵", "零食", "软件", "App Store", "话费"};
+    public static final String[] typeExpense = new String[]{"早餐", "午餐", "晚餐", "夜宵", "零食", "软件", "App Store", "话费", "手机", "衣服", "书籍", "交通", "药品", "电影", "饮料", "物业", "房租"};
     public static final String[] typeIncome = new String[]{"工资", "股票", "彩票", "股份", "余额宝", "奖金"};
-    public static final int[] monthCase = new int[]{7, 8, 9, 10, 11};
+    public static final String[] monthCase = new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+    public static final String[] dayCase = new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+            "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+            "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
     public Context mContext;
 
     public ApplicationTest() {
@@ -39,17 +43,17 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             Expense expense = new Expense();
 
             int figure = random.nextInt(100);
-            String expenseType = typeExpense[random.nextInt(typeExpense.length)];
-            int month = monthCase[random.nextInt(monthCase.length)];
-            int day = random.nextInt(30) + 1;
-            int color = random.nextInt(40);
+            int type = random.nextInt(typeExpense.length);
+            String expenseType = typeExpense[type];
+            String month = monthCase[random.nextInt(monthCase.length)];
+            String day = dayCase[random.nextInt(dayCase.length)];
             String date = "2015-" + month + "-" + day;
 
             expense.setFigure((double) figure);
             expense.setTypeFlag(1);
             expense.setTypeName(expenseType);
             expense.setDate(date);
-            expense.setTypeColor(color);
+            expense.setTypeColor(type);
             expense.setIsDeleted(0);
             expense.setIsModified(0);
             expense.setIsUploaded(0);
@@ -57,7 +61,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             expenseDao.insertOrReplace(expense);
 
         }
-        for (int i = 0; i < 20; i++) {
+       /* for (int i = 0; i < 20; i++) {
             Expense expense = new Expense();
 
             int figure = random.nextInt(5000);
@@ -78,7 +82,20 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
             expenseDao.insertOrReplace(expense);
 
-        }
+        }*/
+    }
+
+    public void testQuery() {
+        DaoSession daoSession = ((ExpenseAplication) mContext.getApplicationContext()).getDaoSession();
+        ExpenseDao expenseDao = daoSession.getExpenseDao();
+
+        String startDate = "2015-01-01";
+        String endDate = "2015-12-31";
+        List<Expense> expenseList = expenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.Date.between(startDate, endDate))
+                .orderAsc().list();
+
+        System.out.println("=================" + expenseList.size());
     }
 
 }

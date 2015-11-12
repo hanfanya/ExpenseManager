@@ -31,17 +31,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*DaoSession daoSession = ((ExpenseAplication) getApplicationContext()).getDaoSession();
-
-        ExpenseDao expenseDao = daoSession.getExpenseDao();
-        Expense expense = new Expense();
-        expense.setDate("2015-11-11");
-        expense.setFigure(50.0);
-        expense.setTypeName("午餐");
-        expense.setTypeFlag(1);
-        expenseDao.insertOrReplace(expense);*/
-
-
         assignViews();
         initUI();
 
@@ -80,10 +69,12 @@ public class MainActivity extends AppCompatActivity
 
         //设置 viewpager
         mTabLayoutHome.setTabMode(TabLayout.MODE_FIXED);
-        HomePagerAdapter adapter = new HomePagerAdapter(getSupportFragmentManager());
-        mViewPagerHome.setAdapter(adapter);
+        HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        mViewPagerHome.setAdapter(homePagerAdapter);
         mTabLayoutHome.setupWithViewPager(mViewPagerHome);
-        mTabLayoutHome.setTabsFromPagerAdapter(adapter);
+        mTabLayoutHome.setTabsFromPagerAdapter(homePagerAdapter);
+
+
 
     }
 
