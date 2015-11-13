@@ -2,7 +2,6 @@ package com.example.samuel.expensemanager.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import com.example.samuel.expensemanager.adapter.HomeListAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
+import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
@@ -58,6 +58,8 @@ public class HomeFragment extends Fragment {
         mRecyclerViewHome.setAdapter(homeListAdapter);
         mRecyclerViewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
                 .margin(110, 55).build());//设置 divider 分割线
+
+        mFabHome.attachToRecyclerView(mRecyclerViewHome);
 
         return view;
     }
