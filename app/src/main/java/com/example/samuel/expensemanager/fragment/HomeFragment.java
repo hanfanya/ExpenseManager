@@ -16,6 +16,7 @@ import com.example.samuel.expensemanager.adapter.HomeListAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
@@ -55,6 +56,8 @@ public class HomeFragment extends Fragment {
 
         HomeListAdapter homeListAdapter = new HomeListAdapter(expenseList, getActivity());
         mRecyclerViewHome.setAdapter(homeListAdapter);
+        mRecyclerViewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                .margin(110, 55).build());//设置 divider 分割线
 
         return view;
     }
