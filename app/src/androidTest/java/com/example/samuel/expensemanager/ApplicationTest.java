@@ -35,7 +35,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testInsert() {
-        DaoSession daoSession = ((ExpenseAplication) mContext.getApplicationContext()).getDaoSession();
+        DaoSession daoSession = ((ExpenseApplication) mContext.getApplicationContext()).getDaoSession();
         ExpenseDao expenseDao = daoSession.getExpenseDao();
 
         Random random = new Random();
@@ -86,7 +86,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testQuery() {
-        DaoSession daoSession = ((ExpenseAplication) mContext.getApplicationContext()).getDaoSession();
+        DaoSession daoSession = ((ExpenseApplication) mContext.getApplicationContext()).getDaoSession();
         ExpenseDao expenseDao = daoSession.getExpenseDao();
 
         String startDate = "2015-01-01";

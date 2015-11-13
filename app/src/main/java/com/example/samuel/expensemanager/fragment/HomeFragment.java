@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.samuel.expensemanager.ExpenseAplication;
+import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.HomeListAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerview_home);
         mFabHome = (FloatingActionButton) view.findViewById(R.id.fab_home);
 
-        DaoSession daoSession = ((ExpenseAplication) getActivity().getApplicationContext()).getDaoSession();
+        DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
         ExpenseDao expenseDao = daoSession.getExpenseDao();
 
         String startDate = "2015-06-01";
