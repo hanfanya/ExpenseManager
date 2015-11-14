@@ -1,13 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:fab="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.example.samuel.expensemanager.fragment.HomeFragment">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.samuel.expensemanager.fragment.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/keyline"
+        android:layout_marginRight="@dimen/keyline"
+        android:layout_marginTop="@dimen/keyline"
         android:orientation="vertical">
 
         <LinearLayout
@@ -51,8 +56,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff"/>
+            android:layout_height="match_parent"/>
 
 
     </LinearLayout>
