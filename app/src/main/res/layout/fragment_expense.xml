@@ -154,15 +154,16 @@
             android:layout_height="?android:actionBarSize"
             android:layout_above="@id/ll_expense_cal"
             android:background="#CFD8DC"
-            android:elevation="10dp">
+            >
 
 
             <ImageView
                 android:id="@+id/iv_expense_type"
+
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="30dp"
 
                 android:src="@drawable/circle"/>
 

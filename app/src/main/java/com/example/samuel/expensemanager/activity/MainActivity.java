@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity
 
     private void assignViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar_home);
-//        mFabHome = (FloatingActionButton) findViewById(R.id.fab_home);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mViewPagerHome = (ViewPager) findViewById(R.id.viewpager_tab_home);
@@ -50,14 +49,6 @@ public class MainActivity extends AppCompatActivity
 
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
-
-        /*mFabHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         //设置 drawlayout
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -90,19 +81,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

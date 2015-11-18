@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -53,7 +55,6 @@ public class ExpenseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_expense, container, false);
         mRecyclerViewType = (RecyclerView) view.findViewById(R.id.recyclerview_expense);
         mRlExpenseInfo = (RelativeLayout) view.findViewById(R.id.rl_expense_info);
@@ -97,6 +98,7 @@ public class ExpenseFragment extends Fragment {
             }
         });
 
+        //item的点击事件
         mRecyclerViewAdapter.setOnItemClickListener(new ExpenseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -120,7 +122,7 @@ public class ExpenseFragment extends Fragment {
 
             }
         });
-
+        //向下滚动时，隐藏计算器
         mRecyclerViewType.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -133,7 +135,6 @@ public class ExpenseFragment extends Fragment {
                 }
             }
         });
-
 
     }
 
@@ -150,6 +151,36 @@ public class ExpenseFragment extends Fragment {
             mTypeInfos.add(typeInfo);
         }
 
+    }
+
+    //从fragment中添加toolbar菜单
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_expense, menu);
+        this.mMenu = menu;
+        MenuItem dateItem = mMenu.findItem(R.id.action_date);
+        dateItem.setTitle("2015/11/15");
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_date) {
+            Log.i("ExpenseFragment", "从 ExpenseFragment 中点击");
+            MenuItem dateItem = mMenu.findItem(R.id.action_date_title);
+            dateItem.setTitle("hello");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
