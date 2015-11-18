@@ -1,12 +1,197 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.example.samuel.expensemanager.fragment.ExpenseFragment">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.samuel.expensemanager.fragment.ExpenseFragment">
 
-    <TextView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_expense"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_marginBottom="?android:actionBarSize"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"/>
 
+    <RelativeLayout
+        android:id="@+id/rl_expense_cal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_expense_cal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/key_1"
+                    style="@style/Calculator_Cell"
+                    android:text="1"/>
+
+                <Button
+                    android:id="@+id/key_4"
+                    style="@style/Calculator_Cell"
+                    android:text="4"/>
+
+                <Button
+                    android:id="@+id/key_7"
+                    style="@style/Calculator_Cell"
+                    android:text="7"/>
+
+                <Button
+                    android:id="@+id/key_not"
+                    style="@style/Calculator_Cell"
+                    android:drawablePadding="3.0dip"
+
+                    android:text="AC"
+                    android:textSize="28sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/key_2"
+                    style="@style/Calculator_Cell"
+                    android:text="2"/>
+
+                <Button
+                    android:id="@+id/key_5"
+                    style="@style/Calculator_Cell"
+                    android:text="5"/>
+
+                <Button
+                    android:id="@+id/key_8"
+                    style="@style/Calculator_Cell"
+                    android:text="8"/>
+
+                <Button
+                    android:id="@+id/key_0"
+                    style="@style/Calculator_Cell"
+                    android:text="0"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/key_3"
+                    style="@style/Calculator_Cell"
+                    android:text="3"/>
+
+                <Button
+                    android:id="@+id/key_6"
+                    style="@style/Calculator_Cell"
+                    android:text="6"/>
+
+                <Button
+                    android:id="@+id/key_9"
+                    style="@style/Calculator_Cell"
+                    android:text="9"/>
+
+                <Button
+                    android:id="@+id/key_point"
+                    style="@style/Calculator_Cell"
+                    android:text="."/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.09"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/key_del"
+                    style="@style/Calculator_Cell_frame">
+
+                    <TextView style="@style/Calculator_Cell_frame_tv"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/key_add"
+                    style="@style/Calculator_Cell_frame">
+
+                    <TextView
+                        style="@style/Calculator_Cell_frame_tv"
+                        android:layout_width="24.0dip"
+                        android:background="@drawable/button_add"/>
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/key_ok"
+                    style="@style/Calculator_Cell_frame"
+                    android:layout_gravity="center"
+                    android:layout_weight="2.0"
+                    android:background="@drawable/shape_key_state_selector"
+                    android:text="OK"
+                    android:textColor="#ba000000"
+                    android:textSize="36.0sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_expense_info"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:layout_above="@id/ll_expense_cal"
+            android:background="#CFD8DC"
+            android:elevation="10dp">
+
+
+            <ImageView
+                android:id="@+id/iv_expense_type"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+
+                android:src="@drawable/circle"/>
+
+
+            <TextView
+                android:id="@+id/tv_expense_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/iv_expense_type"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="早餐"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_expense_figure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:text="$10"
+                android:textSize="25sp"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>
+

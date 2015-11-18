@@ -30,4 +30,29 @@
         <item name="android:background">?selectableItemBackground</item>
     </style>
 
+    <style name="Calculator_Cell">
+        <item name="android:textSize">28.0sp</item>
+        <item name="android:textColor">@color/cal_text</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/shape_key_state_selector</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.0dip</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <style name="Calculator_Cell_frame">
+        <item name="android:background">@drawable/shape_key_state_selector</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.0dip</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <style name="Calculator_Cell_frame_tv">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/button_del</item>
+        <item name="android:layout_width">40.0dip</item>
+        <item name="android:layout_height">24.0dip</item>
+    </style>
+
 </resources>

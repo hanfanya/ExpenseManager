@@ -6,6 +6,8 @@
 
     <color name="sample_primary">#4590bd</color>
     <color name="sample_accent">#88bfcb</color>
+    <color name="cal_text">#ff414152</color>
+
 
     <color name="white">#FFFFFF</color>
     <color name="blue_grey">#455A64</color>
