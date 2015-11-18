@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -42,6 +43,7 @@ public class ExpenseFragment extends Fragment {
     private TextView mTvExpenseType;
     private Menu mMenu;
     private RecyclerView mRecyclerViewType;
+    private ExpenseRecyclerViewAdapter mRecyclerViewAdapter;
 
 
     public ExpenseFragment() {
@@ -70,10 +72,10 @@ public class ExpenseFragment extends Fragment {
 
     private void initUI() {
         mGridLayoutManager = new GridLayoutManager(getActivity(), 5);
-        ExpenseRecyclerViewAdapter recyclerViewAdapter = new ExpenseRecyclerViewAdapter(mTypeInfos);
+        mRecyclerViewAdapter = new ExpenseRecyclerViewAdapter(mTypeInfos);
 
         mRecyclerViewType.setLayoutManager(mGridLayoutManager);
-        mRecyclerViewType.setAdapter(recyclerViewAdapter);
+        mRecyclerViewType.setAdapter(mRecyclerViewAdapter);
 
     }
 
@@ -92,10 +94,46 @@ public class ExpenseFragment extends Fragment {
                     objectAnimator.start();
                     isShow = true;
                 }
+            }
+        });
 
+        mRecyclerViewAdapter.setOnItemClickListener(new ExpenseRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.i("ExpenseFragment", "点击了 " + position);
+                TypeInfo typeInfo = mTypeInfos.get(position);
+
+                mIvExpenseType.setColorFilter(typeInfo.getTypeColor());
+                mTvExpenseType.setText(typeInfo.getTypeName());
+                mRecyclerViewAdapter.setSelection(position);
+                mRecyclerViewAdapter.notifyDataSetChanged();
+                if (!isShow) {
+                    ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mRlExpenseCal, "translationY", mLlExpenseCal.getHeight(), 0);
+                    objectAnimator.setDuration(200);
+                    objectAnimator.start();
+                    isShow = true;
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
 
             }
         });
+
+        mRecyclerViewType.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 20 && isShow) {
+                    ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mRlExpenseCal, "translationY", 0, mLlExpenseCal.getHeight());
+                    objectAnimator.setDuration(200);
+                    objectAnimator.start();
+                    isShow = false;
+                }
+            }
+        });
+
 
     }
 
