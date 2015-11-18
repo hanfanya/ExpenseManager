@@ -1,6 +1,7 @@
 package com.example.samuel.expensemanager.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
+import com.example.samuel.expensemanager.activity.AddRecordActivity;
 import com.example.samuel.expensemanager.adapter.HomeListAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
@@ -47,10 +49,10 @@ public class HomeFragment extends Fragment {
 
         String startDate = "2015-06-01";
         String endDate = "2015-12-31";
+//        显示最近 7 天的收支详情
         List<Expense> expenseList = expenseDao.queryBuilder()
                 .where(ExpenseDao.Properties.Date.between(startDate, endDate))
                 .orderAsc(ExpenseDao.Properties.Date).list();
-        System.out.println("======================" + expenseList.size());
 
         mRecyclerViewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -59,7 +61,15 @@ public class HomeFragment extends Fragment {
         mRecyclerViewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
                 .margin(110, 55).build());//设置 divider 分割线
 
+//      recyclerview 滑动时，FabButton 隐藏或显示
         mFabHome.attachToRecyclerView(mRecyclerViewHome);
+//        fab的点击事件
+        mFabHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AddRecordActivity.class));
+            }
+        });
 
         return view;
     }
