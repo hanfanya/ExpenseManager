@@ -30,7 +30,7 @@ public class ExpenseDaoGenerator {
         typeInfo.addStringProperty("typeObjectId");
         typeInfo.addIntProperty("typeColor");
         typeInfo.addStringProperty("typeName");
-        typeInfo.addStringProperty("typeFlag");
+        typeInfo.addIntProperty("typeFlag");
         typeInfo.addIntProperty("frequency");
         typeInfo.addIntProperty("isUploaded");
         typeInfo.addIntProperty("isModified");

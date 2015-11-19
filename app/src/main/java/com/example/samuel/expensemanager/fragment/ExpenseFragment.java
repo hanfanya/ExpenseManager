@@ -73,7 +73,7 @@ public class ExpenseFragment extends Fragment {
 
     private void initUI() {
         mGridLayoutManager = new GridLayoutManager(getActivity(), 5);
-        mRecyclerViewAdapter = new ExpenseRecyclerViewAdapter(mTypeInfos);
+//        mRecyclerViewAdapter = new ExpenseRecyclerViewAdapter(mTypeInfos);
 
         mRecyclerViewType.setLayoutManager(mGridLayoutManager);
         mRecyclerViewType.setAdapter(mRecyclerViewAdapter);

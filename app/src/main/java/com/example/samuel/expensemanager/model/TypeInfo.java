@@ -10,7 +10,7 @@ public class TypeInfo {
     private String typeObjectId;
     private Integer typeColor;
     private String typeName;
-    private String typeFlag;
+    private Integer typeFlag;
     private Integer frequency;
     private Integer isUploaded;
     private Integer isModified;
@@ -23,7 +23,7 @@ public class TypeInfo {
         this.id = id;
     }
 
-    public TypeInfo(Long id, String typeObjectId, Integer typeColor, String typeName, String typeFlag, Integer frequency, Integer isUploaded, Integer isModified, Integer isDeleted) {
+    public TypeInfo(Long id, String typeObjectId, Integer typeColor, String typeName, Integer typeFlag, Integer frequency, Integer isUploaded, Integer isModified, Integer isDeleted) {
         this.id = id;
         this.typeObjectId = typeObjectId;
         this.typeColor = typeColor;
@@ -67,11 +67,11 @@ public class TypeInfo {
         this.typeName = typeName;
     }
 
-    public String getTypeFlag() {
+    public Integer getTypeFlag() {
         return typeFlag;
     }
 
-    public void setTypeFlag(String typeFlag) {
+    public void setTypeFlag(Integer typeFlag) {
         this.typeFlag = typeFlag;
     }
 

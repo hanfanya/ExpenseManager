@@ -11,9 +11,17 @@ public class CloudTypeInfo extends BmobObject {
     private Integer typeColor;
     private String typeName;
     private Integer frequency;
-    private String typeFlag;
+    private Integer typeFlag;
 
     public CloudTypeInfo() {
+    }
+
+    public Integer getTypeFlag() {
+        return typeFlag;
+    }
+
+    public void setTypeFlag(Integer typeFlag) {
+        this.typeFlag = typeFlag;
     }
 
     public Integer getFrequency() {
@@ -46,13 +54,5 @@ public class CloudTypeInfo extends BmobObject {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
-    }
-
-    public String getTypeFlag() {
-        return typeFlag;
-    }
-
-    public void setTypeFlag(String typeFlag) {
-        this.typeFlag = typeFlag;
     }
 }

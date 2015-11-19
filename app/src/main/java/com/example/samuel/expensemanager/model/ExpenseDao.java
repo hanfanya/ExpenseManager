@@ -145,15 +145,15 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         entity.setIsUploaded(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
         entity.setIsModified(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
         entity.setIsDeleted(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
-    }
-
+     }
+     
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Expense entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(Expense entity) {
@@ -163,17 +163,17 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
             return null;
         }
     }
-
+    
     /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
 
-    /**
+/**
      * Properties of entity Expense.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-     */
+    */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property ExpenseObjectId = new Property(1, String.class, "expenseObjectId", false, "EXPENSE_OBJECT_ID");

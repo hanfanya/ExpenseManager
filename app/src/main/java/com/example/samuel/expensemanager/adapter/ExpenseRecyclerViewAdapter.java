@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.samuel.expensemanager.R;
-import com.example.samuel.expensemanager.model.TypeInfo;
 
 import java.util.List;
 

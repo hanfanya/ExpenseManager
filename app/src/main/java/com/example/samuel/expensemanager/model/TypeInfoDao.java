@@ -38,7 +38,7 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
                 "\"TYPE_OBJECT_ID\" TEXT," + // 1: typeObjectId
                 "\"TYPE_COLOR\" INTEGER," + // 2: typeColor
                 "\"TYPE_NAME\" TEXT," + // 3: typeName
-                "\"TYPE_FLAG\" TEXT," + // 4: typeFlag
+                "\"TYPE_FLAG\" INTEGER," + // 4: typeFlag
                 "\"FREQUENCY\" INTEGER," + // 5: frequency
                 "\"IS_UPLOADED\" INTEGER," + // 6: isUploaded
                 "\"IS_MODIFIED\" INTEGER," + // 7: isModified
@@ -76,9 +76,9 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
             stmt.bindString(4, typeName);
         }
 
-        String typeFlag = entity.getTypeFlag();
+        Integer typeFlag = entity.getTypeFlag();
         if (typeFlag != null) {
-            stmt.bindString(5, typeFlag);
+            stmt.bindLong(5, typeFlag);
         }
 
         Integer frequency = entity.getFrequency();
@@ -116,7 +116,7 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
                 cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // typeObjectId
                 cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // typeColor
                 cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // typeName
-                cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // typeFlag
+                cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // typeFlag
                 cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // frequency
                 cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // isUploaded
                 cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // isModified
@@ -132,20 +132,20 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         entity.setTypeObjectId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setTypeColor(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
         entity.setTypeName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setTypeFlag(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setTypeFlag(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
         entity.setFrequency(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
         entity.setIsUploaded(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
         entity.setIsModified(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
         entity.setIsDeleted(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
-    }
-
+     }
+     
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(TypeInfo entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(TypeInfo entity) {
@@ -155,23 +155,23 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
             return null;
         }
     }
-
+    
     /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
 
-    /**
+/**
      * Properties of entity TypeInfo.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-     */
+    */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TypeObjectId = new Property(1, String.class, "typeObjectId", false, "TYPE_OBJECT_ID");
         public final static Property TypeColor = new Property(2, Integer.class, "typeColor", false, "TYPE_COLOR");
         public final static Property TypeName = new Property(3, String.class, "typeName", false, "TYPE_NAME");
-        public final static Property TypeFlag = new Property(4, String.class, "typeFlag", false, "TYPE_FLAG");
+    public final static Property TypeFlag = new Property(4, Integer.class, "typeFlag", false, "TYPE_FLAG");
         public final static Property Frequency = new Property(5, Integer.class, "frequency", false, "FREQUENCY");
         public final static Property IsUploaded = new Property(6, Integer.class, "isUploaded", false, "IS_UPLOADED");
         public final static Property IsModified = new Property(7, Integer.class, "isModified", false, "IS_MODIFIED");

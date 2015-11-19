@@ -2,10 +2,6 @@ package com.example.samuel.expensemanager;
 
 import android.content.Context;
 
-import com.example.samuel.expensemanager.model.DaoSession;
-import com.example.samuel.expensemanager.model.Expense;
-import com.example.samuel.expensemanager.model.ExpenseDao;
-
 import org.junit.Test;
 
 import java.util.Random;

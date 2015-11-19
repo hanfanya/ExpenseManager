@@ -7,6 +7,8 @@ import android.test.ApplicationTestCase;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
+import com.example.samuel.expensemanager.model.TypeInfo;
+import com.example.samuel.expensemanager.model.TypeInfoDao;
 
 import java.util.List;
 import java.util.Random;
@@ -15,9 +17,12 @@ import java.util.Random;
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
 public class ApplicationTest extends ApplicationTestCase<Application> {
-    public static final String[] typeExpense = new String[]{"早餐", "午餐", "晚餐", "夜宵", "零食", "软件", "App Store", "话费", "手机", "衣服", "书籍", "交通", "药品", "电影", "饮料", "物业", "房租"};
-    public static final String[] typeIncome = new String[]{"工资", "股票", "彩票", "股份", "余额宝", "奖金"};
-    public static final String[] monthCase = new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+    public static final String[] typeExpense = new String[]{"早餐", "午餐", "晚餐", "夜宵", "零食", "饮料", "日用品", "话费",
+            "软件", "服装", "鞋帽", "医疗", "果蔬", "影院", "数码", "房租", "护肤", "居家", "书籍", "油盐酱醋", "交通", "摄影文印",
+            "娱乐", "物业", "礼物", "社交", "剁手"};
+
+    public static final String[] typeIncome = new String[]{"工资", "奖金", "彩票", "余额宝", "股票"};
+    public static final String[] monthCase = new String[]{"03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
     public static final String[] dayCase = new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
             "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
             "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
@@ -83,6 +88,37 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             expenseDao.insertOrReplace(expense);
 
         }*/
+    }
+
+    public void testInsertType() {
+        DaoSession daoSession = ((ExpenseApplication) mContext.getApplicationContext()).getDaoSession();
+        TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
+        int[] colorArray = mContext.getResources().getIntArray(R.array.colorType);
+
+
+        Random random = new Random();
+        for (int i = 0; i < typeExpense.length; i++) {
+            TypeInfo typeInfo = new TypeInfo();
+
+            int color = random.nextInt(colorArray.length);
+            String name = typeExpense[i];
+            int flag = 1;
+            int frequency = 0;
+            int isUploaded = 0;
+            int isModified = 0;
+            int isDeleted = 0;
+
+            typeInfo.setTypeColor(color);
+            typeInfo.setTypeName(name);
+            typeInfo.setTypeFlag(flag);
+            typeInfo.setFrequency(frequency);
+            typeInfo.setIsUploaded(isUploaded);
+            typeInfo.setIsModified(isModified);
+            typeInfo.setIsDeleted(isDeleted);
+
+
+        }
+
     }
 
     public void testQuery() {
