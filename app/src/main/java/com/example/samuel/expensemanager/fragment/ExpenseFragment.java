@@ -19,21 +19,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.ExpenseRecyclerViewAdapter;
+import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.TypeInfo;
+import com.example.samuel.expensemanager.model.TypeInfoDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ExpenseFragment extends Fragment {
-    public static final String[] typeExpense = new String[]{"早餐", "午餐", "晚餐", "夜宵", "零食", "软件", "App Store", "话费", "手机", "衣服", "书籍", "交通", "药品", "电影", "饮料", "物业", "房租",
-            "早餐", "午餐", "晚餐", "夜宵", "零食", "软件", "App Store", "话费", "手机", "衣服", "书籍", "交通", "药品", "电影", "饮料", "物业", "房租",
-            "早餐", "午餐", "晚餐", "夜宵", "零食", "软件", "App Store", "话费", "手机", "衣服", "书籍", "交通", "药品", "电影", "饮料", "物业", "房租"};
-
     private List<TypeInfo> mTypeInfos;
     private Context mContext;
     private GridLayoutManager mGridLayoutManager;
@@ -46,6 +41,7 @@ public class ExpenseFragment extends Fragment {
     private Menu mMenu;
     private RecyclerView mRecyclerViewType;
     private ExpenseRecyclerViewAdapter mRecyclerViewAdapter;
+    private int[] mColorArray;
 
 
     public ExpenseFragment() {
@@ -73,7 +69,7 @@ public class ExpenseFragment extends Fragment {
 
     private void initUI() {
         mGridLayoutManager = new GridLayoutManager(getActivity(), 5);
-//        mRecyclerViewAdapter = new ExpenseRecyclerViewAdapter(mTypeInfos);
+        mRecyclerViewAdapter = new ExpenseRecyclerViewAdapter(mTypeInfos, getActivity());
 
         mRecyclerViewType.setLayoutManager(mGridLayoutManager);
         mRecyclerViewType.setAdapter(mRecyclerViewAdapter);
@@ -105,10 +101,11 @@ public class ExpenseFragment extends Fragment {
                 Log.i("ExpenseFragment", "点击了 " + position);
                 TypeInfo typeInfo = mTypeInfos.get(position);
 
-                mIvExpenseType.setColorFilter(typeInfo.getTypeColor());
+                mIvExpenseType.setColorFilter(mColorArray[typeInfo.getTypeColor()]);
                 mTvExpenseType.setText(typeInfo.getTypeName());
                 mRecyclerViewAdapter.setSelection(position);
                 mRecyclerViewAdapter.notifyDataSetChanged();
+
                 if (!isShow) {
                     ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mRlExpenseCal, "translationY", mLlExpenseCal.getHeight(), 0);
                     objectAnimator.setDuration(200);
@@ -139,17 +136,12 @@ public class ExpenseFragment extends Fragment {
     }
 
     private void initData() {
-        mTypeInfos = new ArrayList<>();
-        int[] colorArray = getActivity().getResources().getIntArray(R.array.rainbow);
+        DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
+        TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
 
-        for (int i = 0; i < colorArray.length; i++) {
-            TypeInfo typeInfo = new TypeInfo();
+        mTypeInfos = typeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1)).list();
+        mColorArray = getActivity().getResources().getIntArray(R.array.colorType);
 
-            typeInfo.setTypeColor(colorArray[i]);
-            typeInfo.setTypeName(typeExpense[i]);
-
-            mTypeInfos.add(typeInfo);
-        }
 
     }
 

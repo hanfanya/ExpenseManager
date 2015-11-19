@@ -1,5 +1,6 @@
 package com.example.samuel.expensemanager.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.samuel.expensemanager.R;
+import com.example.samuel.expensemanager.model.TypeInfo;
 
 import java.util.List;
 
@@ -16,10 +18,12 @@ import java.util.List;
 public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseViewHolder> {
     public OnItemClickListener mOnItemClickListener;
     private List<TypeInfo> mTypeInfos;
+    private Context mContext;
     private int clickTemp = -1;
 
-    public ExpenseRecyclerViewAdapter(List<TypeInfo> typeInfos) {
+    public ExpenseRecyclerViewAdapter(List<TypeInfo> typeInfos, Context context) {
         mTypeInfos = typeInfos;
+        mContext = context;
     }
 
     public void setSelection(int position) {
@@ -40,8 +44,9 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseView
     @Override
     public void onBindViewHolder(final ExpenseViewHolder holder, int position) {
         TypeInfo typeInfo = mTypeInfos.get(position);
+        int[] colorArray = mContext.getResources().getIntArray(R.array.colorType);
 
-        holder.mIvTypeColor.setColorFilter(typeInfo.getTypeColor());
+        holder.mIvTypeColor.setColorFilter(colorArray[typeInfo.getTypeColor()]);
         holder.mTvCircle.setText(typeInfo.getTypeName().substring(0, 1));
         holder.mTvTypeName.setText(typeInfo.getTypeName());
 

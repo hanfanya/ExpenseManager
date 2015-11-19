@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.samuel.expensemanager.R;
+import com.example.samuel.expensemanager.model.Expense;
 
 import java.util.List;
 
