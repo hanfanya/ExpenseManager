@@ -1,6 +1,5 @@
 package com.example.samuel.expensemanager.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import java.util.List;
 public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseViewHolder> {
     public OnItemClickListener mOnItemClickListener;
     private List<TypeInfo> mTypeInfos;
-    private Context mContext;
     private int clickTemp = -1;
 
     public ExpenseRecyclerViewAdapter(List<TypeInfo> typeInfos) {
@@ -85,4 +83,6 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseView
 
         void onItemLongClick(View view, int position);
     }
+
+
 }

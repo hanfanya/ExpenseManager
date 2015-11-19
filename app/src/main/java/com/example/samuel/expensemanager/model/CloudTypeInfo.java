@@ -10,9 +10,18 @@ public class CloudTypeInfo extends BmobObject {
     private String username;
     private Integer typeColor;
     private String typeName;
+    private Integer frequency;
     private String typeFlag;
 
     public CloudTypeInfo() {
+    }
+
+    public Integer getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
     }
 
     public String getUsername() {

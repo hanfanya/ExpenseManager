@@ -17,29 +17,12 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
 
     public static final String TABLENAME = "EXPENSE";
 
-    /**
-     * Properties of entity Expense.<br/>
-     * Can be used for QueryBuilder and for referencing column names.
-     */
-    public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property ExpenseObjectId = new Property(1, String.class, "expenseObjectId", false, "EXPENSE_OBJECT_ID");
-        public final static Property Date = new Property(2, String.class, "date", false, "DATE");
-        public final static Property Figure = new Property(3, Double.class, "figure", false, "FIGURE");
-        public final static Property TypeName = new Property(4, String.class, "typeName", false, "TYPE_NAME");
-        public final static Property TypeColor = new Property(5, Integer.class, "typeColor", false, "TYPE_COLOR");
-        public final static Property TypeFlag = new Property(6, Integer.class, "typeFlag", false, "TYPE_FLAG");
-        public final static Property IsUploaded = new Property(7, Integer.class, "isUploaded", false, "IS_UPLOADED");
-        public final static Property IsModified = new Property(8, Integer.class, "isModified", false, "IS_MODIFIED");
-        public final static Property IsDeleted = new Property(9, Integer.class, "isDeleted", false, "IS_DELETED");
+    public ExpenseDao(DaoConfig config) {
+        super(config);
     }
 
     ;
 
-
-    public ExpenseDao(DaoConfig config) {
-        super(config);
-    }
 
     public ExpenseDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
@@ -49,7 +32,7 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
      * Creates the underlying database table.
      */
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
-        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+        String constraint = ifNotExists ? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"EXPENSE\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"EXPENSE_OBJECT_ID\" TEXT," + // 1: expenseObjectId
@@ -63,17 +46,13 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
                 "\"IS_DELETED\" INTEGER);"); // 9: isDeleted
     }
 
-    /**
-     * Drops the underlying database table.
-     */
+    /** Drops the underlying database table. */
     public static void dropTable(SQLiteDatabase db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"EXPENSE\"";
         db.execSQL(sql);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected void bindValues(SQLiteStatement stmt, Expense entity) {
         stmt.clearBindings();
@@ -129,17 +108,13 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Expense readEntity(Cursor cursor, int offset) {
         Expense entity = new Expense( //
@@ -157,9 +132,7 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         return entity;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Expense entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
@@ -174,18 +147,14 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         entity.setIsDeleted(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Expense entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long getKey(Expense entity) {
         if (entity != null) {
@@ -195,12 +164,27 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
 
+    /**
+     * Properties of entity Expense.<br/>
+     * Can be used for QueryBuilder and for referencing column names.
+     */
+    public static class Properties {
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property ExpenseObjectId = new Property(1, String.class, "expenseObjectId", false, "EXPENSE_OBJECT_ID");
+        public final static Property Date = new Property(2, String.class, "date", false, "DATE");
+        public final static Property Figure = new Property(3, Double.class, "figure", false, "FIGURE");
+        public final static Property TypeName = new Property(4, String.class, "typeName", false, "TYPE_NAME");
+        public final static Property TypeColor = new Property(5, Integer.class, "typeColor", false, "TYPE_COLOR");
+        public final static Property TypeFlag = new Property(6, Integer.class, "typeFlag", false, "TYPE_FLAG");
+        public final static Property IsUploaded = new Property(7, Integer.class, "isUploaded", false, "IS_UPLOADED");
+        public final static Property IsModified = new Property(8, Integer.class, "isModified", false, "IS_MODIFIED");
+        public final static Property IsDeleted = new Property(9, Integer.class, "isDeleted", false, "IS_DELETED");
+    }
+    
 }

@@ -17,27 +17,12 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
 
     public static final String TABLENAME = "TYPE_INFO";
 
-    /**
-     * Properties of entity TypeInfo.<br/>
-     * Can be used for QueryBuilder and for referencing column names.
-     */
-    public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property TypeObjectId = new Property(1, String.class, "typeObjectId", false, "TYPE_OBJECT_ID");
-        public final static Property TypeColor = new Property(2, Integer.class, "typeColor", false, "TYPE_COLOR");
-        public final static Property TypeName = new Property(3, String.class, "typeName", false, "TYPE_NAME");
-        public final static Property TypeFlag = new Property(4, String.class, "typeFlag", false, "TYPE_FLAG");
-        public final static Property IsUploaded = new Property(5, Integer.class, "isUploaded", false, "IS_UPLOADED");
-        public final static Property IsModified = new Property(6, Integer.class, "isModified", false, "IS_MODIFIED");
-        public final static Property IsDeleted = new Property(7, Integer.class, "isDeleted", false, "IS_DELETED");
+    public TypeInfoDao(DaoConfig config) {
+        super(config);
     }
 
     ;
 
-
-    public TypeInfoDao(DaoConfig config) {
-        super(config);
-    }
 
     public TypeInfoDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
@@ -47,29 +32,26 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
      * Creates the underlying database table.
      */
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
-        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+        String constraint = ifNotExists ? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"TYPE_INFO\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"TYPE_OBJECT_ID\" TEXT," + // 1: typeObjectId
                 "\"TYPE_COLOR\" INTEGER," + // 2: typeColor
                 "\"TYPE_NAME\" TEXT," + // 3: typeName
                 "\"TYPE_FLAG\" TEXT," + // 4: typeFlag
-                "\"IS_UPLOADED\" INTEGER," + // 5: isUploaded
-                "\"IS_MODIFIED\" INTEGER," + // 6: isModified
-                "\"IS_DELETED\" INTEGER);"); // 7: isDeleted
+                "\"FREQUENCY\" INTEGER," + // 5: frequency
+                "\"IS_UPLOADED\" INTEGER," + // 6: isUploaded
+                "\"IS_MODIFIED\" INTEGER," + // 7: isModified
+                "\"IS_DELETED\" INTEGER);"); // 8: isDeleted
     }
 
-    /**
-     * Drops the underlying database table.
-     */
+    /** Drops the underlying database table. */
     public static void dropTable(SQLiteDatabase db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"TYPE_INFO\"";
         db.execSQL(sql);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected void bindValues(SQLiteStatement stmt, TypeInfo entity) {
         stmt.clearBindings();
@@ -99,33 +81,34 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
             stmt.bindString(5, typeFlag);
         }
 
+        Integer frequency = entity.getFrequency();
+        if (frequency != null) {
+            stmt.bindLong(6, frequency);
+        }
+
         Integer isUploaded = entity.getIsUploaded();
         if (isUploaded != null) {
-            stmt.bindLong(6, isUploaded);
+            stmt.bindLong(7, isUploaded);
         }
 
         Integer isModified = entity.getIsModified();
         if (isModified != null) {
-            stmt.bindLong(7, isModified);
+            stmt.bindLong(8, isModified);
         }
 
         Integer isDeleted = entity.getIsDeleted();
         if (isDeleted != null) {
-            stmt.bindLong(8, isDeleted);
+            stmt.bindLong(9, isDeleted);
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public TypeInfo readEntity(Cursor cursor, int offset) {
         TypeInfo entity = new TypeInfo( //
@@ -134,16 +117,15 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
                 cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // typeColor
                 cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // typeName
                 cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // typeFlag
-                cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // isUploaded
-                cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // isModified
-                cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7) // isDeleted
+                cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // frequency
+                cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // isUploaded
+                cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // isModified
+                cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // isDeleted
         );
         return entity;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, TypeInfo entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
@@ -151,23 +133,20 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         entity.setTypeColor(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
         entity.setTypeName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setTypeFlag(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setIsUploaded(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
-        entity.setIsModified(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
-        entity.setIsDeleted(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setFrequency(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setIsUploaded(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setIsModified(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setIsDeleted(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(TypeInfo entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long getKey(TypeInfo entity) {
         if (entity != null) {
@@ -177,12 +156,26 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
 
+    /**
+     * Properties of entity TypeInfo.<br/>
+     * Can be used for QueryBuilder and for referencing column names.
+     */
+    public static class Properties {
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property TypeObjectId = new Property(1, String.class, "typeObjectId", false, "TYPE_OBJECT_ID");
+        public final static Property TypeColor = new Property(2, Integer.class, "typeColor", false, "TYPE_COLOR");
+        public final static Property TypeName = new Property(3, String.class, "typeName", false, "TYPE_NAME");
+        public final static Property TypeFlag = new Property(4, String.class, "typeFlag", false, "TYPE_FLAG");
+        public final static Property Frequency = new Property(5, Integer.class, "frequency", false, "FREQUENCY");
+        public final static Property IsUploaded = new Property(6, Integer.class, "isUploaded", false, "IS_UPLOADED");
+        public final static Property IsModified = new Property(7, Integer.class, "isModified", false, "IS_MODIFIED");
+        public final static Property IsDeleted = new Property(8, Integer.class, "isDeleted", false, "IS_DELETED");
+    }
+    
 }

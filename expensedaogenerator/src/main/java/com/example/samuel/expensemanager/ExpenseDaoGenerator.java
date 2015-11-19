@@ -5,6 +5,8 @@ import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Schema;
 
 public class ExpenseDaoGenerator {
+    private static final String PROJECT_DIR = System.getProperty("user.dir").replace("\\", "/");
+
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(1, "com.example.samuel.expensemanager.model");
 //        schema.enableKeepSectionsByDefault();
@@ -29,11 +31,13 @@ public class ExpenseDaoGenerator {
         typeInfo.addIntProperty("typeColor");
         typeInfo.addStringProperty("typeName");
         typeInfo.addStringProperty("typeFlag");
+        typeInfo.addIntProperty("frequency");
         typeInfo.addIntProperty("isUploaded");
         typeInfo.addIntProperty("isModified");
         typeInfo.addIntProperty("isDeleted");
 
 
-        new DaoGenerator().generateAll(schema, "/Users/Samuel/AndroidStudioProjects/ExpenseManager/app/src/main/java");
+//        new DaoGenerator().generateAll(schema, "/Users/Samuel/AndroidStudioProjects/ExpenseManager/app/src/main/java");
+        new DaoGenerator().generateAll(schema, PROJECT_DIR + "/app/src/main/java");
     }
 }
