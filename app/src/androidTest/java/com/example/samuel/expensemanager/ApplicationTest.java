@@ -42,23 +42,28 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public void testInsert() {
         DaoSession daoSession = ((ExpenseApplication) mContext.getApplicationContext()).getDaoSession();
         ExpenseDao expenseDao = daoSession.getExpenseDao();
+        TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
+        List<TypeInfo> typeInfos = typeInfoDao.loadAll();
 
         Random random = new Random();
         for (int i = 0; i < 300; i++) {
             Expense expense = new Expense();
 
+            int typeNumber = random.nextInt(typeInfos.size());
             int figure = random.nextInt(100);
-            int type = random.nextInt(typeExpense.length);
-            String expenseType = typeExpense[type];
+
+            int flag = 1;//支出
+            int color = typeInfos.get(typeNumber).getTypeColor();
+            String expenseType = typeInfos.get(typeNumber).getTypeName();
             String month = monthCase[random.nextInt(monthCase.length)];
             String day = dayCase[random.nextInt(dayCase.length)];
             String date = "2015-" + month + "-" + day;
 
             expense.setFigure((double) figure);
-            expense.setTypeFlag(1);
+            expense.setTypeFlag(flag);
             expense.setTypeName(expenseType);
             expense.setDate(date);
-            expense.setTypeColor(type);
+            expense.setTypeColor(color);
             expense.setIsDeleted(0);
             expense.setIsModified(0);
             expense.setIsUploaded(0);
@@ -116,7 +121,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             typeInfo.setIsModified(isModified);
             typeInfo.setIsDeleted(isDeleted);
 
-
+            typeInfoDao.insertOrReplace(typeInfo);
         }
 
     }
