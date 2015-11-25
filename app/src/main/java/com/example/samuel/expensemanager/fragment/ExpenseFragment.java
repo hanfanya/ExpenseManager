@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
@@ -27,6 +28,7 @@ import com.example.samuel.expensemanager.adapter.ExpenseRecyclerViewAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import java.util.List;
 
@@ -88,9 +90,11 @@ public class ExpenseFragment extends Fragment {
     private ExpenseRecyclerViewAdapter mRecyclerViewAdapter;
     private int[] mColorArray;
     private boolean isInt = true;
-    private boolean isAdd = false;
+    private boolean isAdding = false;
+    private boolean isFirstClickAdd = true;
     private StringBuffer mStringBufferInt;
     private StringBuffer mStringBufferDecimal;
+    private double mSumNumber;
 
 
     public ExpenseFragment() {
@@ -232,30 +236,32 @@ public class ExpenseFragment extends Fragment {
             R.id.key_6, R.id.key_7, R.id.key_8, R.id.key_9})
     public void inputNumber(View view) {
         if (isInt) {
-            if (mStringBufferInt.length() > 7) {
+            if (mStringBufferInt.length() > 6) {
                 return;
             }
             mStringBufferInt.append(((Button) view).getText().toString());
             if (mStringBufferInt.toString().startsWith("0")) {
                 mStringBufferInt = mStringBufferInt.delete(0, 1);
                 System.out.println(mStringBufferInt.toString());
-                mTvExpenseFigure.setText("￥0.00");
+                mTvExpenseFigure.setText("0.0");
                 return;
             }
-            mTvExpenseFigure.setText("￥" + mStringBufferInt + ".00");
+            mTvExpenseFigure.setText(mStringBufferInt + ".0");
         } else {
-            if (mStringBufferDecimal.length() > 1) {
+            if (mStringBufferDecimal.length() > 0) {
                 return;
             }
             if (mStringBufferInt.length() == 0) {
                 mStringBufferInt.append("0");
             }
             mStringBufferDecimal.append(((Button) view).getText().toString());
-            if (mStringBufferDecimal.length() == 1) {
-                mTvExpenseFigure.setText("￥" + mStringBufferInt + "." + mStringBufferDecimal + "0");
+            /*if (mStringBufferDecimal.length() == 1) {
+                mTvExpenseFigure.setText(mStringBufferInt + "." + mStringBufferDecimal + "0");
             } else {
-                mTvExpenseFigure.setText("￥" + mStringBufferInt + "." + mStringBufferDecimal);
-            }
+                mTvExpenseFigure.setText(mStringBufferInt + "." + mStringBufferDecimal);
+            }*/
+            mTvExpenseFigure.setText(mStringBufferInt + "." + mStringBufferDecimal);
+
         }
     }
 
@@ -266,14 +272,61 @@ public class ExpenseFragment extends Fragment {
 
     @OnClick(R.id.key_clear)
     public void clearInput(View view) {
-        mTvExpenseFigure.setText("￥0.00");
+        mTvExpenseFigure.setText("0.0");
         isInt = true;
+        isAdding = false;
+
+        mKeyOk.setText("OK");
 
 
         mStringBufferInt = new StringBuffer();
         mStringBufferDecimal = new StringBuffer();
 
+    }
+
+    @OnClick(R.id.key_del)
+    public void keyDel(View view) {
 
     }
+
+    @OnClick(R.id.key_add)
+    public void addNumber(View view) {
+        if (isFirstClickAdd) {
+
+            isAdding = true;
+            isInt = true;
+            mSumNumber = SysUtils.stringToDouble(mTvExpenseFigure.getText().toString());
+
+            mKeyOk.setText("=");
+            mTvExpenseFigure.setText("0.0");
+
+            mStringBufferInt = new StringBuffer();
+            mStringBufferDecimal = new StringBuffer();
+            isFirstClickAdd = false;
+        }
+    }
+
+    @OnClick(R.id.key_ok)
+    public void saveRecord(View view) {
+        if (mTvExpenseFigure.getText().toString().equals("0.0") && !isAdding) {
+            Toast.makeText(getActivity(), "请输入支出金额", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (isAdding) {
+            mKeyOk.setText("OK");
+            double inputNumber = SysUtils.stringToDouble(mTvExpenseFigure.getText().toString());
+            mSumNumber += inputNumber;
+            mTvExpenseFigure.setText(String.valueOf(mSumNumber));
+
+            isAdding = false;
+            isFirstClickAdd = true;
+        } else {
+            String numberString = mTvExpenseFigure.getText().toString();
+            double inputNumber = SysUtils.stringToDouble(numberString);
+
+            System.out.println("你输入的数字为：" + inputNumber);
+        }
+    }
+
 
 }
