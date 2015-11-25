@@ -67,7 +67,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:singleLine="true"
-                android:text="￥10"
+                android:text="￥0.00"
                 android:textSize="36sp"/>
 
         </RelativeLayout>

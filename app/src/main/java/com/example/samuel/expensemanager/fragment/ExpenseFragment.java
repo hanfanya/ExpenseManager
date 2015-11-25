@@ -87,6 +87,10 @@ public class ExpenseFragment extends Fragment {
     private Menu mMenu;
     private ExpenseRecyclerViewAdapter mRecyclerViewAdapter;
     private int[] mColorArray;
+    private boolean isInt = true;
+    private boolean isAdd = false;
+    private StringBuffer mStringBufferInt;
+    private StringBuffer mStringBufferDecimal;
 
 
     public ExpenseFragment() {
@@ -180,6 +184,10 @@ public class ExpenseFragment extends Fragment {
         mTypeInfos = typeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1)).list();
         mColorArray = getActivity().getResources().getIntArray(R.array.colorType);
 
+        mStringBufferInt = new StringBuffer();
+        mStringBufferDecimal = new StringBuffer();
+
+
     }
 
     //从fragment中添加toolbar菜单
@@ -223,16 +231,47 @@ public class ExpenseFragment extends Fragment {
             R.id.key_3, R.id.key_4, R.id.key_5,
             R.id.key_6, R.id.key_7, R.id.key_8, R.id.key_9})
     public void inputNumber(View view) {
-        if (mTvExpenseFigure.length() > 10) {
-            return;
+        if (isInt) {
+            if (mStringBufferInt.length() > 7) {
+                return;
+            }
+            mStringBufferInt.append(((Button) view).getText().toString());
+            if (mStringBufferInt.toString().startsWith("0")) {
+                mStringBufferInt = mStringBufferInt.delete(0, 1);
+                System.out.println(mStringBufferInt.toString());
+                mTvExpenseFigure.setText("￥0.00");
+                return;
+            }
+            mTvExpenseFigure.setText("￥" + mStringBufferInt + ".00");
+        } else {
+            if (mStringBufferDecimal.length() > 1) {
+                return;
+            }
+            if (mStringBufferInt.length() == 0) {
+                mStringBufferInt.append("0");
+            }
+            mStringBufferDecimal.append(((Button) view).getText().toString());
+            if (mStringBufferDecimal.length() == 1) {
+                mTvExpenseFigure.setText("￥" + mStringBufferInt + "." + mStringBufferDecimal + "0");
+            } else {
+                mTvExpenseFigure.setText("￥" + mStringBufferInt + "." + mStringBufferDecimal);
+            }
         }
-        mTvExpenseFigure.append(((Button) view).getText().toString());
+    }
 
+    @OnClick(R.id.key_point)
+    public void keyPoint(View view) {
+        isInt = false;
     }
 
     @OnClick(R.id.key_clear)
     public void clearInput(View view) {
         mTvExpenseFigure.setText("￥0.00");
+        isInt = true;
+
+
+        mStringBufferInt = new StringBuffer();
+        mStringBufferDecimal = new StringBuffer();
 
 
     }
