@@ -287,6 +287,26 @@ public class ExpenseFragment extends Fragment {
     @OnClick(R.id.key_del)
     public void keyDel(View view) {
 
+        if (!mTvExpenseFigure.getText().toString().endsWith("0")) {
+//            mStringBufferDecimal.setCharAt(0, '0');
+            mTvExpenseFigure.setText(mStringBufferInt + ".0");
+            return;
+        }
+        if (mStringBufferInt.length() == 0) {
+            return;
+        } else if (mStringBufferInt.length() == 1) {
+            int len = mStringBufferInt.length();
+            mStringBufferInt = mStringBufferInt.delete(len - 1, len);
+
+            mTvExpenseFigure.setText("0.0");
+//            mStringBufferInt = new StringBuffer();
+        } else {
+            int len = mStringBufferInt.length();
+            mStringBufferInt = mStringBufferInt.delete(len - 1, len);
+            mTvExpenseFigure.setText(mStringBufferInt + ".0");
+        }
+
+
     }
 
     @OnClick(R.id.key_add)
@@ -316,7 +336,13 @@ public class ExpenseFragment extends Fragment {
             mKeyOk.setText("OK");
             double inputNumber = SysUtils.stringToDouble(mTvExpenseFigure.getText().toString());
             mSumNumber += inputNumber;
-            mTvExpenseFigure.setText(String.valueOf(mSumNumber));
+
+            String sum = String.valueOf(mSumNumber);
+            String[] stringDigit = sum.split("\\.");
+            mStringBufferInt = new StringBuffer(stringDigit[0]);
+            mStringBufferDecimal = new StringBuffer(stringDigit[1]);
+
+            mTvExpenseFigure.setText(sum);
 
             isAdding = false;
             isFirstClickAdd = true;
