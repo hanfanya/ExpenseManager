@@ -39,7 +39,38 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     }
 
-    public void testInsert() {
+    public void testInsertType() {
+        DaoSession daoSession = ((ExpenseApplication) mContext.getApplicationContext()).getDaoSession();
+        TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
+        int[] colorArray = mContext.getResources().getIntArray(R.array.colorType);
+
+
+        Random random = new Random();
+        for (int i = 0; i < typeExpense.length; i++) {
+            TypeInfo typeInfo = new TypeInfo();
+
+            int color = random.nextInt(colorArray.length);
+            String name = typeExpense[i];
+            int flag = 1;
+            int frequency = 0;
+            int isUploaded = 0;
+            int isModified = 0;
+            int isDeleted = 0;
+
+            typeInfo.setTypeColor(color);
+            typeInfo.setTypeName(name);
+            typeInfo.setTypeFlag(flag);
+            typeInfo.setFrequency(frequency);
+            typeInfo.setIsUploaded(isUploaded);
+            typeInfo.setIsModified(isModified);
+            typeInfo.setIsDeleted(isDeleted);
+
+            typeInfoDao.insertOrReplace(typeInfo);
+        }
+
+    }
+
+    public void testInsertData() {
         DaoSession daoSession = ((ExpenseApplication) mContext.getApplicationContext()).getDaoSession();
         ExpenseDao expenseDao = daoSession.getExpenseDao();
         TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
@@ -93,37 +124,6 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             expenseDao.insertOrReplace(expense);
 
         }*/
-    }
-
-    public void testInsertType() {
-        DaoSession daoSession = ((ExpenseApplication) mContext.getApplicationContext()).getDaoSession();
-        TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
-        int[] colorArray = mContext.getResources().getIntArray(R.array.colorType);
-
-
-        Random random = new Random();
-        for (int i = 0; i < typeExpense.length; i++) {
-            TypeInfo typeInfo = new TypeInfo();
-
-            int color = random.nextInt(colorArray.length);
-            String name = typeExpense[i];
-            int flag = 1;
-            int frequency = 0;
-            int isUploaded = 0;
-            int isModified = 0;
-            int isDeleted = 0;
-
-            typeInfo.setTypeColor(color);
-            typeInfo.setTypeName(name);
-            typeInfo.setTypeFlag(flag);
-            typeInfo.setFrequency(frequency);
-            typeInfo.setIsUploaded(isUploaded);
-            typeInfo.setIsModified(isModified);
-            typeInfo.setIsDeleted(isDeleted);
-
-            typeInfoDao.insertOrReplace(typeInfo);
-        }
-
     }
 
     public void testQuery() {
