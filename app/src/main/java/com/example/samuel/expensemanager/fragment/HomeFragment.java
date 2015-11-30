@@ -30,11 +30,25 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView mRecyclerViewHome;
     private FloatingActionButton mFabHome;
+    private HomeListAdapter mHomeListAdapter;
+    private List<Expense> mExpenseList;
+    private String mStartDate;
+    private String mEndDate;
+    private ExpenseDao mExpenseDao;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mExpenseList = mExpenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate))
+                .orderDesc(ExpenseDao.Properties.Date).list();
+//        mHomeListAdapter.notifyDataSetChanged();
+        mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
+        mRecyclerViewHome.setAdapter(mHomeListAdapter);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,19 +59,19 @@ public class HomeFragment extends Fragment {
         mFabHome = (FloatingActionButton) view.findViewById(R.id.fab_home);
 
         DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
-        ExpenseDao expenseDao = daoSession.getExpenseDao();
+        mExpenseDao = daoSession.getExpenseDao();
 
-        String startDate = "2015-06-01";
-        String endDate = "2015-12-31";
+        mStartDate = "20151125";
+        mEndDate = "20151203";
 //        显示最近 7 天的收支详情
-        List<Expense> expenseList = expenseDao.queryBuilder()
-                .where(ExpenseDao.Properties.Date.between(startDate, endDate))
-                .orderAsc(ExpenseDao.Properties.Date).list();
+        mExpenseList = mExpenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate))
+                .orderDesc(ExpenseDao.Properties.Date).list();
 
         mRecyclerViewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        HomeListAdapter homeListAdapter = new HomeListAdapter(expenseList, getActivity());
-        mRecyclerViewHome.setAdapter(homeListAdapter);
+        mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
+        mRecyclerViewHome.setAdapter(mHomeListAdapter);
         mRecyclerViewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
                 .margin(110, 55).build());//设置 divider 分割线
 

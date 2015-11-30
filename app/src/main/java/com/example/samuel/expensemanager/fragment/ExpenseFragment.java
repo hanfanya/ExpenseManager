@@ -22,21 +22,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.datetimepicker.date.DatePickerDialog;
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.ExpenseRecyclerViewAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
+import com.example.samuel.expensemanager.model.Expense;
+import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
 import com.example.samuel.expensemanager.utils.SysUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ExpenseFragment extends Fragment {
+public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     @Bind(R.id.recyclerview_expense)
     RecyclerView mRecyclerviewExpense;
     @Bind(R.id.key_1)
@@ -95,6 +102,15 @@ public class ExpenseFragment extends Fragment {
     private StringBuffer mStringBufferInt;
     private StringBuffer mStringBufferDecimal;
     private double mSumNumber;
+    private Calendar mCalendar;
+    private DateFormat mDateFormat;
+    private MenuItem mDateItem;
+    private boolean isCreated = true;
+    private TypeInfo mTypeInfo;
+    private Expense mExpense;
+    private TypeInfoDao mTypeInfoDao;
+    private ExpenseDao mExpenseDao;
+    private SimpleDateFormat mSimpleDateFormat;
 
 
     public ExpenseFragment() {
@@ -113,8 +129,30 @@ public class ExpenseFragment extends Fragment {
         return view;
     }
 
+    //从fragment中添加toolbar菜单
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mContext = getActivity();
+
+        DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
+        mTypeInfoDao = daoSession.getTypeInfoDao();
+        mExpenseDao = daoSession.getExpenseDao();
+
+
+        mTypeInfo = new TypeInfo();
+        mExpense = new Expense();
+
+        setHasOptionsMenu(true);
+        mCalendar = Calendar.getInstance();
+        mDateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+        mSimpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+
+    }
+
     private void initUI() {
-        mGridLayoutManager = new GridLayoutManager(getActivity(), 5);
+        mGridLayoutManager = new GridLayoutManager(getActivity(), 4);
         mRecyclerViewAdapter = new ExpenseRecyclerViewAdapter(mTypeInfos, getActivity());
 
         mRecyclerviewExpense.setLayoutManager(mGridLayoutManager);
@@ -145,10 +183,10 @@ public class ExpenseFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Log.i("ExpenseFragment", "点击了 " + position);
-                TypeInfo typeInfo = mTypeInfos.get(position);
+                mTypeInfo = mTypeInfos.get(position);
 
-                mIvExpenseType.setColorFilter(mColorArray[typeInfo.getTypeColor()]);
-                mTvExpenseType.setText(typeInfo.getTypeName());
+                mIvExpenseType.setColorFilter(mColorArray[mTypeInfo.getTypeColor()]);
+                mTvExpenseType.setText(mTypeInfo.getTypeName());
                 mRecyclerViewAdapter.setSelection(position);
                 mRecyclerViewAdapter.notifyDataSetChanged();
 
@@ -194,19 +232,17 @@ public class ExpenseFragment extends Fragment {
 
     }
 
-    //从fragment中添加toolbar菜单
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_expense, menu);
         this.mMenu = menu;
-        MenuItem dateItem = mMenu.findItem(R.id.action_date);
-        dateItem.setTitle("2015/11/15");
+        mDateItem = mMenu.findItem(R.id.action_date_title);
+//        mDateItem.setTitle("2015/11/15");
+        String dateFormat = mSimpleDateFormat.format(mCalendar.getTime());
+        mExpense.setDate(dateFormat);
+
+        mDateItem.setTitle(dateFormat.substring(0, 4) + "年" + dateFormat.substring(4, 6) + "月" + dateFormat.substring(6) + "日");
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -214,10 +250,12 @@ public class ExpenseFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_date) {
-            Log.i("ExpenseFragment", "从 ExpenseFragment 中点击");
-            MenuItem dateItem = mMenu.findItem(R.id.action_date_title);
-            dateItem.setTitle("hello");
+        if (id == R.id.action_date) {//选择日期
+//            Log.i("ExpenseFragment", "从 ExpenseFragment 中点击");
+//            mDateItem = mMenu.findItem(R.id.action_date_title);
+//            dateItem.setTitle("hello");
+            DatePickerDialog.newInstance(this, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
+                    mCalendar.get(Calendar.DAY_OF_MONTH)).show(getActivity().getFragmentManager(), "datePicker");
             return true;
         }
 
@@ -225,11 +263,20 @@ public class ExpenseFragment extends Fragment {
     }
 
     @Override
+    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
+        mCalendar.set(year, monthOfYear, dayOfMonth);
+        String dateFormat = mSimpleDateFormat.format(mCalendar.getTime());
+        mExpense.setDate(dateFormat);
+
+        mDateItem.setTitle(dateFormat.substring(0, 4) + "年" + dateFormat.substring(4, 6) + "月" + dateFormat.substring(6) + "日");
+    }
+
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 
     @OnClick({R.id.key_0, R.id.key_1, R.id.key_2,
             R.id.key_3, R.id.key_4, R.id.key_5,
@@ -326,6 +373,7 @@ public class ExpenseFragment extends Fragment {
         }
     }
 
+
     @OnClick(R.id.key_ok)
     public void saveRecord(View view) {
         if (mTvExpenseFigure.getText().toString().equals("0.0") && !isAdding) {
@@ -350,9 +398,49 @@ public class ExpenseFragment extends Fragment {
             String numberString = mTvExpenseFigure.getText().toString();
             double inputNumber = SysUtils.stringToDouble(numberString);
 
-            System.out.println("你输入的数字为：" + inputNumber);
+            String date = mDateItem.getTitle().toString();
+            String dateString = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+
+            System.out.println("你输入的数字为： " + inputNumber);
+            System.out.println("日期为：        " + dateString);
+            System.out.println("选择的项目id:   " + mTypeInfo.getId());
+            System.out.println("选择的项目名称:  " + mTypeInfo.getTypeName());
+            System.out.println("选择的项目颜色:  " + mTypeInfo.getTypeColor());
+
+
+            if (isCreated) {
+                // TODO: 15/11/30 增加支出记录
+                /*this.date = date;
+                this.figure = figure;
+                this.typeName = typeName;
+                this.typeColor = typeColor;
+                this.typeFlag = typeFlag;
+                this.isUploaded = isUploaded;
+                this.isModified = isModified;
+                this.isDeleted = isDeleted;
+                */
+
+                mExpense.setFigure(inputNumber);
+                mExpense.setTypeName(mTypeInfo.getTypeName());
+                mExpense.setTypeColor(mTypeInfo.getTypeColor());
+                mExpense.setTypeFlag(mTypeInfo.getTypeFlag());
+
+                mExpense.setIsUploaded(0);
+                mExpense.setIsModified(0);
+                mExpense.setIsDeleted(0);
+                mExpenseDao.insertOrReplace(mExpense);
+
+                Integer frequency = mTypeInfo.getFrequency();
+                mTypeInfo.setFrequency(++frequency);
+
+                mTypeInfoDao.update(mTypeInfo);
+
+                getActivity().finish();
+
+
+            } else {
+                // TODO: 15/11/30 修改支出记录
+            }
         }
     }
-
-
 }

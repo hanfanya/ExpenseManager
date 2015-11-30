@@ -18,4 +18,9 @@ public class SysUtils {
 
         return numberDouble;
     }
+
+    public static boolean hasNetwork() {
+
+        return true;
+    }
 }

@@ -20,7 +20,7 @@ public class ExpenseDaoGenerator {
         expense.addDoubleProperty("figure");//金额
         expense.addStringProperty("typeName");//类别名称
         expense.addIntProperty("typeColor");//类别颜色
-        expense.addIntProperty("typeFlag");//类别属性
+        expense.addIntProperty("typeFlag");//类别属性，1 表示支出，0表示收入
         expense.addIntProperty("isUploaded");//是否上传
         expense.addIntProperty("isModified");//是否删除
         expense.addIntProperty("isDeleted");//是否修改

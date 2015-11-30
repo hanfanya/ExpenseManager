@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
-        testInsertType();
-        testInsertData();
+//        testInsertType();
+//        testInsertData();
 
 
     }
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
             String expenseType = typeInfos.get(typeNumber).getTypeName();
             String month = monthCase[random.nextInt(monthCase.length)];
             String day = dayCase[random.nextInt(dayCase.length)];
-            String date = "2015-" + month + "-" + day;
+            String date = "2015" + month + day;
 
             expense.setFigure((double) figure);
             expense.setTypeFlag(flag);
