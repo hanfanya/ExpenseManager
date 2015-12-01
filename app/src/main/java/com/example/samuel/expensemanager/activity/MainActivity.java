@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
-//        testInsertType();
+        testInsertType();
 //        testInsertData();
 
 
