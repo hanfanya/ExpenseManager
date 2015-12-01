@@ -1,6 +1,7 @@
 package com.example.samuel.expensemanager.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -194,13 +195,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
+        if (id == R.id.nav_slideshow) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_detail) {
+            startActivity(new Intent(this, DetailActivity.class));
+        } else if (id == R.id.nav_sum) {
+            startActivity(new Intent(this, SumActivity.class));
+        } else if (id == R.id.nav_setting) {
+            startActivity(new Intent(this, SettingActivity.class));
 
         } else if (id == R.id.nav_share) {
 

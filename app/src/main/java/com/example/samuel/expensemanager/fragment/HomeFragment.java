@@ -17,6 +17,7 @@ import com.example.samuel.expensemanager.adapter.HomeListAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
+import com.example.samuel.expensemanager.utils.DateUtils;
 import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -42,36 +43,22 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mExpenseList = mExpenseDao.queryBuilder()
-                .where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate))
-                .orderDesc(ExpenseDao.Properties.Date).list();
-//        mHomeListAdapter.notifyDataSetChanged();
-        mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
-        mRecyclerViewHome.setAdapter(mHomeListAdapter);
+        //增加收入/支出记录后，刷新界面
+        initRecyclerViewList();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerview_home);
         mFabHome = (FloatingActionButton) view.findViewById(R.id.fab_home);
 
-        DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
-        mExpenseDao = daoSession.getExpenseDao();
 
-        mStartDate = "20151125";
-        mEndDate = "20151203";
-//        显示最近 7 天的收支详情
-        mExpenseList = mExpenseDao.queryBuilder()
-                .where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate))
-                .orderDesc(ExpenseDao.Properties.Date).list();
-
+        initRecyclerViewList();
+        //设置recyclerview布局
         mRecyclerViewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
-        mRecyclerViewHome.setAdapter(mHomeListAdapter);
         mRecyclerViewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
                 .margin(110, 55).build());//设置 divider 分割线
 
@@ -88,5 +75,24 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
+        mExpenseDao = daoSession.getExpenseDao();
+
+//        显示最近 3 天的收支详情
+        mStartDate = DateUtils.getLastThreeDate();
+        mEndDate = DateUtils.getCurrentDate();
+    }
+
+    public void initRecyclerViewList() {
+        mExpenseList = mExpenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate))
+                .orderDesc(ExpenseDao.Properties.Date).list();
+        mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
+        mRecyclerViewHome.setAdapter(mHomeListAdapter);
+
+    }
 }

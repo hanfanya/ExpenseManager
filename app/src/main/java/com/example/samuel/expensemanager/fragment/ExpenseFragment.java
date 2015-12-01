@@ -409,7 +409,6 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
 
 
             if (isCreated) {
-                // TODO: 15/11/30 增加支出记录
                 /*this.date = date;
                 this.figure = figure;
                 this.typeName = typeName;

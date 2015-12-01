@@ -14,19 +14,19 @@ public class AddRecordActivity extends AppCompatActivity {
     private TabLayout mTablayoutAddRecord;
     private ViewPager mViewpagerTabAddRecord;
 
-    private void assignViews() {
-        mToolbarAddRecord = (Toolbar) findViewById(R.id.toolbar_add_record);
-        mTablayoutAddRecord = (TabLayout) findViewById(R.id.tablayout_add_record);
-        mViewpagerTabAddRecord = (ViewPager) findViewById(R.id.viewpager_tab_add_record);
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         assignViews();
         initUI();
+    }
+
+
+    private void assignViews() {
+        mToolbarAddRecord = (Toolbar) findViewById(R.id.toolbar_add_record);
+        mTablayoutAddRecord = (TabLayout) findViewById(R.id.tablayout_add_record);
+        mViewpagerTabAddRecord = (ViewPager) findViewById(R.id.viewpager_tab_add_record);
     }
 
     //ViewPager 切换支出／收入界面

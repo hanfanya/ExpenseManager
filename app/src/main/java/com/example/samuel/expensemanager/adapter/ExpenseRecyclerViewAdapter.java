@@ -50,7 +50,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseView
         holder.mTvCircle.setText(typeInfo.getTypeName().substring(0, 1));
         holder.mTvTypeName.setText(typeInfo.getTypeName());
 
-        if (clickTemp == position) {
+        if (clickTemp == position) {//选中时改变背景颜色
             holder.itemView.setBackgroundColor(Color.parseColor("#B6B6B6"));
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);

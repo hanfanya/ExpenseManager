@@ -43,7 +43,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
 
         holder.mIvType.setColorFilter(colorArray[expense.getTypeColor()]);
         holder.mTvDate.setText(date.substring(6));
-//        holder.mTvDate.setText(date);
         holder.mTvTypeName.setText(expense.getTypeName());
         holder.mTvFigure.setText(expense.getFigure() + "");
 
