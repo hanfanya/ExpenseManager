@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
             testInsertType();
             SPUtils.saveBoolean(this, "hasInitData", true);
         }
-//        testInsertData();
+        testInsertData();
 
     }
 

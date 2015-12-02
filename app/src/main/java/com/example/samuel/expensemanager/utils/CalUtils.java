@@ -16,7 +16,7 @@ public class CalUtils {
         return formatDate;
     }
 
-    public static String getLastThreeDate() {
+    public static String getLastThreeDate(int durationDay) {
         String date = getCurrentDate();
         int year = Integer.parseInt(date.substring(0, 4));
         int month = Integer.parseInt(date.substring(4, 6));
@@ -25,25 +25,26 @@ public class CalUtils {
         String monthString;
         String dayString;
 
-        if (day >= 3) {
-            day = day - 2;
+        if (day >= durationDay) {
+            day = day - durationDay + 1;
         } else {
             int monthType = getMonthType(month);
             if (monthType == 1) {
                 month--;
-                day = 30 + day - 2;
+                day = 30 + day - durationDay + 1;
             } else if (monthType == 2) {
                 month--;
-                day = 31 + day - 2;
+                day = 31 + day - durationDay + 1;
             } else if (monthType == 3) {
                 year--;
                 month = 12;
+                day = 31 + day - durationDay + 1;
             } else if (monthType == 4) {
                 month--;
                 if (isLeapYear(year)) {
-                    day = 29 + day - 2;
+                    day = 29 + day - durationDay + 1;
                 } else {
-                    day = 28 + day - 2;
+                    day = 28 + day - durationDay + 1;
                 }
             }
         }

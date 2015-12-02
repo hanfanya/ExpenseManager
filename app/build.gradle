@@ -18,6 +18,9 @@ android {
         }
     }
 }
+repositories {
+    maven { url "https://jitpack.io" }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -36,5 +39,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.citux:datetimepicker:0.1.2'
     compile 'com.prolificinteractive:material-calendarview:1.1.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
 
 }
