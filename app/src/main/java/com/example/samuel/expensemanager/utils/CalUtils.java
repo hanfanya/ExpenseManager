@@ -9,7 +9,7 @@ import java.util.Locale;
  * Email:xuzhou40@gmail.com
  * desc:日期相关的工具类，主要是格式化日期
  */
-public class DateUtils {
+public class CalUtils {
     public static String getCurrentDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         String formatDate = simpleDateFormat.format(new Date());
