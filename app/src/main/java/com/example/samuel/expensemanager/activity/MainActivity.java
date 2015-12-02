@@ -23,6 +23,7 @@ import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
+import com.example.samuel.expensemanager.utils.SPUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -63,7 +64,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
-        testInsertType();
+        boolean hasInitData = SPUtils.getBoolean(this, "hasInitData", false);
+        if (!hasInitData) {
+            testInsertType();
+            SPUtils.saveBoolean(this, "hasInitData", true);
+        }
 //        testInsertData();
 
     }
