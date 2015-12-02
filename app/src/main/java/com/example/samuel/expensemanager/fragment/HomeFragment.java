@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
@@ -17,53 +19,66 @@ import com.example.samuel.expensemanager.adapter.HomeListAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
-import com.example.samuel.expensemanager.utils.DateUtils;
+import com.example.samuel.expensemanager.utils.CalUtils;
 import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Samuel on 15/12/1 23:25
+ * Email:xuzhou40@gmail.com
+ * desc:主页信息的展示：今日支出，本月支出，三天内支出记录
  */
+
 public class HomeFragment extends Fragment {
 
 
-    private RecyclerView mRecyclerViewHome;
-    private FloatingActionButton mFabHome;
+    @Bind(R.id.tv_today_out)
+    TextView mTvTodayOut;
+    @Bind(R.id.tv_month_out)
+    TextView mTvMonthOut;
+    @Bind(R.id.recyclerview_home)
+    RecyclerView mRecyclerviewHome;
+    @Bind(R.id.fab_home)
+    FloatingActionButton mFabHome;
+    //    private RecyclerView mRecyclerViewHome;
+//    private FloatingActionButton mFabHome;
     private HomeListAdapter mHomeListAdapter;
     private List<Expense> mExpenseList;
+    private List<Expense> mExpenseMonth;
     private String mStartDate;
     private String mEndDate;
     private ExpenseDao mExpenseDao;
+    private double mSumToday = 0;
+    private double mSumMonth = 0;
+
 
     public HomeFragment() {
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //增加收入/支出记录后，刷新界面
-        initRecyclerViewList();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerview_home);
-        mFabHome = (FloatingActionButton) view.findViewById(R.id.fab_home);
+        ButterKnife.bind(this, view);
+//        mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerview_home);
+//        mFabHome = (FloatingActionButton) view.findViewById(R.id.fab_home);
 
 
         initRecyclerViewList();
         //设置recyclerview布局
-        mRecyclerViewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerviewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mRecyclerViewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+        mRecyclerviewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
                 .margin(110, 55).build());//设置 divider 分割线
 
 //      recyclerview 滑动时，FabButton 隐藏或显示
-        mFabHome.attachToRecyclerView(mRecyclerViewHome);
+        mFabHome.attachToRecyclerView(mRecyclerviewHome);
 //        fab的点击事件
         mFabHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +87,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -83,8 +99,38 @@ public class HomeFragment extends Fragment {
         mExpenseDao = daoSession.getExpenseDao();
 
 //        显示最近 3 天的收支详情
-        mStartDate = DateUtils.getLastThreeDate();
-        mEndDate = DateUtils.getCurrentDate();
+        mStartDate = CalUtils.getLastThreeDate();
+        mEndDate = CalUtils.getCurrentDate();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //增加收入/支出记录后，刷新界面
+        initRecyclerViewList();
+        setTodayAndMonth();
+    }
+
+    private void setTodayAndMonth() {
+        String month = CalUtils.getCurrentDate().substring(0, 6);
+        System.out.println("month=" + month);
+//        month = "%" + month + "%";
+        //获取当月的记录
+        mExpenseMonth = mExpenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.Date.like(month + "%")).list();
+        for (int i = 0; i < mExpenseMonth.size(); i++) {
+            Expense expense = mExpenseMonth.get(i);
+            if (expense.getDate().equals(CalUtils.getCurrentDate())) {
+                mSumToday = mSumToday + expense.getFigure();//统计今日支出
+            }
+            mSumMonth = mSumMonth + expense.getFigure();//统计本月支出
+        }
+        Log.i("home", mExpenseMonth.size() + "");
+        mTvTodayOut.setText("￥" + mSumToday);
+        mTvMonthOut.setText("￥" + mSumMonth);
+        mSumToday = 0;
+        mSumMonth = 0;
+
     }
 
     public void initRecyclerViewList() {
@@ -92,7 +138,13 @@ public class HomeFragment extends Fragment {
                 .where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate))
                 .orderDesc(ExpenseDao.Properties.Date).list();
         mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
-        mRecyclerViewHome.setAdapter(mHomeListAdapter);
+        mRecyclerviewHome.setAdapter(mHomeListAdapter);
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }
