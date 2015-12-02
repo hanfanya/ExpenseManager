@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
         mExpenseDao = daoSession.getExpenseDao();
 
 //        显示最近 3 天的收支详情
-        mStartDate = CalUtils.getLastThreeDate();
+        mStartDate = CalUtils.getLastThreeDate(3);
         mEndDate = CalUtils.getCurrentDate();
     }
 
