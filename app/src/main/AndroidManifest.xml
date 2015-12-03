@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.example.samuel.expensemanager"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.samuel.expensemanager">
 
     <application
         android:name=".ExpenseApplication"
@@ -30,7 +29,10 @@
             android:name=".activity.DetailActivity"
             android:parentActivityName=".activity.MainActivity">
         </activity>
-        <activity android:name=".activity.SumActivity">
+        <activity
+            android:name=".activity.SumActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

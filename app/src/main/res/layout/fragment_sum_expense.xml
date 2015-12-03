@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.samuel.expensemanager.fragment.IncomeFragment">
+    <!--     author: 刘万鹏
+
+         统计页面中支出fragment布局文件
+
+         Created by Mustard on 2015/12/1.-->
+
+    <ListView
+        android:id="@+id/rcv_expense_sum"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

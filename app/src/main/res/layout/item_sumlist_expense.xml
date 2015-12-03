@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item_parent"
+    style="@style/AdapterItem">
+
+    <FrameLayout
+        android:id="@+id/fl_type_sum"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="18dp">
+
+        <ImageView
+            android:id="@+id/iv_type_sum"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/tv_percent_sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="5%"
+            android:textColor="#fff"
+            android:textSize="15sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_typename_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@id/fl_type_sum"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="午餐"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_figure_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="￥50"
+        android:textSize="20sp" />
+
+</RelativeLayout>

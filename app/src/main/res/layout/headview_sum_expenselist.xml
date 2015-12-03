@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.samuel.expensemanager.fragment.IncomeFragment">
+    <!--     author: 刘万鹏
+
+         统计页面中支出fragment布局文件中listview的头部据
+
+         Created by Mustard on 2015/12/1.-->
+    <TextView
+        android:id="@+id/tv_date_ex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="2015/11/1-2015/11/31"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="320dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#000" />
+
+    <RadioGroup
+        android:id="@+id/rg_root_group"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_diy_ex"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/sum_mode_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="自定"
+            android:textColor="#a000"
+            android:textSize="23sp" />
+
+        <RadioButton
+            android:id="@+id/rb_month_ex"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/sum_mode_selector"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="本月"
+            android:textColor="#a000"
+            android:textSize="23sp" />
+
+        <RadioButton
+            android:id="@+id/rb_halfyear_ex"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/sum_mode_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="半年"
+            android:textColor="#a000"
+            android:textSize="23sp" />
+
+        <RadioButton
+            android:id="@+id/rb_year_ex"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/sum_mode_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="一年"
+            android:textColor="#a000"
+            android:textSize="23sp" />
+
+    </RadioGroup>
+
+    <ImageView
+        android:layout_width="320dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#000" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart1"
+        android:layout_width="match_parent"
+        android:layout_height="320dp" />
+</LinearLayout>
