@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
             testInsertType();
             SPUtils.saveBoolean(this, "hasInitData", true);
         }
-        testInsertData();
+//        testInsertData();
 
     }
 
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity
         mTabLayoutHome.setTabMode(TabLayout.MODE_FIXED);
         HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPagerHome.setAdapter(homePagerAdapter);
+        mViewPagerHome.setOffscreenPageLimit(0);//设置预加载的页数
         mTabLayoutHome.setupWithViewPager(mViewPagerHome);
         mTabLayoutHome.setTabsFromPagerAdapter(homePagerAdapter);
 

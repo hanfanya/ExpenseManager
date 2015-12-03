@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.datetimepicker.date.DatePickerDialog;
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.ExpenseRecyclerViewAdapter;
@@ -31,11 +31,11 @@ import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
+import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.utils.SysUtils;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,7 +43,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class ExpenseFragment extends Fragment implements CalendarDatePickerDialogFragment.OnDateSetListener {
     @Bind(R.id.recyclerview_expense)
     RecyclerView mRecyclerviewExpense;
     @Bind(R.id.key_1)
@@ -102,8 +102,6 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
     private StringBuffer mStringBufferInt;
     private StringBuffer mStringBufferDecimal;
     private double mSumNumber;
-    private Calendar mCalendar;
-    private DateFormat mDateFormat;
     private MenuItem mDateItem;
     private boolean isCreated = true;
     private TypeInfo mTypeInfo;
@@ -111,6 +109,7 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
     private TypeInfoDao mTypeInfoDao;
     private ExpenseDao mExpenseDao;
     private SimpleDateFormat mSimpleDateFormat;
+    private String mDateFormat;
 
 
     public ExpenseFragment() {
@@ -145,9 +144,9 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
         mExpense = new Expense();
 
         setHasOptionsMenu(true);
-        mCalendar = Calendar.getInstance();
-        mDateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
-        mSimpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        mSimpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        mDateFormat = mSimpleDateFormat.format(new Date());
+
 
     }
 
@@ -158,7 +157,7 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
         mRecyclerviewExpense.setLayoutManager(mGridLayoutManager);
         mRecyclerviewExpense.setAdapter(mRecyclerViewAdapter);
 
-        mTypeInfo = mTypeInfos.get(0);
+        mTypeInfo = mTypeInfos.get(0);//保存默认选择的类别信息
         mIvExpenseType.setColorFilter(mColorArray[mTypeInfo.getTypeColor()]);
         mTvExpenseType.setText(mTypeInfo.getTypeName());
 
@@ -242,11 +241,8 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
         inflater.inflate(R.menu.menu_expense, menu);
         this.mMenu = menu;
         mDateItem = mMenu.findItem(R.id.action_date_title);
-//        mDateItem.setTitle("2015/11/15");
-        String dateFormat = mSimpleDateFormat.format(mCalendar.getTime());
-        mExpense.setDate(dateFormat);
-
-        mDateItem.setTitle(dateFormat.substring(0, 4) + "年" + dateFormat.substring(4, 6) + "月" + dateFormat.substring(6) + "日");
+        mExpense.setDate(mDateFormat);
+        mDateItem.setTitle(CalUtils.getFormatDisplayDate(mDateFormat));
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -256,8 +252,12 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
         int id = item.getItemId();
 
         if (id == R.id.action_date) {//选择日期
-            DatePickerDialog.newInstance(this, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
-                    mCalendar.get(Calendar.DAY_OF_MONTH)).show(getActivity().getFragmentManager(), "datePicker");
+            int year = Integer.parseInt(mDateFormat.substring(0, 4));
+            int month = Integer.parseInt(mDateFormat.substring(4, 6));
+            int day = Integer.parseInt(mDateFormat.substring(6));
+            CalendarDatePickerDialogFragment datePickerDialogFragment = CalendarDatePickerDialogFragment
+                    .newInstance(this, year, month - 1, day);
+            datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), "date_picker");
             return true;
         }
 
@@ -265,14 +265,11 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
     }
 
     @Override
-    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-        mCalendar.set(year, monthOfYear, dayOfMonth);
-        String dateFormat = mSimpleDateFormat.format(mCalendar.getTime());
-        mExpense.setDate(dateFormat);
-
-        mDateItem.setTitle(dateFormat.substring(0, 4) + "年" + dateFormat.substring(4, 6) + "月" + dateFormat.substring(6) + "日");
+    public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
+        String date = CalUtils.getFormatDate(year, monthOfYear + 1, dayOfMonth);
+        mExpense.setDate(date);
+        mDateItem.setTitle(CalUtils.getFormatDisplayDate(date));
     }
-
 
     @Override
     public void onDestroyView() {
@@ -333,6 +330,7 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
 
     }
 
+
     @OnClick(R.id.key_del)
     public void keyDel(View view) {
 
@@ -374,7 +372,6 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
             isFirstClickAdd = false;
         }
     }
-
 
     @OnClick(R.id.key_ok)
     public void saveRecord(View view) {

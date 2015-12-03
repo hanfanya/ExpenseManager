@@ -80,9 +80,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="5000000.0"
+                    android:text="5000.0"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"/>
+                    android:textSize="22sp"/>
 
                 <TextView
                     android:id="@+id/tv_budget_title"
@@ -92,7 +92,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="预算剩余"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
 
             </RelativeLayout>

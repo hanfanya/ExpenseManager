@@ -65,7 +65,7 @@ public class CalUtils {
     }
 
 
-    private static int getMonthType(int month) {
+    public static int getMonthType(int month) {
         if (month == 5 || month == 7 || month == 10 || month == 12) {//上个月有30天
             return 1;
         } else if (month == 2 || month == 4 || month == 6 || month == 8 || month == 9 || month == 11) {//上个月有31天
@@ -78,7 +78,34 @@ public class CalUtils {
         return 0;
     }
 
-    private static boolean isLeapYear(int year) {//判断平闰年
+    public static boolean isLeapYear(int year) {//判断平闰年
         return year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
+    }
+
+    public static String getFormatDate(int year, int month, int day) {
+        String dateString;
+        String monthString;
+        String dayString;
+        if (month / 10 == 0) {
+            monthString = "0" + month;
+        } else {
+            monthString = String.valueOf(month);
+        }
+        if (day / 10 == 0) {
+            dayString = "0" + day;
+        } else {
+            dayString = String.valueOf(day);
+        }
+        dateString = year + monthString + dayString;
+        return dateString;
+    }
+
+    public static String getFormatDisplayDate(String date) {
+//        (dateFormat.substring(0, 4) + "年" + dateFormat.substring(4, 6) + "月" + dateFormat.substring(6) + "日");
+        int year = Integer.parseInt(date.substring(0, 4));
+        int month = Integer.parseInt(date.substring(4, 6));
+        int day = Integer.parseInt(date.substring(6));
+        String displayDate = year + "年" + month + "月" + day + "日";
+        return displayDate;
     }
 }
