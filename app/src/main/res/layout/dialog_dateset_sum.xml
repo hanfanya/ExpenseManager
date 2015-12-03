@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--     author: 刘万鹏
+
+             统计页面中z自定义事件的弹出框
+
+             Created by Mustard on 2015/12/1.-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:text="请选择日期"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#b000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:text="起始"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_start_date"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="2015年12月01日" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:text="结束"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_end_date"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="2015年12月31日" />
+
+    <RelativeLayout
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <Button
+            android:id="@+id/btn_cancle_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="取消" />
+
+        <Button
+            android:id="@+id/btn_ok_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="确定" />
+    </RelativeLayout>
+
+</LinearLayout>
