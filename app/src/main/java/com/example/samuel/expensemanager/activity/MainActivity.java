@@ -23,18 +23,22 @@ import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
+import com.example.samuel.expensemanager.utils.SPUtils;
 
 import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    //支出类型
     public static final String[] typeExpense = new String[]{"早餐", "午餐", "晚餐", "夜宵", "零食", "饮料", "日用品", "话费",
             "软件", "服装", "鞋帽", "医疗", "果蔬", "影院", "数码", "房租", "护肤", "居家", "书籍", "油盐酱醋", "交通", "摄影文印",
             "娱乐", "物业", "礼物", "社交", "剁手"};
-
+    //收入类型
     public static final String[] typeIncome = new String[]{"工资", "奖金", "彩票", "余额宝", "股票"};
+    //月份
     public static final String[] monthCase = new String[]{"03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+    //日期
     public static final String[] dayCase = new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
             "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
             "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
@@ -60,9 +64,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
-//        testInsertType();
+        boolean hasInitData = SPUtils.getBoolean(this, "hasInitData", false);
+        if (!hasInitData) {
+            testInsertType();
+            SPUtils.saveBoolean(this, "hasInitData", true);
+        }
 //        testInsertData();
-
 
     }
 

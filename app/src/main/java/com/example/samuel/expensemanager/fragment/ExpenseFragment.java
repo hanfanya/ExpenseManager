@@ -158,6 +158,10 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
         mRecyclerviewExpense.setLayoutManager(mGridLayoutManager);
         mRecyclerviewExpense.setAdapter(mRecyclerViewAdapter);
 
+        mTypeInfo = mTypeInfos.get(0);
+        mIvExpenseType.setColorFilter(mColorArray[mTypeInfo.getTypeColor()]);
+        mTvExpenseType.setText(mTypeInfo.getTypeName());
+
     }
 
     private void initListener() {
@@ -203,6 +207,7 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
 
             }
         });
+        mRecyclerViewAdapter.setSelection(0);
         //向下滚动时，隐藏计算器
         mRecyclerviewExpense.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -251,9 +256,6 @@ public class ExpenseFragment extends Fragment implements DatePickerDialog.OnDate
         int id = item.getItemId();
 
         if (id == R.id.action_date) {//选择日期
-//            Log.i("ExpenseFragment", "从 ExpenseFragment 中点击");
-//            mDateItem = mMenu.findItem(R.id.action_date_title);
-//            dateItem.setTitle("hello");
             DatePickerDialog.newInstance(this, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
                     mCalendar.get(Calendar.DAY_OF_MONTH)).show(getActivity().getFragmentManager(), "datePicker");
             return true;

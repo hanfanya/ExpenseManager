@@ -3,12 +3,14 @@ package com.example.samuel.expensemanager;
 import android.app.Application;
 import android.content.Context;
 import android.test.ApplicationTestCase;
+import android.util.Log;
 
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
+import com.example.samuel.expensemanager.utils.CalUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -137,6 +139,19 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
                 .orderAsc().list();
 
         System.out.println("=================" + expenseList.size());
+    }
+
+    public void testQueryLike() {
+        String month = CalUtils.getCurrentDate().substring(0, 6);
+        DaoSession daoSession = ((ExpenseApplication) mContext.getApplicationContext()).getDaoSession();
+        ExpenseDao expenseDao = daoSession.getExpenseDao();
+        System.out.println("month=" + month);
+//        month = "%" + month + "%";
+        //获取当月的记录
+        List<Expense> list = expenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.Date.like(month + "%")).list();
+
+        Log.i("home", list.size() + "");
     }
 
 }
