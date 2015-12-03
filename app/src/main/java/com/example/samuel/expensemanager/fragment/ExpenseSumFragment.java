@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.android.datetimepicker.date.DatePickerDialog;
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.SumExpenseListViewAdapter;
 import com.github.mikephil.charting.animation.Easing;
@@ -58,6 +58,7 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
     private String endDate;
     private PieChart mChart;
     private ListView mListView;
+    private Double SumExpense = 0.0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -143,12 +144,17 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_start_date://弹出选择开始日期的日历
-                DatePickerDialog.newInstance(new myDateSetLinstener(), mStartDate.startYear, mStartDate.startMonth - 1, mStartDate.startDay)
-                        .show(getActivity().getFragmentManager(), "start");
+
+                /*DatePickerDialog.newInstance(new myDateSetLinstener(), mStartDate.startYear, mStartDate.startMonth - 1, mStartDate.startDay)
+                        .show(getActivity().getFragmentManager(), "start");*/
+                CalendarDatePickerDialogFragment mStartDatePickerDialogFragment = CalendarDatePickerDialogFragment.newInstance(new myDateSetLinstener(), mStartDate.startYear, mStartDate.startMonth - 1, mStartDate.startDay);
+                mStartDatePickerDialogFragment.show(getFragmentManager(), "start");
                 break;
             case R.id.btn_end_date://弹出选择结束日期的日历
-                DatePickerDialog.newInstance(new myDateSetLinstener(), mEndDate.endYear, mEndDate.endMonth - 1, mEndDate.endDay)
-                        .show(getActivity().getFragmentManager(), "end");
+                /*DatePickerDialog.newInstance(new myDateSetLinstener(), mEndDate.endYear, mEndDate.endMonth - 1, mEndDate.endDay)
+                        .show(getActivity().getFragmentManager(), "end");*/
+                CalendarDatePickerDialogFragment mEndDatePickerDialogFragment = CalendarDatePickerDialogFragment.newInstance(new myDateSetLinstener(), mEndDate.endYear, mEndDate.endMonth - 1, mEndDate.endDay);
+                mEndDatePickerDialogFragment.show(getFragmentManager(), "end");
                 break;
             //点击确定
             case R.id.btn_ok_dialog:
@@ -179,29 +185,11 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
 
     }
 
+    //日历选择的回调方法
+
     @Override
     public void onNothingSelected() {
 
-    }
-
-    //日历选择的回调方法
-    private class myDateSetLinstener implements DatePickerDialog.OnDateSetListener {
-        //回调用户选择的日期，这里month需要+1
-        @Override
-        public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-            if ("start".equals(dialog.getTag())) {
-                mStartDate.startYear = year;
-                mStartDate.startMonth = monthOfYear + 1;
-                mStartDate.startDay = dayOfMonth;
-                mBtnStartDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
-            } else if ("end".equals(dialog.getTag())) {
-                mEndDate.endYear = year;
-                mEndDate.endMonth = monthOfYear + 1;
-                mEndDate.endDay = dayOfMonth;
-                mBtnEndDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
-            }
-
-        }
     }
 
     private void setYearDate() {
@@ -251,8 +239,6 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
         return twoBmonth;
     }
 
-    private Double SumExpense = 0.0;
-
     private void setChangeDate(String startDate, String endDate) {
         String NumberStartDate = startDate.substring(0, 4) + startDate.substring(5, 7) + startDate.substring(8, 10);
         //System.out.println(a+"---------------------------------------");
@@ -293,26 +279,6 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
 
         mChart.getLegend().setEnabled(false);
-    }
-
-    //日历选择的回调方法
-    private class myDateSetLinstener implements DatePickerDialog.OnDateSetListener {
-        //回调用户选择的日期，这里month需要+1
-        @Override
-        public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-            if ("start".equals(dialog.getTag())) {
-                mStartDate.startYear = year;
-                mStartDate.startMonth = monthOfYear + 1;
-                mStartDate.startDay = dayOfMonth;
-                mBtnStartDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
-            } else if ("end".equals(dialog.getTag())) {
-                mEndDate.endYear = year;
-                mEndDate.endMonth = monthOfYear + 1;
-                mEndDate.endDay = dayOfMonth;
-                mBtnEndDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
-            }
-
-        }
     }
 
     private void setData(Cursor cursor) {
@@ -362,6 +328,44 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
         mChart.invalidate();
         SumExpenseListViewAdapter mViewAdapter = new SumExpenseListViewAdapter(eSum, typeNames, colors, SumExpense, getContext());
         mListView.setAdapter(mViewAdapter);
+    }
+
+    /*//日历选择的回调方法
+    private class myDateSetLinstener implements DatePickerDialog.OnDateSetListener {
+        //回调用户选择的日期，这里month需要+1
+        @Override
+        public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
+            if ("start".equals(dialog.getTag())) {
+                mStartDate.startYear = year;
+                mStartDate.startMonth = monthOfYear + 1;
+                mStartDate.startDay = dayOfMonth;
+                mBtnStartDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
+            } else if ("end".equals(dialog.getTag())) {
+                mEndDate.endYear = year;
+                mEndDate.endMonth = monthOfYear + 1;
+                mEndDate.endDay = dayOfMonth;
+                mBtnEndDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
+            }
+
+        }
+    }*/
+
+    private class myDateSetLinstener implements CalendarDatePickerDialogFragment.OnDateSetListener {
+        //回调用户选择的日期，这里month需要+1
+        @Override
+        public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
+            if ("start".equals(dialog.getTag())) {
+                mStartDate.startYear = year;
+                mStartDate.startMonth = monthOfYear + 1;
+                mStartDate.startDay = dayOfMonth;
+                mBtnStartDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
+            } else if ("end".equals(dialog.getTag())) {
+                mEndDate.endYear = year;
+                mEndDate.endMonth = monthOfYear + 1;
+                mEndDate.endDay = dayOfMonth;
+                mBtnEndDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
+            }
+        }
     }
 
     class MyStartDate {
