@@ -53,6 +53,7 @@ public class CircleProgress extends View {
 
     public void setTargetProgress(int targetProgress) {
         mTargetProgress = targetProgress;//设置目标值
+        mProgress = 0;
         invalidate();
     }
 
