@@ -121,11 +121,11 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         // xl.setEnabled(false);
 
         YAxis leftAxis = mLineChart.getAxisLeft();
-        leftAxis.setStartAtZero(false);
+        /*leftAxis.setStartAtZero(false);
         leftAxis.setDrawGridLines(false);
         leftAxis.setLabelCount(5, false);
-        leftAxis.setAxisLineColor(Color.WHITE);
-        //leftAxis.setEnabled(false);
+        leftAxis.setAxisLineColor(Color.WHITE);*/
+        leftAxis.setEnabled(false);
 
         YAxis rightAxis = mLineChart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -133,7 +133,8 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         setData();
         mLineChart.getLegend().setEnabled(false);
 
-        mLineChart.animateXY(3000, 3000);
+        mLineChart.animateXY(1000, 1000);
+        // Log.e("--------", "-------------------------");
     }
 
     private void setData() {
@@ -147,7 +148,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         ArrayList<Entry> figures = new ArrayList<Entry>();
         int i = 0;
         while (cursorSum.moveToNext()) {
-            dates.add(cursorSum.getString(0).substring(4));
+            dates.add(cursorSum.getString(0).substring(4, 6) + "/" + cursorSum.getString(0).substring(6));
             figures.add(new Entry(cursorSum.getFloat(1), i));
             i++;
         }
@@ -160,6 +161,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         set1.setLineWidth(4f);
         set1.setCircleSize(4f);
         set1.setValueTextSize(8.0f);
+        set1.setValueTextSize(12f);
 
         // create a data object with the datasets
         LineData data = new LineData(dates, set1);
