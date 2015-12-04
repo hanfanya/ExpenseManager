@@ -99,7 +99,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
 
     @Override
     public void onDialogNumberSet(int reference, int number, double decimal, boolean isNegative, double fullNumber) throws NumberFormatException {
-        SPUtils.saveInt(getActivity(), "budget_figure", number);
+        SPUtils.saveString(getActivity(), "budget_figure", String.valueOf(number));
         setBudgetProgress();
 
         System.out.println("number" + number);
@@ -135,7 +135,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
     }
 
     private void setBudgetProgress() {
-        int budgetFigure = SPUtils.getInt(getActivity(), "budget_figure", 0);
+        int budgetFigure = Integer.parseInt(SPUtils.getString(getActivity(), "budget_figure", "0"));
         if (budgetFigure == 0) {//0表示没有设置预算
             mTvBudgetFigure.setVisibility(View.INVISIBLE);
             mTvBudgetTitle.setVisibility(View.INVISIBLE);
