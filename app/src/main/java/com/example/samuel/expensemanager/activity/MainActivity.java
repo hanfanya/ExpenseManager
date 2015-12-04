@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -161,13 +162,30 @@ public class MainActivity extends AppCompatActivity
 
         //设置 viewpager
         mTabLayoutHome.setTabMode(TabLayout.MODE_FIXED);
-        HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        final HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPagerHome.setAdapter(homePagerAdapter);
-        mViewPagerHome.setOffscreenPageLimit(0);//设置预加载的页数
         mTabLayoutHome.setupWithViewPager(mViewPagerHome);
         mTabLayoutHome.setTabsFromPagerAdapter(homePagerAdapter);
 
+        mViewPagerHome.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    Fragment fragment = homePagerAdapter.getItem(position);
+                    fragment.onResume();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
