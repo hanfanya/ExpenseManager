@@ -23,6 +23,7 @@ import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.view.CircleProgress;
+import com.example.samuel.expensemanager.view.CountView;
 import com.example.samuel.expensemanager.view.MyMarkerView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -30,7 +31,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.example.samuel.expensemanager.view.CountView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +137,6 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         mLineChart.getLegend().setEnabled(false);
 
         mLineChart.animateXY(3000, 3000);
-        Log.e("--------", "-------------------------");
     }
 
     private void setData() {

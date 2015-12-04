@@ -42,12 +42,12 @@
             android:layout_marginLeft="20dp"
             android:orientation="horizontal">
 
-            <com.example.samuel.expensemanager.view.CountView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="本月支出："/>
 
-            <TextView
+            <com.example.samuel.expensemanager.view.CountView
                 android:id="@+id/tv_month_out"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
