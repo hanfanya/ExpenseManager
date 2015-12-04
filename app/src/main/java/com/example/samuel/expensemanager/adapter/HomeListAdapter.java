@@ -2,7 +2,6 @@ package com.example.samuel.expensemanager.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.samuel.expensemanager.R;
-import com.example.samuel.expensemanager.model.Expense;
 
 import java.util.List;
 
@@ -19,12 +17,17 @@ import java.util.List;
  * Email:samuel40@126.com
  */
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyViewHolder> {
+    public OnItemClickListener mOnItemClickListener;
     private List<Expense> mExpenseList;
     private Context mContext;
 
     public HomeListAdapter(List<Expense> expenseList, Context context) {
         mExpenseList = expenseList;
         mContext = context;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         Expense expense = mExpenseList.get(position);
 
         int[] colorArray = mContext.getResources().getIntArray(R.array.colorType);
@@ -46,6 +49,24 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
         holder.mTvTypeName.setText(expense.getTypeName());
         holder.mTvFigure.setText(expense.getFigure() + "");
 
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemClickListener.onItemClick(v, pos);
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemClickListener.onItemLongClick(v, pos);
+                    return false;
+                }
+            });
+        }
+
     }
 
     @Override
@@ -53,7 +74,13 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
         return mExpenseList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+
+        boolean onItemLongClick(View view, int position);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvType;
         TextView mTvDate;
         TextView mTvTypeName;
@@ -66,15 +93,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
             mTvDate = (TextView) itemView.findViewById(R.id.tv_date);
             mTvTypeName = (TextView) itemView.findViewById(R.id.tv_typename);
             mTvFigure = (TextView) itemView.findViewById(R.id.tv_figure);
-            View view = itemView.findViewById(R.id.ll_item_parent);
-            view.setOnClickListener(this);
         }
 
-
-        @Override
-        public void onClick(View v) {
-            Log.i("你点击了=========", mTvDate.getText().toString());
-
-        }
     }
 }

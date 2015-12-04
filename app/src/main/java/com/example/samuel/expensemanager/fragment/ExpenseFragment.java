@@ -26,11 +26,6 @@ import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialo
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.ExpenseRecyclerViewAdapter;
-import com.example.samuel.expensemanager.model.DaoSession;
-import com.example.samuel.expensemanager.model.Expense;
-import com.example.samuel.expensemanager.model.ExpenseDao;
-import com.example.samuel.expensemanager.model.TypeInfo;
-import com.example.samuel.expensemanager.model.TypeInfoDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.utils.SysUtils;
 

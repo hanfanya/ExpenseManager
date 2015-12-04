@@ -21,9 +21,7 @@ public class ExpenseDaoGenerator {
         expense.addStringProperty("typeName");//类别名称
         expense.addIntProperty("typeColor");//类别颜色
         expense.addIntProperty("typeFlag");//类别属性，1 表示支出，0表示收入
-        expense.addIntProperty("isUploaded");//是否上传
-        expense.addIntProperty("isModified");//是否删除
-        expense.addIntProperty("isDeleted");//是否修改
+        expense.addIntProperty("uploadFlag");//数据状态
 
         Entity typeInfo = schema.addEntity("TypeInfo");
         typeInfo.addIdProperty();
@@ -32,9 +30,7 @@ public class ExpenseDaoGenerator {
         typeInfo.addStringProperty("typeName");
         typeInfo.addIntProperty("typeFlag");
         typeInfo.addIntProperty("frequency");
-        typeInfo.addIntProperty("isUploaded");
-        typeInfo.addIntProperty("isModified");
-        typeInfo.addIntProperty("isDeleted");
+        typeInfo.addIntProperty("uploadFlag");
 
 
 //        new DaoGenerator().generateAll(schema, "/Users/Samuel/AndroidStudioProjects/ExpenseManager/app/src/main/java");

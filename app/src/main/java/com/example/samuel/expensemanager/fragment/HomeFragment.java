@@ -1,9 +1,12 @@
 package com.example.samuel.expensemanager.fragment;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,9 +18,6 @@ import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.activity.AddRecordActivity;
 import com.example.samuel.expensemanager.adapter.HomeListAdapter;
-import com.example.samuel.expensemanager.model.DaoSession;
-import com.example.samuel.expensemanager.model.Expense;
-import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.view.CountView;
 import com.melnykov.fab.FloatingActionButton;
@@ -66,9 +66,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-//        mRecyclerViewHome = (RecyclerView) view.findViewById(R.id.recyclerview_home);
-//        mFabHome = (FloatingActionButton) view.findViewById(R.id.fab_home);
-
 
         initRecyclerViewList();
         //设置recyclerview布局
@@ -87,7 +84,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -116,7 +112,6 @@ public class HomeFragment extends Fragment {
         mSumMonth = 0;
         String month = CalUtils.getCurrentDate().substring(0, 6);
         System.out.println("month=" + month);
-//        month = "%" + month + "%";
         //获取当月的记录
         mExpenseMonth = mExpenseDao.queryBuilder()
                 .where(ExpenseDao.Properties.Date.like(month + "%")).list();
@@ -138,6 +133,49 @@ public class HomeFragment extends Fragment {
                 .orderDesc(ExpenseDao.Properties.Date).list();
         mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
         mRecyclerviewHome.setAdapter(mHomeListAdapter);
+        mRecyclerviewHome.setItemAnimator(new DefaultItemAnimator());//设置默认动画
+        mHomeListAdapter.setOnItemClickListener(new HomeListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, int position) {
+                showActionDialog(position);
+
+                return false;
+            }
+        });
+
+    }
+
+    private void showActionDialog(final int position) {
+        String[] items = {"删除记录", "编辑记录"};
+        new AlertDialog.Builder(getActivity())
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                deleteRecord(position);
+                                break;
+                            case 1:
+                                editRecord(position);
+                                break;
+                            default:
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
+
+    private void deleteRecord(int position) {
+
+    }
+
+    private void editRecord(int position) {
 
     }
 

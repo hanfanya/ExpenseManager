@@ -1,12 +1,85 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.example.samuel.expensemanager.fragment.IncomeFragment">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.samuel.expensemanager.fragment.IncomeFragment">
 
-    <TextView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_income"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_marginBottom="?android:actionBarSize"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"/>
 
+    <RelativeLayout
+        android:id="@+id/rl_income_cal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            layout="@layout/calculator">
+
+        </include>
+
+        <RelativeLayout
+            android:id="@+id/rl_income_info"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:layout_above="@id/ll_expense_cal"
+            android:background="#CFD8DC"
+            >
+
+
+            <ImageView
+                android:id="@+id/iv_income_type"
+
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+
+                android:src="@drawable/circle"/>
+
+
+            <TextView
+                android:id="@+id/tv_income_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/iv_income_type"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="早餐"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                />
+
+
+            <TextView
+                android:id="@+id/tv_income_figure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
+                android:text="0.0"
+                android:textSize="36sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/tv_income_figure"
+                android:text="￥"
+                android:textSize="32sp"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>
+
