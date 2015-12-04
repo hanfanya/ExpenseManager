@@ -3,7 +3,6 @@ package com.example.samuel.expensemanager.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.view.CircleProgress;
+import com.example.samuel.expensemanager.view.CountView;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
     private static final int BUTTON_ONE_REFERENCE = 0;
     private static final int BUTTON_THREE_REFERENCE = 2;
     @Bind(R.id.tv_month_in)
-    TextView mTvMonthIn;
+    CountView mTvMonthIn;
     @Bind(R.id.ll_month_in)
     LinearLayout mLlMonthIn;
     @Bind(R.id.circlePb)
@@ -41,13 +41,13 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
     @Bind(R.id.tv_not_budget)
     TextView mTvNotBudget;
     @Bind(R.id.tv_budget_figure)
-    TextView mTvBudgetFigure;
+    CountView mTvBudgetFigure;
     @Bind(R.id.tv_budget_title)
     TextView mTvBudgetTitle;
     @Bind(R.id.ll_circle)
     RelativeLayout mLlCircle;
     @Bind(R.id.tv_month_out)
-    TextView mTvMonthOut;
+    CountView mTvMonthOut;
     @Bind(R.id.ll_month_out)
     LinearLayout mLlMonthOut;
     private ExpenseDao mExpenseDao;
@@ -92,7 +92,8 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 .setStyleResId(R.style.BetterPickersDialogFragment_Light)
                 .setDecimalVisibility(View.INVISIBLE)
                 .setPlusMinusVisibility(View.INVISIBLE)
-                .setTargetFragment(SummaryFragment.this);
+                .setTargetFragment(SummaryFragment.this)
+                .setMaxNumber(1000000);
 
         builder.show();
     }
@@ -128,9 +129,8 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 mSumMonthIn = mSumMonthIn + expense.getFigure();//统计本月收入
             }
         }
-        Log.i("home", mExpenseMonth.size() + "");
-        mTvMonthIn.setText("" + mSumMonthIn);
-        mTvMonthOut.setText("" + mSumMonthOut);
+        mTvMonthIn.showNumberWithAnimation(String.valueOf(mSumMonthIn));
+        mTvMonthOut.showNumberWithAnimation(String.valueOf(mSumMonthOut));
 
     }
 
@@ -151,14 +151,13 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 System.out.println("mPercentage" + mPercentage);
 
                 mTvBudgetTitle.setText("预算剩余");
-                mTvBudgetFigure.setText(mRemainBudget + "");
+                mTvBudgetFigure.showNumberWithAnimation(String.valueOf(mRemainBudget));
                 mCirclePb.setTargetProgress(mPercentage);//设置自定义圆形进度条的进度
 
             } else {//预算超出
                 mRemainBudget = mSumMonthOut - budgetFigure;
                 mTvBudgetTitle.setText("预算超出");
-                mTvBudgetFigure.setText(mRemainBudget + "");
-
+                mTvBudgetFigure.showNumberWithAnimation(String.valueOf(mRemainBudget));
                 mCirclePb.setTargetProgress(100);
             }
         }

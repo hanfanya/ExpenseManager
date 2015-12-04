@@ -3,6 +3,7 @@ package com.example.samuel.expensemanager.view;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 
@@ -14,8 +15,8 @@ import android.widget.TextView;
  */
 
 public class CountView extends TextView {
-    int duration = 1000;
-    float number;
+    private int duration = 600;
+    private float number;
 
     public CountView(Context context) {
         super(context);
@@ -31,6 +32,10 @@ public class CountView extends TextView {
 
     public void showNumberWithAnimation(String number) {
         //修改number属性，会调用setNumber方法
+        Log.i("CountView", "number= " + number);
+        float numberFloat = Float.parseFloat(number);
+        Log.i("CountView", "numberFloat= " + numberFloat);
+
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "number", 0, Float.parseFloat(number));
 
         objectAnimator.setDuration(duration);
@@ -45,6 +50,6 @@ public class CountView extends TextView {
 
     public void setNumber(float number) {
         this.number = number;
-        setText(String.format("%1$07.2f", number));
+        setText(String.format("%.1f", number));
     }
 }

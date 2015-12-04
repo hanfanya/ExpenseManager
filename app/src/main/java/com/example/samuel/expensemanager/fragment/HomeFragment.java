@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
@@ -20,6 +19,7 @@ import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
+import com.example.samuel.expensemanager.view.CountView;
 import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -38,9 +38,9 @@ public class HomeFragment extends Fragment {
 
 
     @Bind(R.id.tv_today_out)
-    TextView mTvTodayOut;
+    CountView mTvTodayOut;
     @Bind(R.id.tv_month_out)
-    TextView mTvMonthOut;
+    CountView mTvMonthOut;
     @Bind(R.id.recyclerview_home)
     RecyclerView mRecyclerviewHome;
     @Bind(R.id.fab_home)
@@ -53,8 +53,8 @@ public class HomeFragment extends Fragment {
     private String mStartDate;
     private String mEndDate;
     private ExpenseDao mExpenseDao;
-    private double mSumToday = 0;
-    private double mSumMonth = 0;
+    private double mSumToday;
+    private double mSumMonth;
 
 
     public HomeFragment() {
@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
         mRecyclerviewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mRecyclerviewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
-                .margin(110, 55).build());//设置 divider 分割线
+                .build());//设置 divider 分割线 margin(110, 55)
 
 //      recyclerview 滑动时，FabButton 隐藏或显示
         mFabHome.attachToRecyclerView(mRecyclerviewHome);
@@ -112,6 +112,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void setTodayAndMonth() {
+        mSumToday = 0;
+        mSumMonth = 0;
         String month = CalUtils.getCurrentDate().substring(0, 6);
         System.out.println("month=" + month);
 //        month = "%" + month + "%";
@@ -126,11 +128,8 @@ public class HomeFragment extends Fragment {
             mSumMonth = mSumMonth + expense.getFigure();//统计本月支出
         }
         Log.i("home", mExpenseMonth.size() + "");
-        mTvTodayOut.setText("￥" + mSumToday);
-        mTvMonthOut.setText("￥" + mSumMonth);
-        mSumToday = 0;
-        mSumMonth = 0;
-
+        mTvTodayOut.showNumberWithAnimation(String.valueOf(mSumToday));
+        mTvMonthOut.showNumberWithAnimation(String.valueOf(mSumMonth));
     }
 
     public void initRecyclerViewList() {
