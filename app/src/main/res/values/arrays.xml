@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string-array name="entries_network_preference">
+        <item>不自动同步</item>
+        <item>仅Wifi连接时同步</item>
+        <item>有网络连接时自动同步</item>
+    </string-array>
+    <string-array name="entryvalues_network_preference">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
     <array name="rainbow" translatable="false">
         <item>@color/blue_grey</item>
         <item>@color/red</item>
