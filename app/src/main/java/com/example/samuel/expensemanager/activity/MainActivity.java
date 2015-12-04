@@ -163,22 +163,30 @@ public class MainActivity extends AppCompatActivity
 
         //设置 viewpager
         mTabLayoutHome.setTabMode(TabLayout.MODE_FIXED);
-        HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        final HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPagerHome.setAdapter(homePagerAdapter);
-//        mViewPagerHome.setOffscreenPageLimit(0);//设置预加载的页数
         mTabLayoutHome.setupWithViewPager(mViewPagerHome);
         mTabLayoutHome.setTabsFromPagerAdapter(homePagerAdapter);
-        //设置页面选中监听
-        int currentItem = mViewPagerHome.getCurrentItem();
-        if (currentItem == 0) {
-            Fragment item = homePagerAdapter.getItem(1);
-            if (item.isAdded()) {
-                homePagerAdapter.destroyItem(null, 1, item);
-                Log.e("!!!!!!!!!!!!!!", "!!!!!!!!!!!!");
+
+        mViewPagerHome.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
-        }
 
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    Fragment fragment = homePagerAdapter.getItem(position);
+                    fragment.onResume();
+                }
+            }
 
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

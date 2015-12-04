@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.example.samuel.expensemanager.view.CountView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
     private static final int BUTTON_ONE_REFERENCE = 0;
     private static final int BUTTON_THREE_REFERENCE = 2;
     @Bind(R.id.tv_month_in)
-    TextView mTvMonthIn;
+    CountView mTvMonthIn;
     @Bind(R.id.ll_month_in)
     LinearLayout mLlMonthIn;
     @Bind(R.id.circlePb)
@@ -52,13 +52,13 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
     @Bind(R.id.tv_not_budget)
     TextView mTvNotBudget;
     @Bind(R.id.tv_budget_figure)
-    TextView mTvBudgetFigure;
+    CountView mTvBudgetFigure;
     @Bind(R.id.tv_budget_title)
     TextView mTvBudgetTitle;
     @Bind(R.id.ll_circle)
     RelativeLayout mLlCircle;
     @Bind(R.id.tv_month_out)
-    TextView mTvMonthOut;
+    CountView mTvMonthOut;
     @Bind(R.id.ll_month_out)
     LinearLayout mLlMonthOut;
     @Bind(R.id.line_chart_summary)
@@ -86,7 +86,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 showSetBudgetDialog();
             }
         });
-        return view;
+                return view;
     }
 
     private void initLineChart() {
@@ -189,14 +189,15 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 .setStyleResId(R.style.BetterPickersDialogFragment_Light)
                 .setDecimalVisibility(View.INVISIBLE)
                 .setPlusMinusVisibility(View.INVISIBLE)
-                .setTargetFragment(SummaryFragment.this);
+                .setTargetFragment(SummaryFragment.this)
+                .setMaxNumber(1000000);
 
         builder.show();
     }
 
     @Override
     public void onDialogNumberSet(int reference, int number, double decimal, boolean isNegative, double fullNumber) throws NumberFormatException {
-        SPUtils.saveInt(getActivity(), "budget_figure", number);
+        SPUtils.saveString(getActivity(), "budget_figure", String.valueOf(number));
         setBudgetProgress();
 
         System.out.println("number" + number);
@@ -227,14 +228,13 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 mSumMonthIn = mSumMonthIn + expense.getFigure();//统计本月收入
             }
         }
-        Log.i("home", mExpenseMonth.size() + "");
-        mTvMonthIn.setText("" + mSumMonthIn);
-        mTvMonthOut.setText("" + mSumMonthOut);
+        mTvMonthIn.showNumberWithAnimation(String.valueOf(mSumMonthIn));
+        mTvMonthOut.showNumberWithAnimation(String.valueOf(mSumMonthOut));
 
     }
 
     private void setBudgetProgress() {
-        int budgetFigure = SPUtils.getInt(getActivity(), "budget_figure", 0);
+        int budgetFigure = Integer.parseInt(SPUtils.getString(getActivity(), "budget_figure", "0"));
         if (budgetFigure == 0) {//0表示没有设置预算
             mTvBudgetFigure.setVisibility(View.INVISIBLE);
             mTvBudgetTitle.setVisibility(View.INVISIBLE);
@@ -250,17 +250,15 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 System.out.println("mPercentage" + mPercentage);
 
                 mTvBudgetTitle.setText("预算剩余");
-                mTvBudgetFigure.setText(mRemainBudget + "");
+                mTvBudgetFigure.showNumberWithAnimation(String.valueOf(mRemainBudget));
                 mCirclePb.setTargetProgress(mPercentage);//设置自定义圆形进度条的进度
 
             } else {//预算超出
                 mRemainBudget = mSumMonthOut - budgetFigure;
                 mTvBudgetTitle.setText("预算超出");
-                mTvBudgetFigure.setText(mRemainBudget + "");
-
+                mTvBudgetFigure.showNumberWithAnimation(String.valueOf(mRemainBudget));
                 mCirclePb.setTargetProgress(100);
             }
-            Log.e("++++++++++", "++++++++++++++++");
         }
     }
 
