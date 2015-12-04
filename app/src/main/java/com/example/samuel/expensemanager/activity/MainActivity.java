@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -163,9 +165,18 @@ public class MainActivity extends AppCompatActivity
         mTabLayoutHome.setTabMode(TabLayout.MODE_FIXED);
         HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPagerHome.setAdapter(homePagerAdapter);
-        mViewPagerHome.setOffscreenPageLimit(0);//设置预加载的页数
+//        mViewPagerHome.setOffscreenPageLimit(0);//设置预加载的页数
         mTabLayoutHome.setupWithViewPager(mViewPagerHome);
         mTabLayoutHome.setTabsFromPagerAdapter(homePagerAdapter);
+        //设置页面选中监听
+        int currentItem = mViewPagerHome.getCurrentItem();
+        if (currentItem == 0) {
+            Fragment item = homePagerAdapter.getItem(1);
+            if (item.isAdded()) {
+                homePagerAdapter.destroyItem(null, 1, item);
+                Log.e("!!!!!!!!!!!!!!", "!!!!!!!!!!!!");
+            }
+        }
 
 
     }

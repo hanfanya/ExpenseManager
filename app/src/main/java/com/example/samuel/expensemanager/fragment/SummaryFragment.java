@@ -1,6 +1,9 @@
 package com.example.samuel.expensemanager.fragment;
 
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,7 +24,15 @@ import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.view.CircleProgress;
+import com.example.samuel.expensemanager.view.MyMarkerView;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -50,6 +61,8 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
     TextView mTvMonthOut;
     @Bind(R.id.ll_month_out)
     LinearLayout mLlMonthOut;
+    @Bind(R.id.line_chart_summary)
+    LineChart mLineChart;
     private ExpenseDao mExpenseDao;
     private List<Expense> mExpenseMonth;
     private double mSumMonthOut;
@@ -73,9 +86,93 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 showSetBudgetDialog();
             }
         });
-
         return view;
     }
+
+    private void initLineChart() {
+        mLineChart.setDrawGridBackground(false);
+        // no description text
+        mLineChart.setDescription("");
+
+        // enable touch gestures
+        mLineChart.setTouchEnabled(true);
+
+        // enable scaling and dragging
+        mLineChart.setDragEnabled(true);
+        mLineChart.setScaleEnabled(true);
+
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        mLineChart.setPinchZoom(false);
+
+        mLineChart.setDrawGridBackground(false);
+        // set an alternative background color
+        // mChart.setBackgroundColor(Color.GRAY);
+
+        // create a custom MarkerView (extend MarkerView) and specify the layout
+        // to use for it
+        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view);
+
+        // set the marker to the chart
+        mLineChart.setMarkerView(mv);
+
+        XAxis xl = mLineChart.getXAxis();
+        xl.setAvoidFirstLastClipping(true);
+        xl.setDrawGridLines(false);
+        xl.setLabelsToSkip(0);
+        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+        // xl.setEnabled(false);
+
+        YAxis leftAxis = mLineChart.getAxisLeft();
+        leftAxis.setStartAtZero(false);
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setLabelCount(5, false);
+        leftAxis.setAxisLineColor(Color.WHITE);
+        //leftAxis.setEnabled(false);
+
+        YAxis rightAxis = mLineChart.getAxisRight();
+        rightAxis.setEnabled(false);
+        // add data
+        setData();
+        mLineChart.getLegend().setEnabled(false);
+
+        mLineChart.animateXY(3000, 3000);
+        Log.e("--------", "-------------------------");
+    }
+
+    private void setData() {
+        String mCurrentDate = CalUtils.getCurrentDate();
+        String mLastDate = CalUtils.getLastThreeDate(7);
+        SQLiteDatabase db = getContext().openOrCreateDatabase("expense-db", getContext().MODE_PRIVATE, null);
+        //从数据库获取近七天总支出
+        String sqllast = "select date,sum(figure) from EXPENSE where TYPE_FLAG=1 and DATE between " + mLastDate + "  and  " + mCurrentDate + " " + "group by date order by date asc;";
+        Cursor cursorSum = db.rawQuery(sqllast, null);
+        ArrayList<String> dates = new ArrayList<String>();
+        ArrayList<Entry> figures = new ArrayList<Entry>();
+        int i = 0;
+        while (cursorSum.moveToNext()) {
+            dates.add(cursorSum.getString(0).substring(4));
+            figures.add(new Entry(cursorSum.getFloat(1), i));
+            i++;
+        }
+
+
+        //传入折线图数据
+        LineDataSet set1 = new LineDataSet(figures, "");
+
+        set1.setDrawCubic(true);
+        set1.setLineWidth(4f);
+        set1.setCircleSize(4f);
+        set1.setValueTextSize(8.0f);
+
+        // create a data object with the datasets
+        LineData data = new LineData(dates, set1);
+
+        // set data
+        mLineChart.setData(data);
+
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,6 +207,8 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         super.onResume();
         setMonthInAndOut();
         setBudgetProgress();
+        initLineChart();
+//        mLineChart.animateXY(3000,3000);
     }
 
     private void setMonthInAndOut() {
@@ -161,6 +260,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
 
                 mCirclePb.setTargetProgress(100);
             }
+            Log.e("++++++++++", "++++++++++++++++");
         }
     }
 

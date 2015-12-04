@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -55,6 +56,8 @@ public class CircleProgress extends View {
         mTargetProgress = targetProgress;//设置目标值
         mProgress = 0;
         invalidate();
+        Log.e("XXXXXZZZZZZ", "setTargetProgress");
+
     }
 
 
@@ -68,6 +71,7 @@ public class CircleProgress extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        // Log.e("XXXXXZZZZZZ","onDraw");
 
         float yHeight = ((float) getProgress() / getMax() * getHeight());
         float radius = getWidth() / 2f;
@@ -75,12 +79,12 @@ public class CircleProgress extends View {
 
         canvas.drawArc(mRectF, 90, 360, false, mBackPaint);//画背景的圆
         canvas.drawArc(mRectF, 90 - angle, angle * 2, false, mFrontPaint);//画上方的圆
+        // Log.e("XXXXXZZZZZZ", "mProgress"+mProgress+"==="+"mTargetProgress="+mTargetProgress);
 
         if (mProgress < mTargetProgress) {
             mProgress = mProgress + 1;
             invalidate();
         }
-
     }
 
     public int getProgress() {
