@@ -32,7 +32,7 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
      * Creates the underlying database table.
      */
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
-        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+        String constraint = ifNotExists ? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"TYPE_INFO\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"TYPE_OBJECT_ID\" TEXT," + // 1: typeObjectId
@@ -43,17 +43,13 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
                 "\"UPLOAD_FLAG\" INTEGER);"); // 6: uploadFlag
     }
 
-    /**
-     * Drops the underlying database table.
-     */
+    /** Drops the underlying database table. */
     public static void dropTable(SQLiteDatabase db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"TYPE_INFO\"";
         db.execSQL(sql);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected void bindValues(SQLiteStatement stmt, TypeInfo entity) {
         stmt.clearBindings();
@@ -94,17 +90,13 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public TypeInfo readEntity(Cursor cursor, int offset) {
         TypeInfo entity = new TypeInfo( //
@@ -119,9 +111,7 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         return entity;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, TypeInfo entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
@@ -133,18 +123,14 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         entity.setUploadFlag(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(TypeInfo entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long getKey(TypeInfo entity) {
         if (entity != null) {
@@ -154,18 +140,16 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
 
-    /**
+/**
      * Properties of entity TypeInfo.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-     */
+    */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TypeObjectId = new Property(1, String.class, "typeObjectId", false, "TYPE_OBJECT_ID");
@@ -175,5 +159,5 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         public final static Property Frequency = new Property(5, Integer.class, "frequency", false, "FREQUENCY");
         public final static Property UploadFlag = new Property(6, Integer.class, "uploadFlag", false, "UPLOAD_FLAG");
     }
-
+    
 }

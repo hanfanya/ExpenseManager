@@ -32,7 +32,7 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
      * Creates the underlying database table.
      */
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
-        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+        String constraint = ifNotExists ? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"EXPENSE\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"EXPENSE_OBJECT_ID\" TEXT," + // 1: expenseObjectId
@@ -44,17 +44,13 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
                 "\"UPLOAD_FLAG\" INTEGER);"); // 7: uploadFlag
     }
 
-    /**
-     * Drops the underlying database table.
-     */
+    /** Drops the underlying database table. */
     public static void dropTable(SQLiteDatabase db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"EXPENSE\"";
         db.execSQL(sql);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected void bindValues(SQLiteStatement stmt, Expense entity) {
         stmt.clearBindings();
@@ -100,17 +96,13 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Expense readEntity(Cursor cursor, int offset) {
         Expense entity = new Expense( //
@@ -126,9 +118,7 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         return entity;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Expense entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
@@ -141,18 +131,14 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         entity.setUploadFlag(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Expense entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long getKey(Expense entity) {
         if (entity != null) {
@@ -162,18 +148,16 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
 
-    /**
+/**
      * Properties of entity Expense.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-     */
+    */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property ExpenseObjectId = new Property(1, String.class, "expenseObjectId", false, "EXPENSE_OBJECT_ID");
@@ -184,5 +168,5 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         public final static Property TypeFlag = new Property(6, Integer.class, "typeFlag", false, "TYPE_FLAG");
         public final static Property UploadFlag = new Property(7, Integer.class, "uploadFlag", false, "UPLOAD_FLAG");
     }
-
+    
 }
