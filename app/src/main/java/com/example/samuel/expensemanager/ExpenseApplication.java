@@ -3,6 +3,9 @@ package com.example.samuel.expensemanager;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.samuel.expensemanager.model.DaoMaster;
+import com.example.samuel.expensemanager.model.DaoSession;
+
 /**
  * Created by Samuel on 15/11/12 10:48.
  * Email:samuel40@126.com

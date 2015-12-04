@@ -26,6 +26,11 @@ import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialo
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.ExpenseRecyclerViewAdapter;
+import com.example.samuel.expensemanager.model.DaoSession;
+import com.example.samuel.expensemanager.model.Expense;
+import com.example.samuel.expensemanager.model.ExpenseDao;
+import com.example.samuel.expensemanager.model.TypeInfo;
+import com.example.samuel.expensemanager.model.TypeInfoDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.utils.SysUtils;
 
@@ -418,9 +423,7 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
                 mExpense.setTypeColor(mTypeInfo.getTypeColor());
                 mExpense.setTypeFlag(mTypeInfo.getTypeFlag());
 
-                mExpense.setIsUploaded(0);
-                mExpense.setIsModified(0);
-                mExpense.setIsDeleted(0);
+                mExpense.setUploadFlag(0);
                 mExpenseDao.insertOrReplace(mExpense);
 
                 Integer frequency = mTypeInfo.getFrequency();

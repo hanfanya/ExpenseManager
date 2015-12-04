@@ -19,6 +19,11 @@ import android.view.MenuItem;
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.HomePagerAdapter;
+import com.example.samuel.expensemanager.model.DaoSession;
+import com.example.samuel.expensemanager.model.Expense;
+import com.example.samuel.expensemanager.model.ExpenseDao;
+import com.example.samuel.expensemanager.model.TypeInfo;
+import com.example.samuel.expensemanager.model.TypeInfoDao;
 import com.example.samuel.expensemanager.utils.SPUtils;
 
 import java.util.List;
@@ -83,17 +88,13 @@ public class MainActivity extends AppCompatActivity
             String name = typeExpense[i];
             int flag = 1;
             int frequency = 0;
-            int isUploaded = 0;
-            int isModified = 0;
-            int isDeleted = 0;
+            int uploadFrag = 0;
 
             typeInfo.setTypeColor(color);
             typeInfo.setTypeName(name);
             typeInfo.setTypeFlag(flag);
             typeInfo.setFrequency(frequency);
-            typeInfo.setIsUploaded(isUploaded);
-            typeInfo.setIsModified(isModified);
-            typeInfo.setIsDeleted(isDeleted);
+            typeInfo.setUploadFlag(uploadFrag);
 
             typeInfoDao.insertOrReplace(typeInfo);
         }
@@ -125,9 +126,7 @@ public class MainActivity extends AppCompatActivity
             expense.setTypeName(expenseType);
             expense.setDate(date);
             expense.setTypeColor(color);
-            expense.setIsDeleted(0);
-            expense.setIsModified(0);
-            expense.setIsUploaded(0);
+            expense.setUploadFlag(0);
 
             expenseDao.insertOrReplace(expense);
 
