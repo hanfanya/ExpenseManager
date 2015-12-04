@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:title="账户">
+        <intent android:action="com.example.samuel.expensemanager.account"/>
+
+    </PreferenceScreen>
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:inputType="number"
+        android:key="budget_figure"
+        android:maxLength="7"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/setting_budget"/>
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/entries_network_preference"
+        android:entryValues="@array/entryvalues_network_preference"
+        android:key="network_setting"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/setting_network"/>
+
+    <PreferenceScreen
+        android:title="类别管理">
+
+        <intent android:action="com.example.samuel.expensemanager.typeinfo"/>
+
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:title="汇率换算">
+
+        <intent android:action="com.example.samuel.expensemanager.exchangerate"/>
+
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:title="记账提醒">
+
+        <intent android:action="com.example.samuel.expensemanager.reminder"/>
+
+    </PreferenceScreen>
+</PreferenceScreen>
