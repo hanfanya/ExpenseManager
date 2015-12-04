@@ -15,7 +15,7 @@ import android.widget.TextView;
  */
 
 public class CountView extends TextView {
-    private int duration = 600;
+    private int duration = 1000;
     private float number;
 
     public CountView(Context context) {

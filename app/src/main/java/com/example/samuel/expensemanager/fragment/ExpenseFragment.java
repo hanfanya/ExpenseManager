@@ -408,15 +408,6 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
 
 
             if (isCreated) {
-                /*this.date = date;
-                this.figure = figure;
-                this.typeName = typeName;
-                this.typeColor = typeColor;
-                this.typeFlag = typeFlag;
-                this.isUploaded = isUploaded;
-                this.isModified = isModified;
-                this.isDeleted = isDeleted;
-                */
 
                 mExpense.setFigure(inputNumber);
                 mExpense.setTypeName(mTypeInfo.getTypeName());

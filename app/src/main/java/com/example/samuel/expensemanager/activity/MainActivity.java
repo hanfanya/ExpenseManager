@@ -99,6 +99,24 @@ public class MainActivity extends AppCompatActivity
             typeInfoDao.insertOrReplace(typeInfo);
         }
 
+        for (int i = 0; i < typeIncome.length; i++) {
+            TypeInfo typeInfo = new TypeInfo();
+
+            int color = random.nextInt(colorArray.length);
+            String name = typeIncome[i];
+            int flag = 0;
+            int frequency = 0;
+            int uploadFrag = 0;
+
+            typeInfo.setTypeColor(color);
+            typeInfo.setTypeName(name);
+            typeInfo.setTypeFlag(flag);
+            typeInfo.setFrequency(frequency);
+            typeInfo.setUploadFlag(uploadFrag);
+
+            typeInfoDao.insertOrReplace(typeInfo);
+        }
+
     }
 
     public void testInsertData() {
@@ -111,12 +129,12 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < 300; i++) {
             Expense expense = new Expense();
 
-            int typeNumber = random.nextInt(typeInfos.size());
+            int typeNumber = random.nextInt(typeExpense.length);
             int figure = random.nextInt(100);
 
             int flag = 1;//支出
             int color = typeInfos.get(typeNumber).getTypeColor();
-            String expenseType = typeInfos.get(typeNumber).getTypeName();
+            String expenseType = typeExpense[typeNumber];
             String month = monthCase[random.nextInt(monthCase.length)];
             String day = dayCase[random.nextInt(dayCase.length)];
             String date = "2015" + month + day;
@@ -131,6 +149,30 @@ public class MainActivity extends AppCompatActivity
             expenseDao.insertOrReplace(expense);
 
         }
+        for (int i = 0; i < 80; i++) {
+            Expense expense = new Expense();
+
+            int typeNumber = random.nextInt(typeIncome.length);
+            int figure = random.nextInt(5000);
+
+            int flag = 0;//收入
+            int color = typeInfos.get(typeNumber).getTypeColor();
+            String expenseType = typeIncome[typeNumber];
+            String month = monthCase[random.nextInt(monthCase.length)];
+            String day = dayCase[random.nextInt(dayCase.length)];
+            String date = "2015" + month + day;
+
+            expense.setFigure((double) figure);
+            expense.setTypeFlag(flag);
+            expense.setTypeName(expenseType);
+            expense.setDate(date);
+            expense.setTypeColor(color);
+            expense.setUploadFlag(0);
+
+            expenseDao.insertOrReplace(expense);
+
+        }
+
     }
 
     private void assignViews() {
