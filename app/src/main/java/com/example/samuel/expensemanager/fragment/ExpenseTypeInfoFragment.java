@@ -106,10 +106,16 @@ public class ExpenseTypeInfoFragment extends Fragment {
             Integer expenseUploadFlag = expense.getUploadFlag();
             switch (expenseUploadFlag) {
                 case 0:
+                case 1:
                     mExpenseDao.delete(expense);
+                    break;
+                case 5:
+                    expense.setUploadFlag(6);
+                    mExpenseDao.update(expense);
                     break;
                 case 8:
                     expense.setUploadFlag(6);
+                    mExpenseDao.update(expense);
                     break;
                 default:
                     break;
@@ -119,14 +125,11 @@ public class ExpenseTypeInfoFragment extends Fragment {
         Integer uploadFlag = typeInfo.getUploadFlag();
         switch (uploadFlag) {
             case 0:
-            case 1:
                 mTypeInfoDao.delete(typeInfo);
-                break;
-            case 5:
-                typeInfo.setUploadFlag(7);
                 break;
             case 8:
                 typeInfo.setUploadFlag(6);
+                mTypeInfoDao.update(typeInfo);
                 break;
             default:
                 break;

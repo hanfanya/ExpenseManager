@@ -188,9 +188,11 @@ public class HomeFragment extends Fragment {
                 break;
             case 5:
                 expense.setUploadFlag(7);
+                mExpenseDao.update(expense);
                 break;
             case 8:
                 expense.setUploadFlag(6);
+                mExpenseDao.update(expense);
                 break;
             default:
                 break;
