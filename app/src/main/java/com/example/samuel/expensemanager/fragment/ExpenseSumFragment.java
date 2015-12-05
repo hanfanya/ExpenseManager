@@ -1,6 +1,7 @@
 package com.example.samuel.expensemanager.fragment;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.example.samuel.expensemanager.R;
+import com.example.samuel.expensemanager.activity.SumTypeDetailActivity;
 import com.example.samuel.expensemanager.adapter.SumExpenseListViewAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -59,6 +62,7 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
     private PieChart mChart;
     private ListView mListView;
     private Double SumExpense = 0.0;
+    private ArrayList<String> typeNames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +95,22 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
         mBtnDiy.setOnClickListener(this);
         mStartDate = new MyStartDate(mCurrentYear, mCurrentMonth, mCurrentDay);
         mEndDate = new MyEndDate(mCurrentYear, mCurrentMonth, mCurrentDay);
+        //给listview设置监听
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                System.out.println(position + "----------------------------");
+                int Listposition = position - 1;
+                Intent intent = new Intent(getActivity(), SumTypeDetailActivity.class);
+//                String startdate=mStartDate.startYear+mStartDate
+                /*intent.putExtra("startdate", mStartDate.getStartDate());
+                intent.putExtra("enddate", mEndDate.getEndDate());
+
+                intent.putExtra("typename", typeNames.get(Listposition));*/
+                startActivity(intent);
+
+            }
+        });
 
     }
 
@@ -164,7 +184,7 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
                 String endDate = mEndDate.endYear + "年" + getTwoBmonth(mEndDate.endMonth) + "月" + getTwoBmonth(mEndDate.endDay) + "日";
                 mTvDate.setText(startDate + "~" + endDate);
                 mBuilder.dismiss();
-                mBtnDiy.setBackgroundColor(Color.GRAY);
+                mBtnDiy.setBackgroundColor(Color.rgb(204, 204, 204));
                 setChangeDate(startDate, endDate);
                 break;
             case R.id.btn_cancle_dialog:
@@ -246,7 +266,7 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
         //访问数据库，拿到数据
         SQLiteDatabase db = getContext().openOrCreateDatabase("expense-db", getContext().MODE_PRIVATE, null);
         //从数据库获取总支出
-        String sqlSum = "select sum(figure) from EXPENSE where TYPE_FLAG=1 and DATE between " + NumberStartDate + "  and  " + NumberEndDate + ";";
+        String sqlSum = "select sum(figure) from EXPENSE where TYPE_FLAG=1 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + NumberStartDate + "  and  " + NumberEndDate + ";";
         Cursor cursorSum = db.rawQuery(sqlSum, null);
 
         if (cursorSum.moveToNext()) {
@@ -270,8 +290,9 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
         mChart.setRotationEnabled(true);
         mChart.setHighlightPerTapEnabled(true);
         mChart.setOnChartValueSelectedListener(this);
+        mChart.setNoDataText("");
 
-        String sql = "select sum(figure),type_name,type_color from EXPENSE where DATE between " + NumberStartDate + " and " + NumberEndDate + "  group by type_name order by sum(figure) desc;";
+        String sql = "select sum(figure),type_name,type_color from EXPENSE where TYPE_FLAG=1 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + NumberStartDate + " and " + NumberEndDate + "  group by type_name order by sum(figure) desc;";
 
         Cursor cursor = db.rawQuery(sql, null);
         setData(cursor);
@@ -286,7 +307,7 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
         //用来存放数据的集合
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         //用来存放类别的名称
-        ArrayList<String> typeNames = new ArrayList<String>();
+        typeNames = new ArrayList<String>();
         //用来存放颜色的集合
         ArrayList<Float> eSum = new ArrayList<Float>();
         //用来存放每个类别的总金额
@@ -378,6 +399,11 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
             this.startYear = startYear;
             this.startDay = startDay;
         }
+
+        public String getStartDate() {
+            String startdate = "" + startYear + getTwoBmonth(startMonth) + getTwoBmonth(startDay);
+            return startdate;
+        }
     }
 
     class MyEndDate {
@@ -389,6 +415,11 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
             this.endYear = endYear;
             this.endMonth = endMonth;
             this.endDay = endDay;
+        }
+
+        public String getEndDate() {
+            String enddate = "" + endYear + getTwoBmonth(endMonth) + getTwoBmonth(endDay);
+            return enddate;
         }
     }
 }

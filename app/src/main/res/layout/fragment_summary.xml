@@ -2,25 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.samuel.expensemanager.fragment.SummaryFragment">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -37,13 +31,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0.0"
-                    android:textSize="22sp"/>
+                    android:textSize="22sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="本月收入"/>
+                    android:text="本月收入" />
 
             </LinearLayout>
 
@@ -52,8 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                >
+                android:gravity="center">
 
                 <com.example.samuel.expensemanager.view.CircleProgress
 
@@ -72,7 +65,7 @@
                     android:text="预算未设置"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
 
                 <com.example.samuel.expensemanager.view.CountView
                     android:id="@+id/tv_budget_figure"
@@ -81,7 +74,7 @@
                     android:layout_centerInParent="true"
                     android:text="5000.0"
                     android:textColor="#FFFFFF"
-                    android:textSize="22sp"/>
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/tv_budget_title"
@@ -91,7 +84,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="预算剩余"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
 
             </RelativeLayout>
@@ -111,29 +104,64 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0.0"
-                    android:textSize="22sp"/>
+                    android:textSize="22sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="本月支出"/>
+                    android:text="本月支出" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart_summary"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="3"
+            android:orientation="vertical">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="最近六个月支出/收入"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart_summary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="hello world" />
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="最近七天支出"
+                android:textColor="#000"
+                android:layout_marginBottom="4dp"
+                android:textSize="16sp" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_summary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+        </LinearLayout>
 
 
     </LinearLayout>
