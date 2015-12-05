@@ -50,7 +50,8 @@
         </activity>
         <activity
             android:name=".activity.TypeInfoActivity"
-            android:parentActivityName=".activity.SettingActivity">
+            android:parentActivityName=".activity.SettingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.typeinfo"/>
 

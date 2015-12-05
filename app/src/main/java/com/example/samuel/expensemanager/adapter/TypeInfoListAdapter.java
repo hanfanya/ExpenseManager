@@ -9,21 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.samuel.expensemanager.R;
-import com.example.samuel.expensemanager.model.Expense;
+import com.example.samuel.expensemanager.model.TypeInfo;
 
 import java.util.List;
 
 /**
- * Created by Samuel on 15/11/12 15:33.
- * Email:samuel40@126.com
+ * Created by Samuel on 15/12/5 09:27
+ * Email:xuzhou40@gmail.com
+ * desc:类别管理列表
  */
-public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyViewHolder> {
+
+public class TypeInfoListAdapter extends RecyclerView.Adapter<TypeInfoListAdapter.MyViewHolder> {
     public OnItemClickListener mOnItemClickListener;
-    private List<Expense> mExpenseList;
+    private List<TypeInfo> mTypeInfoList;
     private Context mContext;
 
-    public HomeListAdapter(List<Expense> expenseList, Context context) {
-        mExpenseList = expenseList;
+    public TypeInfoListAdapter(List<TypeInfo> expenseList, Context context) {
+        mTypeInfoList = expenseList;
         mContext = context;
     }
 
@@ -33,22 +35,19 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_home, null);
+        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item_typeinfo, null);
         MyViewHolder holder = new MyViewHolder(itemLayoutView);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Expense expense = mExpenseList.get(position);
+        TypeInfo typeInfo = mTypeInfoList.get(position);
 
         int[] colorArray = mContext.getResources().getIntArray(R.array.colorType);
-        String date = expense.getDate();
 
-        holder.mIvType.setColorFilter(colorArray[expense.getTypeColor()]);
-        holder.mTvDate.setText(date.substring(6));
-        holder.mTvTypeName.setText(expense.getTypeName());
-        holder.mTvFigure.setText(expense.getFigure() + "");
+        holder.mIvType.setColorFilter(colorArray[typeInfo.getTypeColor()]);
+        holder.mTvTypeName.setText(typeInfo.getTypeName());
 
         if (mOnItemClickListener != null) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -65,28 +64,22 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return mExpenseList.size();
+        return mTypeInfoList.size();
     }
 
     public interface OnItemClickListener {
-//        void onItemClick(View view, int position);
-
         boolean onItemLongClick(View view, int position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvType;
-        TextView mTvDate;
         TextView mTvTypeName;
-        TextView mTvFigure;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mIvType = (ImageView) itemView.findViewById(R.id.iv_type);
-            mTvDate = (TextView) itemView.findViewById(R.id.tv_date);
             mTvTypeName = (TextView) itemView.findViewById(R.id.tv_typename);
-            mTvFigure = (TextView) itemView.findViewById(R.id.tv_figure);
         }
 
     }

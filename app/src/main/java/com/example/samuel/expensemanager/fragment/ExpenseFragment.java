@@ -297,7 +297,9 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
             mExpense.setDate(mDateFormat);
             mDateItem.setTitle(CalUtils.getFormatDisplayDate(mDateFormat));
         } else {
-            mDateItem.setTitle(mYear + "/" + mMonth + "/" + mDay);
+//            mDateItem.setTitle(mYear + "/" + mMonth + "/" + mDay);
+            mDateItem.setTitle(CalUtils.getFormatDisplayDate(CalUtils.getFormatDate(mYear, mMonth, mDay)));
+
         }
 
         super.onCreateOptionsMenu(menu, inflater);

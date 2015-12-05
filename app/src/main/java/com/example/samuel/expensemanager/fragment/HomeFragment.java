@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
@@ -147,11 +148,6 @@ public class HomeFragment extends Fragment {
         mRecyclerviewHome.setItemAnimator(new DefaultItemAnimator());//设置默认动画
         mHomeListAdapter.setOnItemClickListener(new HomeListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-
-            }
-
-            @Override
             public boolean onItemLongClick(View view, int position) {
                 showActionDialog(position);
 
@@ -203,6 +199,7 @@ public class HomeFragment extends Fragment {
         setTodayAndMonth();
         mExpenseList.remove(position);
         mHomeListAdapter.notifyDataSetChanged();
+        Toast.makeText(getActivity(), "记录已删除", Toast.LENGTH_SHORT).show();
 
     }
 
