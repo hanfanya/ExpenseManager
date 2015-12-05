@@ -19,7 +19,7 @@ public class AddRecordPagerAdapter extends FragmentStatePagerAdapter {
 
     public AddRecordPagerAdapter(FragmentManager fm) {
         super(fm);
-        initFragment();
+//        initFragment();
     }
 
     private void initFragment() {

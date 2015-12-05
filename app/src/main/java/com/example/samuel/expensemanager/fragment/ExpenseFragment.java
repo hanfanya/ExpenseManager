@@ -103,16 +103,27 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
     private StringBuffer mStringBufferDecimal;
     private double mSumNumber;
     private MenuItem mDateItem;
-    private boolean isCreated = true;
+    private boolean isInsert = true;
     private TypeInfo mTypeInfo;
     private Expense mExpense;
     private TypeInfoDao mTypeInfoDao;
     private ExpenseDao mExpenseDao;
     private SimpleDateFormat mSimpleDateFormat;
     private String mDateFormat;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
 
 
     public ExpenseFragment() {
+    }
+
+    public static ExpenseFragment newInstance(Bundle bundle) {
+        Bundle args = new Bundle();
+        args = bundle;
+        ExpenseFragment expenseFragment = new ExpenseFragment();
+        expenseFragment.setArguments(args);
+        return expenseFragment;
     }
 
     @Override
@@ -133,19 +144,61 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mContext = getActivity();
+//        intent.putExtra("edit_record", id);
+//        intent.putExtra("type_flag", typeFlag);
+//        intent.putExtra("isCreated", false);
+        Bundle bundle = getArguments();
+        boolean isCreated = bundle.getBoolean("isCreated");
+        long editRecord = bundle.getLong("edit_record");
+        int typeFlag = bundle.getInt("type_flag");
 
         DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
         mTypeInfoDao = daoSession.getTypeInfoDao();
         mExpenseDao = daoSession.getExpenseDao();
-
-
         mTypeInfo = new TypeInfo();
-        mExpense = new Expense();
 
-        setHasOptionsMenu(true);
         mSimpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         mDateFormat = mSimpleDateFormat.format(new Date());
+
+        System.out.println("isCreated= " + isCreated);
+        System.out.println("editRecord= " + editRecord);
+        System.out.println("typeFlag= " + typeFlag);
+
+        mTypeInfos = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1)).list();
+        mColorArray = getActivity().getResources().getIntArray(R.array.colorType);
+
+        if (isCreated) {
+            mTypeInfo = mTypeInfos.get(0);//保存默认选择的类别信息
+            mExpense = new Expense();
+
+            mYear = Integer.parseInt(mDateFormat.substring(0, 4));
+            mMonth = Integer.parseInt(mDateFormat.substring(4, 6));
+            mDay = Integer.parseInt(mDateFormat.substring(6));
+        } else {
+            if (typeFlag == 1) {
+                isInsert = isCreated;
+                List<Expense> list = mExpenseDao.queryBuilder().where(ExpenseDao.Properties.Id.eq(editRecord)).list();
+                mExpense = list.get(0);
+                String typeName = mExpense.getTypeName();
+                List<TypeInfo> list1 = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeName.eq(typeName)).list();
+                mTypeInfo = list1.get(0);
+
+                mYear = Integer.parseInt(mExpense.getDate().substring(0, 4));
+                mMonth = Integer.parseInt(mExpense.getDate().substring(4, 6));
+                mDay = Integer.parseInt(mExpense.getDate().substring(6));
+
+            }
+
+        }
+
+
+        mStringBufferInt = new StringBuffer();
+        mStringBufferDecimal = new StringBuffer();
+
+
+//        mExpense = new Expense();
+
+        setHasOptionsMenu(true);
 
 
     }
@@ -157,7 +210,6 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
         mRecyclerviewExpense.setLayoutManager(mGridLayoutManager);
         mRecyclerviewExpense.setAdapter(mRecyclerViewAdapter);
 
-        mTypeInfo = mTypeInfos.get(0);//保存默认选择的类别信息
         mIvExpenseType.setColorFilter(mColorArray[mTypeInfo.getTypeColor()]);
         mTvExpenseType.setText(mTypeInfo.getTypeName());
 
@@ -206,7 +258,7 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
 
             }
         });
-        mRecyclerViewAdapter.setSelection(0);
+        mRecyclerViewAdapter.setSelection(mTypeInfos.indexOf(mTypeInfo));
         //向下滚动时，隐藏计算器
         mRecyclerviewExpense.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -226,12 +278,12 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
     private void initData() {
         DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
         TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
+        if (!isInsert) {
+            mTvExpenseFigure.setText("" + mExpense.getFigure());
+        } else {
+            mTvExpenseFigure.setText("0.0");
 
-        mTypeInfos = typeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1)).list();
-        mColorArray = getActivity().getResources().getIntArray(R.array.colorType);
-
-        mStringBufferInt = new StringBuffer();
-        mStringBufferDecimal = new StringBuffer();
+        }
 
 
     }
@@ -241,8 +293,12 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
         inflater.inflate(R.menu.menu_expense, menu);
         this.mMenu = menu;
         mDateItem = mMenu.findItem(R.id.action_date_title);
-        mExpense.setDate(mDateFormat);
-        mDateItem.setTitle(CalUtils.getFormatDisplayDate(mDateFormat));
+        if (isInsert) {
+            mExpense.setDate(mDateFormat);
+            mDateItem.setTitle(CalUtils.getFormatDisplayDate(mDateFormat));
+        } else {
+            mDateItem.setTitle(mYear + "/" + mMonth + "/" + mDay);
+        }
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -252,11 +308,11 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
         int id = item.getItemId();
 
         if (id == R.id.action_date) {//选择日期
-            int year = Integer.parseInt(mDateFormat.substring(0, 4));
-            int month = Integer.parseInt(mDateFormat.substring(4, 6));
-            int day = Integer.parseInt(mDateFormat.substring(6));
+            if (isInsert) {
+
+            }
             CalendarDatePickerDialogFragment datePickerDialogFragment = CalendarDatePickerDialogFragment
-                    .newInstance(this, year, month - 1, day);
+                    .newInstance(this, mYear, mMonth - 1, mDay);
             datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), "date_picker");
             return true;
         }
@@ -407,7 +463,7 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
             System.out.println("选择的项目颜色:  " + mTypeInfo.getTypeColor());
 
 
-            if (isCreated) {
+            if (isInsert) {
 
                 mExpense.setFigure(inputNumber);
                 mExpense.setTypeName(mTypeInfo.getTypeName());
@@ -426,7 +482,34 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
 
 
             } else {
-                // TODO: 15/11/30 修改支出记录
+                mExpense.setFigure(inputNumber);
+                mExpense.setTypeName(mTypeInfo.getTypeName());
+                mExpense.setTypeColor(mTypeInfo.getTypeColor());
+                mExpense.setTypeFlag(mTypeInfo.getTypeFlag());
+
+                Integer uploadFlag = mExpense.getUploadFlag();
+                switch (uploadFlag) {
+                    case 0:
+                    case 1:
+                        mExpense.setUploadFlag(1);
+                        break;
+                    case 5:
+                    case 8:
+                        mExpense.setUploadFlag(5);
+                        break;
+                    default:
+                        break;
+
+                }
+                mExpenseDao.update(mExpense);
+
+                Integer frequency = mTypeInfo.getFrequency();
+                mTypeInfo.setFrequency(++frequency);
+
+                mTypeInfoDao.update(mTypeInfo);
+
+                getActivity().finish();
+
             }
         }
     }

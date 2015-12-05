@@ -115,6 +115,14 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
     public IncomeFragment() {
     }
 
+    public static IncomeFragment newInstance(Bundle bundle) {
+        Bundle args = new Bundle();
+        args = bundle;
+        IncomeFragment incomeFragment = new IncomeFragment();
+        incomeFragment.setArguments(args);
+        return incomeFragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -132,6 +140,16 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        Bundle bundle = getArguments();
+        boolean isCreated = bundle.getBoolean("isCreated");
+        long editRecord = bundle.getLong("edit_record");
+        int typeFlag = bundle.getInt("type_flag");
+
+        System.out.println("isCreated= " + isCreated);
+        System.out.println("editRecord= " + editRecord);
+        System.out.println("typeFlag= " + typeFlag);
 
         mContext = getActivity();
 
@@ -206,7 +224,7 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
 
             }
         });
-        mRecyclerViewAdapter.setSelection(0);
+        mRecyclerViewAdapter.setSelection(mTypeInfos.indexOf(mTypeInfo));
         //向下滚动时，隐藏计算器
         mRecyclerviewExpense.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

@@ -30,6 +30,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * Created by Samuel on 15/12/1 23:25
@@ -52,12 +53,9 @@ public class HomeFragment extends Fragment {
 //    private FloatingActionButton mFabHome;
     private HomeListAdapter mHomeListAdapter;
     private List<Expense> mExpenseList;
-    private List<Expense> mExpenseMonth;
     private String mStartDate;
     private String mEndDate;
     private ExpenseDao mExpenseDao;
-    private double mSumToday;
-    private double mSumMonth;
 
 
     public HomeFragment() {
@@ -83,7 +81,9 @@ public class HomeFragment extends Fragment {
         mFabHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddRecordActivity.class));
+                Intent intent = new Intent(getActivity(), AddRecordActivity.class);
+                intent.putExtra("isCreated", true);
+                startActivity(intent);
             }
         });
 
@@ -111,29 +111,37 @@ public class HomeFragment extends Fragment {
     }
 
     private void setTodayAndMonth() {
-        mSumToday = 0;
-        mSumMonth = 0;
+        double sumToday = 0;
+        double sumMonth = 0;
         String month = CalUtils.getCurrentDate().substring(0, 6);
         System.out.println("month=" + month);
         //获取当月的记录
-        mExpenseMonth = mExpenseDao.queryBuilder()
-                .where(ExpenseDao.Properties.Date.like(month + "%")).list();
-        for (int i = 0; i < mExpenseMonth.size(); i++) {
-            Expense expense = mExpenseMonth.get(i);
+        List<Expense> expenseMonth = mExpenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.Date.like(month + "%"), ExpenseDao.Properties.TypeFlag.eq(1),
+                        ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 8)).list();
+        System.out.println("mExpenseMonth.size()" + expenseMonth.size());
+        for (int i = 0; i < expenseMonth.size(); i++) {
+            Expense expense = expenseMonth.get(i);
             if (expense.getDate().equals(CalUtils.getCurrentDate())) {
-                mSumToday = mSumToday + expense.getFigure();//统计今日支出
+                sumToday = sumToday + expense.getFigure();//统计今日支出
             }
-            mSumMonth = mSumMonth + expense.getFigure();//统计本月支出
+            sumMonth = sumMonth + expense.getFigure();//统计本月支出
         }
-        Log.i("home", mExpenseMonth.size() + "");
-        mTvTodayOut.showNumberWithAnimation(String.valueOf(mSumToday));
-        mTvMonthOut.showNumberWithAnimation(String.valueOf(mSumMonth));
+        Log.i("home", expenseMonth.size() + "");
+        mTvTodayOut.showNumberWithAnimation(String.valueOf(sumToday));
+        mTvMonthOut.showNumberWithAnimation(String.valueOf(sumMonth));
     }
 
     public void initRecyclerViewList() {
-        mExpenseList = mExpenseDao.queryBuilder()
-                .where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate))
-                .orderDesc(ExpenseDao.Properties.Date).list();
+
+        QueryBuilder builder = mExpenseDao.queryBuilder();
+        builder.where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate),
+                ExpenseDao.Properties.TypeFlag.eq(1), ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 8))
+                .orderDesc(ExpenseDao.Properties.Date);
+
+        mExpenseList = builder.list();
+        System.out.println("mExpenseList=" + mExpenseList.size());
+
         mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
         mRecyclerviewHome.setAdapter(mHomeListAdapter);
         mRecyclerviewHome.setItemAnimator(new DefaultItemAnimator());//设置默认动画
@@ -175,12 +183,42 @@ public class HomeFragment extends Fragment {
     }
 
     private void deleteRecord(int position) {
+        Expense expense = mExpenseList.get(position);
+        Integer uploadFlag = expense.getUploadFlag();
+        switch (uploadFlag) {
+            case 0:
+            case 1:
+                mExpenseDao.delete(expense);
+                break;
+            case 5:
+                expense.setUploadFlag(7);
+                break;
+            case 8:
+                expense.setUploadFlag(6);
+                break;
+            default:
+                break;
+
+        }
+        setTodayAndMonth();
+        mExpenseList.remove(position);
+        mHomeListAdapter.notifyDataSetChanged();
 
     }
 
     private void editRecord(int position) {
+        Expense expense = mExpenseList.get(position);
+
+        Long id = expense.getId();
+        Integer typeFlag = expense.getTypeFlag();
+        Intent intent = new Intent(getActivity(), AddRecordActivity.class);
+        intent.putExtra("edit_record", id);
+        intent.putExtra("type_flag", typeFlag);
+        intent.putExtra("isCreated", false);
+        startActivity(intent);
 
     }
+
 
     @Override
     public void onDestroyView() {

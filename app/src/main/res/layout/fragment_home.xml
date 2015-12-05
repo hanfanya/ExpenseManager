@@ -1,10 +1,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+             xmlns:fab="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
 
-    tools:context="com.example.samuel.expensemanager.fragment.HomeFragment">
+             tools:context="com.example.samuel.expensemanager.fragment.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,14 +23,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="今日支出：" />
+                android:text="今日支出："/>
 
             <com.example.samuel.expensemanager.view.CountView
                 android:id="@+id/tv_today_out"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textSize="30sp" />
+                android:textSize="30sp"/>
 
 
         </LinearLayout>
@@ -44,22 +44,30 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="本月支出：" />
+                android:text="本月支出："/>
 
             <com.example.samuel.expensemanager.view.CountView
                 android:id="@+id/tv_month_out"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textSize="30sp" />
+                android:textSize="30sp"/>
 
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="近三日支出详情："/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
 
     </LinearLayout>
@@ -72,7 +80,7 @@
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_dialog_email"
         fab:fab_colorNormal="@color/colorPrimary"
-        fab:fab_colorPressed="@color/colorPrimaryDark" />
+        fab:fab_colorPressed="@color/colorPrimaryDark"/>
     <!--fab:fab_colorRipple="@color/ripple"-->
 
 </FrameLayout>
