@@ -5,6 +5,11 @@ import android.content.Context;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
+import com.example.samuel.expensemanager.model.DaoSession;
+import com.example.samuel.expensemanager.model.Expense;
+import com.example.samuel.expensemanager.model.ExpenseDao;
+import com.example.samuel.expensemanager.model.TypeInfo;
+import com.example.samuel.expensemanager.model.TypeInfoDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
 
 import java.util.List;
@@ -58,9 +63,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             typeInfo.setTypeName(name);
             typeInfo.setTypeFlag(flag);
             typeInfo.setFrequency(frequency);
-            typeInfo.setIsUploaded(isUploaded);
-            typeInfo.setIsModified(isModified);
-            typeInfo.setIsDeleted(isDeleted);
+            typeInfo.setUploadFlag(0);
 
             typeInfoDao.insertOrReplace(typeInfo);
         }
@@ -92,9 +95,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             expense.setTypeName(expenseType);
             expense.setDate(date);
             expense.setTypeColor(color);
-            expense.setIsDeleted(0);
-            expense.setIsModified(0);
-            expense.setIsUploaded(0);
+            expense.setUploadFlag(0);
 
             expenseDao.insertOrReplace(expense);
 

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     package="com.example.samuel.expensemanager"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-sdk tools:overrideLibrary="com.ribell.colorpickerview"/>
 
     <application
         android:name=".ExpenseApplication"
@@ -29,8 +32,7 @@
         </activity>
         <activity
             android:name=".activity.SettingActivity"
-            android:parentActivityName=".activity.MainActivity"
-            >
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
@@ -46,7 +48,6 @@
             android:name=".activity.SumActivity"
             android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
         <activity
             android:name=".activity.TypeInfoActivity"
@@ -114,6 +115,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
         </activity>
+        <activity
+            android:name=".activity.AddTypeInfoActivity"
+            android:parentActivityName=".activity.TypeInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.samuel.expensemanager.activity.TypeInfoActivity"/>
+        </activity>
+        <activity
+            android:name=".activity.SelectColorActivity"
+            android:parentActivityName=".activity.AddTypeInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.samuel.expensemanager.activity.AddTypeInfoActivity"/>
+        </activity>
+
     </application>
 
 </manifest>

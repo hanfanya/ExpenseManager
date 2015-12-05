@@ -1,11 +1,13 @@
 package com.example.samuel.expensemanager.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.AddRecordPagerAdapter;
@@ -59,21 +61,13 @@ public class TypeInfoActivity extends AppCompatActivity {
         mTablayoutAddRecord.setupWithViewPager(mViewpagerTabAddRecord);
         mTablayoutAddRecord.setTabsFromPagerAdapter(mPagerAdapter);
 
-        mViewpagerTabAddRecord.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onClick(View v) {
+                int currentItem = mViewpagerTabAddRecord.getCurrentItem();
+                Intent intent = new Intent(TypeInfoActivity.this, AddTypeInfoActivity.class);
+                intent.putExtra("currentType", currentItem);
+                startActivity(intent);
             }
         });
 

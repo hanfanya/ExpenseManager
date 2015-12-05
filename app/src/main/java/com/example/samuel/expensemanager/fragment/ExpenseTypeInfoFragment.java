@@ -48,8 +48,7 @@ public class ExpenseTypeInfoFragment extends Fragment {
         DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
         mTypeInfoDao = daoSession.getTypeInfoDao();
         mExpenseDao = daoSession.getExpenseDao();
-        mTypeInfos = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1),
-                TypeInfoDao.Properties.UploadFlag.in(0, 1, 5, 8)).list();
+
 
     }
 
@@ -58,11 +57,13 @@ public class ExpenseTypeInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_expense_type_info, container, false);
         ButterKnife.bind(this, view);
-        initList();
+//        initList();
         return view;
     }
 
     private void initList() {
+        mTypeInfos = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1),
+                TypeInfoDao.Properties.UploadFlag.in(0, 1, 5, 8)).list();
         mAdapter = new TypeInfoListAdapter(mTypeInfos, getActivity());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerviewTypeinfo.setItemAnimator(new DefaultItemAnimator());
@@ -140,6 +141,12 @@ public class ExpenseTypeInfoFragment extends Fragment {
 
         Toast.makeText(getActivity(), "该类别已删除", Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initList();
     }
 
     @Override

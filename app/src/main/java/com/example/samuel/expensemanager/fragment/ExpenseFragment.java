@@ -133,8 +133,8 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
         ButterKnife.bind(this, view);
 
         initData();
-        initUI();
-        initListener();
+//        initUI();
+//        initListener();
 
         return view;
     }
@@ -164,18 +164,19 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
         System.out.println("editRecord= " + editRecord);
         System.out.println("typeFlag= " + typeFlag);
 
-        mTypeInfos = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1)).list();
+        mTypeInfos = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1),
+                TypeInfoDao.Properties.UploadFlag.in(0, 8)).list();
         mColorArray = getActivity().getResources().getIntArray(R.array.colorType);
+        if (typeFlag == 1) {
 
-        if (isCreated) {
-            mTypeInfo = mTypeInfos.get(0);//保存默认选择的类别信息
-            mExpense = new Expense();
+            if (isCreated) {
+                mTypeInfo = mTypeInfos.get(0);//保存默认选择的类别信息
+                mExpense = new Expense();
 
-            mYear = Integer.parseInt(mDateFormat.substring(0, 4));
-            mMonth = Integer.parseInt(mDateFormat.substring(4, 6));
-            mDay = Integer.parseInt(mDateFormat.substring(6));
-        } else {
-            if (typeFlag == 1) {
+                mYear = Integer.parseInt(mDateFormat.substring(0, 4));
+                mMonth = Integer.parseInt(mDateFormat.substring(4, 6));
+                mDay = Integer.parseInt(mDateFormat.substring(6));
+            } else {
                 isInsert = isCreated;
                 List<Expense> list = mExpenseDao.queryBuilder().where(ExpenseDao.Properties.Id.eq(editRecord)).list();
                 mExpense = list.get(0);
@@ -186,9 +187,14 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
                 mYear = Integer.parseInt(mExpense.getDate().substring(0, 4));
                 mMonth = Integer.parseInt(mExpense.getDate().substring(4, 6));
                 mDay = Integer.parseInt(mExpense.getDate().substring(6));
-
             }
+        } else {
+            mTypeInfo = mTypeInfos.get(0);//保存默认选择的类别信息
+            mExpense = new Expense();
 
+            mYear = Integer.parseInt(mDateFormat.substring(0, 4));
+            mMonth = Integer.parseInt(mDateFormat.substring(4, 6));
+            mDay = Integer.parseInt(mDateFormat.substring(6));
         }
 
 
@@ -237,21 +243,27 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
         mRecyclerViewAdapter.setOnItemClickListener(new ExpenseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.i("ExpenseFragment", "点击了 " + position);
-                mTypeInfo = mTypeInfos.get(position);
+                if (position != mRecyclerViewAdapter.getItemCount()) {
+                    Log.i("++++++++", position + "");
+                    mTypeInfo = mTypeInfos.get(position);
 
-                mIvExpenseType.setColorFilter(mColorArray[mTypeInfo.getTypeColor()]);
-                mTvExpenseType.setText(mTypeInfo.getTypeName());
-                mRecyclerViewAdapter.setSelection(position);
-                mRecyclerViewAdapter.notifyDataSetChanged();
+                    mIvExpenseType.setColorFilter(mColorArray[mTypeInfo.getTypeColor()]);
+                    mTvExpenseType.setText(mTypeInfo.getTypeName());
+                    mRecyclerViewAdapter.setSelection(position);
+                    mRecyclerViewAdapter.notifyDataSetChanged();
 
-                if (!isShow) {
-                    ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mRlExpenseCal, "translationY", mLlExpenseCal.getHeight(), 0);
-                    objectAnimator.setDuration(200);
-                    objectAnimator.start();
-                    isShow = true;
+                    if (!isShow) {
+                        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mRlExpenseCal, "translationY", mLlExpenseCal.getHeight(), 0);
+                        objectAnimator.setDuration(200);
+                        objectAnimator.start();
+                        isShow = true;
+                    }
+
                 }
+
+
             }
+
 
             @Override
             public void onItemLongClick(View view, int position) {
@@ -285,6 +297,16 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
 
         }
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTypeInfos = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1),
+                TypeInfoDao.Properties.UploadFlag.in(0, 8)).list();
+        initUI();
+        initListener();
 
     }
 

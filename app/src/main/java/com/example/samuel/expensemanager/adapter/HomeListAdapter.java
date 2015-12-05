@@ -33,7 +33,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_home, null);
+        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item_home, null);
         MyViewHolder holder = new MyViewHolder(itemLayoutView);
         return holder;
     }

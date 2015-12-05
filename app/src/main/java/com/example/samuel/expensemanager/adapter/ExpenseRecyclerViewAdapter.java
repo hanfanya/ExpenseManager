@@ -1,9 +1,9 @@
 package com.example.samuel.expensemanager.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.samuel.expensemanager.R;
+import com.example.samuel.expensemanager.activity.AddTypeInfoActivity;
 import com.example.samuel.expensemanager.model.TypeInfo;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int layout = viewType == ITEM_NORMAL ? R.layout.recyclerview_item_type : R.layout.item_add_type;
+        int layout = viewType == ITEM_NORMAL ? R.layout.recyclerview_item_add_record : R.layout.item_add_type;
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(layout, null);
         if (viewType == ITEM_NORMAL) {
             return new ExpenseViewHolder(layoutView);
@@ -56,12 +57,18 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (position == mTypeInfos.size()) {
             AddTypeViewHolder viewHolder = (AddTypeViewHolder) holder;
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            /*viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("helloo", "+++++++++");
+                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int pos = viewHolder.getLayoutPosition();
+                            mOnItemClickListener.onItemClick(viewHolder.itemView, pos);
+                        }
+                    });
                 }
-            });
+            });*/
         } else {
             final ExpenseViewHolder viewHolder = (ExpenseViewHolder) holder;
             TypeInfo typeInfo = mTypeInfos.get(position);
@@ -133,16 +140,21 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    class AddTypeViewHolder extends RecyclerView.ViewHolder {
+    class AddTypeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView mTvAddTitle;
+        //        private TextView mTvAddTitle;
         private TextView mTvAddType;
-
 
         public AddTypeViewHolder(View itemView) {
             super(itemView);
-            mTvAddTitle = (TextView) itemView.findViewById(R.id.tv_add_title);
+//            mTvAddTitle = (TextView) itemView.findViewById(R.id.tv_add_title);
             mTvAddType = (TextView) itemView.findViewById(R.id.tv_add_type);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mContext.startActivity(new Intent(mContext, AddTypeInfoActivity.class));
         }
     }
 
