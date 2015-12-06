@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,13 +36,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="名称:"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/edt_type_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"/>
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -61,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="类别"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
@@ -73,14 +72,14 @@
                         android:id="@+id/rb_type_expense"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="支出"/>
+                        android:text="支出" />
 
                     <RadioButton
                         android:id="@+id/rb_type_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:text="收入"/>
+                        android:text="收入" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -100,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="颜色:"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/iv_type"
@@ -109,7 +108,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
 
-                    android:src="@drawable/circle"/>
+                    android:src="@drawable/circle" />
 
             </LinearLayout>
 
@@ -121,8 +120,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="60dp"
         android:orientation="horizontal">
 
         <Button
@@ -130,14 +128,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="取消"/>
+            android:background="@drawable/mybutton_selector"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="确定 "/>
+            android:background="@drawable/mybutton_selector"
+            android:text="确定 "
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -27,7 +27,7 @@
     <color name="amber">#FFC107</color>
     <color name="orange">#FF9800</color>
     <color name="deep_orange">#FF5722</color>
-    <color name="type_select">#B6B6B6</color>
+    <color name="type_select">#cccccc</color>
 
     <color name="md_red_200">#EF9A9A</color>
     <color name="md_red_300">#E57373</color>

@@ -46,4 +46,11 @@
         <intent android:action="com.example.samuel.expensemanager.reminder"/>
 
     </PreferenceScreen>
+    <PreferenceScreen
+        android:title="账本密码"
+        android:summary="账本密码未开启">
+
+        <intent android:action="com.example.samuel.expensemanager.passwordset"/>
+
+    </PreferenceScreen>
 </PreferenceScreen>

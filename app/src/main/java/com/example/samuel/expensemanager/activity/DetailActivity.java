@@ -23,6 +23,7 @@ public class DetailActivity extends AppCompatActivity implements CalendarView.On
         mCvMain = (MaterialCalendarView) findViewById(R.id.cv_main);
         mTvDate = (TextView) findViewById(R.id.tv_date);
 
+
         mToolbarDetail.setTitle("明细");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

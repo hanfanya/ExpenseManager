@@ -109,7 +109,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         mLineChart.setTouchEnabled(true);
 
         // enable scaling and dragging
-        mLineChart.setDragEnabled(true);
+        mLineChart.setDragEnabled(false);
         mLineChart.setScaleEnabled(true);
         mLineChart.setDrawBorders(false);
         //设置没有数据显示描述
@@ -117,7 +117,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         mLineChart.setNoDataText("亲，快去开启您的记账之旅");
 
         // if disabled, scaling can be done on x- and y-axis separately
-        mLineChart.setPinchZoom(false);
+        mLineChart.setPinchZoom(true);
 
         mLineChart.setDrawGridBackground(false);
         // set an alternative background color
@@ -139,12 +139,12 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         // xl.setEnabled(false);
 
         YAxis leftAxis = mLineChart.getAxisLeft();
-       /* leftAxis.setStartAtZero(false);
+        leftAxis.setStartAtZero(true);
         leftAxis.setDrawGridLines(false);
-        leftAxis.setLabelCount(0, false);
-        leftAxis.setDrawLabels(false);
-        leftAxis.setAxisLineColor(Color.BLACK);*/
-        leftAxis.setEnabled(false);
+        leftAxis.setLabelCount(4, false);
+        leftAxis.setDrawLabels(true);
+        leftAxis.setAxisLineColor(Color.WHITE);
+//        leftAxis.setEnabled(false);
 
         YAxis rightAxis = mLineChart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -172,7 +172,6 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
             figures.add(new Entry(cursorSum.getFloat(1), i));
             i++;
         }
-
         //传入折线图数据
         LineDataSet set1 = new LineDataSet(figures, "");
 
