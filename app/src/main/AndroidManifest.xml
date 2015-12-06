@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.samuel.expensemanager">
+<manifest
+    package="com.example.samuel.expensemanager"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk tools:overrideLibrary="com.ribell.colorpickerview" />
     <!-- 授予应用程序访问系统开机事件的权限 -->
@@ -40,7 +44,8 @@
         </activity>
         <activity
             android:name=".activity.DetailActivity"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.samuel.expensemanager.activity.MainActivity" />
@@ -134,11 +139,11 @@
                 android:value="com.example.samuel.expensemanager.activity.AddTypeInfoActivity" />
         </activity>
         <activity
-            android:name=".activity.SumTypeDetailActivity"
+            android:name=".activity.PasswordSettingActivity"
             android:parentActivityName=".activity.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.passwordset" />
+                <action android:name="com.example.samuel.expensemanager.password"/>
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

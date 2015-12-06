@@ -8,10 +8,12 @@
     tools:context="com.example.samuel.expensemanager.activity.DetailActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/abl_content"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/MyTheme"
+        app:elevation="0dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
@@ -20,20 +22,29 @@
             android:fitsSystemWindows="true"
             android:minHeight="?attr/actionBarSize"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:paddingBottom="20dp"
                 android:id="@+id/cv_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mcv_selectionColor="#4dc4aa" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_detail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:gravity="top"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:titleMarginTop="13dp">
 
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
-
     </android.support.design.widget.AppBarLayout>
-
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -46,6 +57,5 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </android.support.v4.widget.NestedScrollView>
-
 
 </android.support.design.widget.CoordinatorLayout>
