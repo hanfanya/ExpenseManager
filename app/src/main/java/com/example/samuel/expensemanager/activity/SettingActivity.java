@@ -3,11 +3,13 @@ package com.example.samuel.expensemanager.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.samuel.expensemanager.R;
@@ -27,6 +29,7 @@ public class SettingActivity extends AppCompatPreferenceActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
+            Log.i("++++", stringValue);
 
             if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;
@@ -39,7 +42,7 @@ public class SettingActivity extends AppCompatPreferenceActivity {
 
             } else if (preference instanceof SwitchPreference) {
                 SwitchPreference switchPreference = (SwitchPreference) preference;
-                boolean hasPassword = SPUtils.getBoolean(mContext, "hasPassword", false);
+                boolean hasPassword = SPUtils.getBoolean(mContext, "passset", false);
                 if (hasPassword) {
                     switchPreference.setChecked(true);
                     preference.setSummary("已设置密码");
@@ -49,11 +52,13 @@ public class SettingActivity extends AppCompatPreferenceActivity {
                 }
 
             } else {
+
                 preference.setSummary(stringValue);
             }
             return true;
         }
     };
+    private static CheckBoxPreference checkBoxPreference;
 
 
     private static void bindPreferenceSummaryToValue(Preference preference) {
@@ -71,6 +76,27 @@ public class SettingActivity extends AppCompatPreferenceActivity {
         setupActionBar();
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new PrefsFragment()).commit();
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
+
+//        Preference preference = getPreferenceManager().findPreference("passset");
+//        SwitchPreference switchPreference = (SwitchPreference) preference;
+        boolean hasPassword = SPUtils.getBoolean(mContext, "passset", false);
+        Log.i("=================================", hasPassword + "");
+        if (hasPassword) {
+            checkBoxPreference.setChecked(true);
+            checkBoxPreference.setSummary("已设置密码");
+        } else {
+            checkBoxPreference.setChecked(false);
+            checkBoxPreference.setSummary("未设置密码");
+
+
+        }
     }
 
     private void setupActionBar() {
@@ -93,6 +119,11 @@ public class SettingActivity extends AppCompatPreferenceActivity {
 
             bindPreferenceSummaryToValue(findPreference("budget_figure"));
             bindPreferenceSummaryToValue(findPreference("network_setting"));
+
+            Preference preference = getPreferenceScreen().findPreference("passset");
+            checkBoxPreference = (CheckBoxPreference) preference;
+
+
         }
 
         @Override

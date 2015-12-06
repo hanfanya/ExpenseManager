@@ -15,7 +15,7 @@ import com.example.samuel.expensemanager.utils.SPUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SumTypeDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class PasswordSettingActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -56,6 +56,7 @@ public class SumTypeDetailActivity extends AppCompatActivity implements View.OnC
     private String first;
     private boolean passset;
     private String password;
+    private boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class SumTypeDetailActivity extends AppCompatActivity implements View.OnC
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         //设置返回按钮
+        flag = false;
 
         one.setOnClickListener(this);
         two.setOnClickListener(this);
@@ -79,13 +81,13 @@ public class SumTypeDetailActivity extends AppCompatActivity implements View.OnC
         delete.setOnClickListener(this);
         p = "";
         first = "";
-        passset = SPUtils.getBoolean(SumTypeDetailActivity.this, "passset", false);
+        passset = SPUtils.getBoolean(PasswordSettingActivity.this, "passset", false);
         Log.i("+++++++++++++", p + "passset===========" + passset);
-        if (passset) {
-            password = SPUtils.getString(SumTypeDetailActivity.this, "password", "");
+        if (!passset) {
+            password = SPUtils.getString(PasswordSettingActivity.this, "password", "");
             Log.i("+++++++++++++", p + "password===========" + password);
             toolbar.setTitle("取消密码");
-        }else{
+        } else {
             toolbar.setTitle("设定密码");
         }
         setSupportActionBar(toolbar);
@@ -173,7 +175,7 @@ public class SumTypeDetailActivity extends AppCompatActivity implements View.OnC
                 pass4.setText("*");
                 //判断密码是否正确
                 /*if (p.equals("1234")){
-                    Intent intent = new Intent(SumTypeDetailActivity.this, MainActivity.class);
+                    Intent intent = new Intent(PasswordSettingActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else{
                     pass1.setText("");
@@ -185,10 +187,11 @@ public class SumTypeDetailActivity extends AppCompatActivity implements View.OnC
                     tvDsc.setTextColor(Color.RED);
                 }*/
                 //再次输入密码
-                if (passset) {
+                if (!passset) {
                     if (p.equals(password)) {
+                        flag = true;
                         finish();
-                        SPUtils.getBoolean(SumTypeDetailActivity.this, "passset", false);
+                        SPUtils.getBoolean(PasswordSettingActivity.this, "passset", false);
                     } else {
                         pass1.setText("");
                         pass2.setText("");
@@ -212,8 +215,9 @@ public class SumTypeDetailActivity extends AppCompatActivity implements View.OnC
                     } else {
                         if (first.equals(p)) {
                             Log.i("+++++++++++++", p + "---------------" + first);
-                            SPUtils.saveString(SumTypeDetailActivity.this, "password", first);
-                            SPUtils.saveBoolean(SumTypeDetailActivity.this, "passset", true);
+                            SPUtils.saveString(PasswordSettingActivity.this, "password", first);
+                            SPUtils.saveBoolean(PasswordSettingActivity.this, "passset", true);
+                            flag = true;
                             finish();
                         } else {
                             Log.i("+++++++++++++", p + "xxxxxxxxxxxxxx" + first);
@@ -230,5 +234,19 @@ public class SumTypeDetailActivity extends AppCompatActivity implements View.OnC
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!flag) {
+            boolean passset = SPUtils.getBoolean(this, "passset", false);
+            Log.i("__________", passset + "");
+
+            boolean a = !passset;
+            SPUtils.saveBoolean(this, "passset", a);
+            Log.i("__________", a + "");
+        }
+
     }
 }
