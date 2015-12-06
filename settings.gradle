@@ -1,1 +1,1 @@
-include ':app', ':expensedaogenerator'
+include ':app', ':expensedaogenerator', ':calendarlibrary'

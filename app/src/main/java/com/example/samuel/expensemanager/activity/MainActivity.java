@@ -3,6 +3,7 @@ package com.example.samuel.expensemanager.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -268,8 +269,20 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         }
+        //抽屉收缩动画延迟0.5s
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SystemClock.sleep(500);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDrawer.closeDrawer(GravityCompat.START);
+                    }
+                });
+            }
+        }).start();
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

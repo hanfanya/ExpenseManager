@@ -32,6 +32,7 @@ import java.util.List;
 import de.greenrobot.dao.query.QueryBuilder;
 
 /**
+ * Created by WSY on 2015-12-05-0005.
  * 明细页面viewpager的fragment基类
  */
 public class DetailFragment extends Fragment implements AdapterView.OnItemLongClickListener {
