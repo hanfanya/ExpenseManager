@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.example.samuel.expensemanager"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.samuel.expensemanager">
 
     <uses-sdk tools:overrideLibrary="com.ribell.colorpickerview" />
 
@@ -47,7 +46,7 @@
         <activity
             android:name=".activity.SumActivity"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.TypeInfoActivity"
             android:parentActivityName=".activity.SettingActivity"
@@ -64,7 +63,8 @@
         </activity>
         <activity
             android:name=".activity.ExchangeRateActivity"
-            android:parentActivityName=".activity.SettingActivity">
+            android:parentActivityName=".activity.SettingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.exchangerate" />
 
@@ -135,13 +135,22 @@
             android:parentActivityName=".activity.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.password"/>
+                <action android:name="com.example.samuel.expensemanager.password" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
+        <activity
+            android:name=".activity.ChooseActivity"
+            android:label="@string/title_activity_choose"
+            android:parentActivityName=".activity.ExchangeRateActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="com.example.samuel.expensemanager.chooseactivity" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

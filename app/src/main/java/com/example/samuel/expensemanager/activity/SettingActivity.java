@@ -87,7 +87,7 @@ public class SettingActivity extends AppCompatPreferenceActivity {
 //        Preference preference = getPreferenceManager().findPreference("passset");
 //        SwitchPreference switchPreference = (SwitchPreference) preference;
         boolean hasPassword = SPUtils.getBoolean(mContext, "passset", false);
-        Log.i("=================================", hasPassword + "");
+        // Log.i("=================================", hasPassword + "");
         if (hasPassword) {
             checkBoxPreference.setChecked(true);
             checkBoxPreference.setSummary("已设置密码");

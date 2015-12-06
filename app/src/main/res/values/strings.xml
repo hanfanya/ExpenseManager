@@ -10,5 +10,6 @@
     <string name="setting_budget">设置预算</string>
     <string name="setting_network">自动同步设置</string>
     <string name="menu_delete">删除记录</string>
+    <string name="title_activity_choose">切换币种</string>
 
 </resources>
