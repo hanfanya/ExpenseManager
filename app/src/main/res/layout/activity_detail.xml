@@ -25,10 +25,11 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:paddingBottom="20dp"
                 android:id="@+id/cv_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:paddingBottom="20dp"
                 app:mcv_selectionColor="#4dc4aa" />
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_detail"

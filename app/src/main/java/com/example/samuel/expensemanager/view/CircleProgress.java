@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -47,7 +46,7 @@ public class CircleProgress extends View {
         mBackPaint.setAntiAlias(true);
 
         mFrontPaint = new Paint();
-        mFrontPaint.setColor(Color.BLUE);
+        mFrontPaint.setColor(Color.parseColor("#8BC34A"));
         mFrontPaint.setAntiAlias(true);
 
     }
@@ -55,8 +54,16 @@ public class CircleProgress extends View {
     public void setTargetProgress(int targetProgress) {
         mTargetProgress = targetProgress;//设置目标值
         mProgress = 0;
+        if (mTargetProgress >= 100) {
+            mFrontPaint.setColor(Color.parseColor("#FF9800"));
+
+        } else if (mTargetProgress > 70) {
+            mFrontPaint.setColor(Color.parseColor("#00796B"));
+
+        } else if (mTargetProgress > 50) {
+            mFrontPaint.setColor(Color.parseColor("#4CAF50"));
+        }
         invalidate();
-        Log.e("XXXXXZZZZZZ", "setTargetProgress");
 
     }
 

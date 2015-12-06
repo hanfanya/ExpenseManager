@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ExpenseManagerFinal.iml" filepath="$PROJECT_DIR$/ExpenseManagerFinal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ExpenseManager.iml" filepath="$PROJECT_DIR$/ExpenseManager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/calendarlibrary/calendarlibrary.iml" filepath="$PROJECT_DIR$/calendarlibrary/calendarlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/expensedaogenerator/expensedaogenerator.iml" filepath="$PROJECT_DIR$/expensedaogenerator/expensedaogenerator.iml" />
