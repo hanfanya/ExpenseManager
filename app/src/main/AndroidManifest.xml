@@ -2,9 +2,9 @@
 <manifest
     package="com.example.samuel.expensemanager"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    >
 
-    <uses-sdk tools:overrideLibrary="com.ribell.colorpickerview"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".ExpenseApplication"

@@ -40,5 +40,5 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:1.1.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.code-troopers.betterpickers:library:2.2.1'
-    compile(group: 'com.ribell', name: 'colorpickerview', version: '1.0.1', ext: 'aar')
+
 }
