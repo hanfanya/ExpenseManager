@@ -31,13 +31,15 @@ import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.model.MyUser;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
-import com.example.samuel.expensemanager.utils.ImageHelper;
 import com.example.samuel.expensemanager.utils.SPUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 import java.util.Random;
 
 import cn.bmob.v3.BmobUser;
+import cn.sharesdk.framework.ShareSDK;
 
 
 public class MainActivity extends AppCompatActivity
@@ -81,7 +83,12 @@ public class MainActivity extends AppCompatActivity
         initData();
 
         //Gxl
+        //初始化sharedsdk
+        ShareSDK.initSDK(this);
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
+        ImageLoader.getInstance().init(configuration);
         initlogin();
+
     }
 
 
@@ -103,17 +110,22 @@ public class MainActivity extends AppCompatActivity
             String userObjectId = user.getObjectId();//获得ID
             SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
             //获取数据
+
             String nickName = sp.getString(userObjectId + "_nickName", "");
-            Log.i("TAG", "mainActivity+++nickname" + nickName);
             String nickname = (String) BmobUser.getObjectByKey(this, "nickname");
-            Log.i("TAG", "mainActivity+++nickname" + nickname);
+            mLoginState.setText(!"".equals(nickName) ? nickName : nickname);
+
+            //本地
             String userImageUrl = sp.getString(userObjectId + "_imageUrl", "");
             String userimageUrl = (String) BmobUser.getObjectByKey(this, "userimageurl");
-            mLoginState.setText(!"".equals(nickName) ? nickName : nickname);
+
+            ImageLoader imageLoader = ImageLoader.getInstance();
             if (!"".equals(userimageUrl) || ("").equals(userimageUrl)) {
-                String userimgLoadUri = (!"".equals(userimageUrl) ? userImageUrl : userimageUrl);
-                ImageHelper helper = new ImageHelper(this);
-                helper.display(mLoginView, userimgLoadUri);
+                if ("" != userImageUrl) {
+                    imageLoader.displayImage(userImageUrl, mLoginView);
+                } else {
+                    imageLoader.displayImage(userimageUrl, mLoginView);
+                }
             }
         } else { //如果没有登陆
             //判断是否需要自动登陆
@@ -126,7 +138,7 @@ public class MainActivity extends AppCompatActivity
                 Log.i("MainActivity", "没有登录");
 
                 mLoginView.setImageResource(R.mipmap.ic_launcher);
-                mLoginState.setText("您尚未登陆");
+                mLoginState.setText("您尚未登陆,点击头像跳转登陆界面");
                 mLoginEmail.setText("您的email");
             }
         }
@@ -305,9 +317,15 @@ public class MainActivity extends AppCompatActivity
         mLoginView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //跳转到登陆界面
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+
+                if (BmobUser.getCurrentUser(MainActivity.this) == null) {//跳转到登陆界面
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    //finish();
+                } else {
+                    Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }

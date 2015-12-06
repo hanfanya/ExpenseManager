@@ -25,7 +25,6 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
@@ -40,5 +39,16 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:1.1.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.code-troopers.betterpickers:library:2.2.1'
-    compile(group: 'com.ribell', name: 'colorpickerview', version: '1.0.1', ext: 'aar')
+    compile 'com.ribell:colorpickerview:1.0.1@aar'
+    compile files('src/main/libs/open_sdk_r5509.jar')
+    compile files('src/main/libs/mta-sdk-1.6.2.jar')
+    compile files('src/main/libs/MobCommons.jar')
+    compile files('src/main/libs/MobTools.jar')
+    compile files('src/main/libs/ShareSDK-Core-2.6.5.jar')
+    compile files('src/main/libs/ShareSDK-QQ-2.6.5.jar')
+    compile files('src/main/libs/ShareSDK-SinaWeibo-2.6.5.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-2.6.5.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Core-2.6.5.jar')
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
 }
