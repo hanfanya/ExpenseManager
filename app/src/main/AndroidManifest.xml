@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="com.example.samuel.expensemanager"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.samuel.expensemanager">
 
-    <uses-sdk tools:overrideLibrary="com.ribell.colorpickerview"/>
+    <uses-sdk tools:overrideLibrary="com.ribell.colorpickerview" />
 
     <application
         android:name=".ExpenseApplication"
@@ -17,9 +17,9 @@
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -28,92 +28,91 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.SettingActivity"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.DetailActivity"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.SumActivity"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.TypeInfoActivity"
             android:parentActivityName=".activity.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.typeinfo"/>
+                <action android:name="com.example.samuel.expensemanager.typeinfo" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
         </activity>
         <activity
             android:name=".activity.ExchangeRateActivity"
             android:parentActivityName=".activity.SettingActivity">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.exchangerate"/>
+                <action android:name="com.example.samuel.expensemanager.exchangerate" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
         </activity>
         <activity
             android:name=".activity.ReminderActivity"
             android:parentActivityName=".activity.SettingActivity">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.reminder"/>
+                <action android:name="com.example.samuel.expensemanager.reminder" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
         </activity>
         <activity
             android:name=".activity.AccountActivity"
             android:parentActivityName=".activity.SettingActivity">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.account"/>
+                <action android:name="com.example.samuel.expensemanager.account" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
         </activity>
         <activity
             android:name=".activity.AboutActivity"
             android:parentActivityName=".activity.SettingActivity">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.about"/>
+                <action android:name="com.example.samuel.expensemanager.about" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
         </activity>
         <activity
             android:name=".activity.AddTypeInfoActivity"
@@ -121,7 +120,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.TypeInfoActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.TypeInfoActivity" />
         </activity>
         <activity
             android:name=".activity.SelectColorActivity"
@@ -129,8 +128,11 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.AddTypeInfoActivity"/>
+                android:value="com.example.samuel.expensemanager.activity.AddTypeInfoActivity" />
         </activity>
+        <activity
+            android:name=".activity.SumTypeDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
     </application>
 
