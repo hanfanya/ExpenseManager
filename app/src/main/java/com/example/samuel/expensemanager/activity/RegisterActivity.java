@@ -1,24 +1,15 @@
 package com.example.samuel.expensemanager.activity;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -27,19 +18,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bmob.BmobProFile;
-import com.bmob.btp.callback.UploadListener;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.model.MyUser;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import com.example.samuel.expensemanager.utils.SPUtils;
 
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -75,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
     //3 +++++Regist: id:2c7285df26
 
     //从URI上去取数据
-    public static Bitmap getBitmapFromUri(Uri uri, Context mContext) {
+    /*public static Bitmap getBitmapFromUri(Uri uri, Context mContext) {
         try {
             // 读取uri所在的图片
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), uri);
@@ -84,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String pwd = regist_et_pwd.getText().toString().trim();
                 String repwd = regist_et_repwd.getText().toString().trim();
                 String nickname = regist_et_nickname.getText().toString().trim();
-                String email = regist_et_email.getText().toString().trim();
+//                String email = regist_et_email.getText().toString().trim();
 
                 //panduangeshi
                 if (!submitForm()) {
@@ -122,24 +105,26 @@ public class RegisterActivity extends AppCompatActivity {
                 user.setUsername(username);
                 user.setPassword(pwd);
                 user.setNickname(nickname);
-                user.setEmail(email);
+//                user.setEmail(email);
 
 
-                if (isLoadFileSuccess) {//如果上传成功
-                    user.setUserimageurl(mSuccessLoadFilePath);
-
-                }
+//                if (isLoadFileSuccess) {//如果上传成功
+//                    user.setUserimageurl(mSuccessLoadFilePath);
+//
+//                }
                 user.signUp(RegisterActivity.this, new SaveListener() {
 
                     @Override
                     public void onSuccess() {
+                        SPUtils.saveBoolean(RegisterActivity.this, "haveLogin", true);
                         toast("注册成功");
-                        BmobUser user = BmobUser.getCurrentUser(RegisterActivity.this);
+                        MyUser user = BmobUser.getCurrentUser(RegisterActivity.this, MyUser.class);
                         if (user != null) {
                             Log.i("+++++Regist", "id:" + user.getObjectId());
                             //保存当前用户的昵称和头像地址
                             SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
-                            sp.edit().putString(user.getObjectId() + "_imageUrl", mSuccessLoadFilePath).commit();
+                            sp.edit().putString(user.getObjectId() + "_nickName", user.getNickname()).commit();
+
                         }
                         //跳转回登陆界面
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -149,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int i, String s) {
-                        toast("注册失败");
+                        toast("注册失败,已经有该用户");
                     }
                 });
             }
@@ -159,16 +144,17 @@ public class RegisterActivity extends AppCompatActivity {
         regist_btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                regist_et_account.setText("");
+                /*regist_et_account.setText("");
                 regist_et_pwd.setText("");
                 regist_et_nickname.setText("");
-                regist_et_email.setText("");
+                regist_et_email.setText("");*/
+                finish();
             }
         });
 
 
         //上传头像
-        regist_bn_touxiang.setOnClickListener(new View.OnClickListener() {
+        /*regist_bn_touxiang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isLoadButtonKicked = true;
@@ -211,10 +197,10 @@ public class RegisterActivity extends AppCompatActivity {
                     regist_bn_touxiang.setClickable(true);
                 }
             }
-        });
+        });*/
 
         //加载图片
-        regist_iv_touxiang.setOnClickListener(new View.OnClickListener() {
+        /*regist_iv_touxiang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //弹出菜单
@@ -237,11 +223,11 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }).show();
             }
-        });
+        });*/
     }
 
     //跳转到相机
-    public void go2Camer() {
+    /*public void go2Camer() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMER_REQUEST_CODE);
     }
@@ -249,11 +235,11 @@ public class RegisterActivity extends AppCompatActivity {
     //跳转到相册
     public void go2Galley() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
+        intent.setType("image*//*");
         startActivityForResult(intent, TUKU_REQUEST_CODE);
     }
-
-    @Override
+*/
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMER_REQUEST_CODE) {
             if (data == null) {
@@ -290,10 +276,10 @@ public class RegisterActivity extends AppCompatActivity {
                 regist_iv_touxiang.setImageBitmap(bitmap);
             }
         }
-    }
+    }*/
 
     //转化uri
-    private Uri convertUri(Uri uri) {
+  /*  private Uri convertUri(Uri uri) {
         InputStream is = null;
         try {
             is = getContentResolver().openInputStream(uri);
@@ -309,15 +295,15 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     //启动图像裁剪界面
-    private void startImageZoom(Uri uri) {
+    /*private void startImageZoom(Uri uri) {
 
         mImageUri = uri; //保存uri
 
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
+        intent.setDataAndType(uri, "image*//*");
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
@@ -328,10 +314,10 @@ public class RegisterActivity extends AppCompatActivity {
         intent.putExtra("noFaceDetection", true); // no face detection
         intent.putExtra("return-data", false);
         startActivityForResult(intent, CAIJIAN_REQUEST_CODE);
-    }
+    }*/
 
 
-    private Uri saveBitmap(Bitmap bitmap) {
+    /*private Uri saveBitmap(Bitmap bitmap) {
         File tmpDir = new File(Environment.getExternalStorageDirectory() + "/com.expansemanager.pic");
         if (!tmpDir.exists()) {
             tmpDir.mkdir();
@@ -355,13 +341,13 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     private void initView() {
 
         inputLayoutUserName = (TextInputLayout) findViewById(R.id.regist_fl_username);
         inputLayoutNickName = (TextInputLayout) findViewById(R.id.regist_fl_nickname);
-        inputLayoutEmail = (TextInputLayout) findViewById(R.id.regist_fl_email);
+//        inputLayoutEmail = (TextInputLayout) findViewById(R.id.regist_fl_email);
         inputLayoutPassword = (TextInputLayout) findViewById(R.id.regist_fl_repassword);
         inputLayoutRePassword = (TextInputLayout) findViewById(R.id.regist_fl_repassword);
 
@@ -369,22 +355,18 @@ public class RegisterActivity extends AppCompatActivity {
         regist_et_pwd = (EditText) findViewById(R.id.regist_et_pwd);
         regist_et_repwd = (EditText) findViewById(R.id.regist_et_repwd);
         regist_et_nickname = (EditText) findViewById(R.id.regist_et_nickname);
-        regist_et_email = (EditText) findViewById(R.id.regist_et_email);
+//        regist_et_email = (EditText) findViewById(R.id.regist_et_email);
 
         regist_et_account.addTextChangedListener(new MyTextWatcher(regist_et_account));
         regist_et_pwd.addTextChangedListener(new MyTextWatcher(regist_et_pwd));
         regist_et_repwd.addTextChangedListener(new MyTextWatcher(regist_et_repwd));
         regist_et_nickname.addTextChangedListener(new MyTextWatcher(regist_et_nickname));
-        regist_et_email.addTextChangedListener(new MyTextWatcher(regist_et_email));
 
 
         regist_btn_reg = (Button) findViewById(R.id.regist_btn_reg);
         regist_btn_cancel = (Button) findViewById(R.id.regist_btn_cancel);
 
-        regist_iv_touxiang = (ImageView) findViewById(R.id.regist_iv_touxiang);
-        regist_bn_touxiang = (Button) findViewById(R.id.regist_bn_touxiang);
-        regist_progressBar_touxiang = (ProgressBar) findViewById(R.id.regist_progressBar_touxiang);
-        regist_progressBar_touxiang.setVisibility(View.GONE);
+
     }
 
     private void toast(String msg) {
@@ -399,7 +381,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean submitForm() {
-        if (!validateAcount() || !validateEmail() || !validateNickName() || !validatePassword() || !validateRePassword()) {
+        if (!validateAcount() || !validateNickName() || !validatePassword() || !validateRePassword()) {
             toast("请把资料填写完全");
             return false;
         }
@@ -459,7 +441,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //校验邮箱
-    private boolean validateEmail() {
+   /* private boolean validateEmail() {
         String email = regist_et_email.getText().toString().trim();
         if (email.isEmpty() || !isValidEmail(email)) {
             inputLayoutEmail.setError("邮箱为空或者不符合格式");
@@ -473,7 +455,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
+    }*/
 
     private class MyTextWatcher implements TextWatcher {
         private View view;
@@ -513,10 +495,7 @@ public class RegisterActivity extends AppCompatActivity {
                     // toast("校验昵称");
                     validateNickName();
                     break;
-                case R.id.regist_et_email:
-                    //  toast("校验email");
-                    validateEmail();
-                    break;
+
                 default:
                     break;
             }

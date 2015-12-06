@@ -38,12 +38,17 @@ import de.greenrobot.dao.query.QueryBuilder;
 public class DetailFragment extends Fragment implements AdapterView.OnItemLongClickListener {
 
     public List<Expense> mLists;
+    public double sum; //支出总额
     private int[] colorArray;
     private int position;
     private View view;
     private MyListView lv_detail_fragment;
     private TextView tv_notice;
     private MyAdapater myAdapater;
+    private Menu mMenu;
+    private MenuItem mDateItem;
+    private String sumString;
+    private ExpenseDao mExpenseDao;
 
     public DetailFragment() {
     }
@@ -73,9 +78,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         return initViews();
     }
 
-    private Menu mMenu;
-    private MenuItem mDateItem;
-
     /**
      * fragment的回调，控制上面的菜单栏
      * 这里的代码想要生效，前面需要写这句代码：
@@ -89,7 +91,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         mDateItem.setTitle(sumString);
     }
 
-
     /**
      * 初始化view对象
      */
@@ -102,8 +103,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         initData();
         return view;
     }
-
-    private String sumString;
 
     /**
      * 给view上数据
@@ -128,7 +127,11 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         lv_detail_fragment.setOnItemLongClickListener(this);
     }
 
-    public double sum; //支出总额
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
 
     public void getSum() {
         for (Expense e : mLists) {
@@ -138,8 +141,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
             }
         }
     }
-
-    private ExpenseDao mExpenseDao;
 
     /**
      * 获取当前日期的数据库数据
@@ -236,6 +237,13 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         Toast.makeText(getActivity(), "记录已删除", Toast.LENGTH_SHORT).show();
     }
 
+    static class ViewHolder {
+        ImageView iv_type;
+        TextView tv_circle;
+        TextView tv_typename;
+        TextView tv_figure;
+    }
+
     /**
      * listview的adapter
      */
@@ -284,14 +292,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
             }
             return view;
         }
-    }
-
-
-    static class ViewHolder {
-        ImageView iv_type;
-        TextView tv_circle;
-        TextView tv_typename;
-        TextView tv_figure;
     }
 
 }

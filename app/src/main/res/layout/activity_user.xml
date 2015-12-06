@@ -17,33 +17,6 @@
         android:orientation="vertical"
         android:showDividers="middle">
         <!--item -->
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:background="@color/white">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:text="头像"
-                android:textColor="#e7525453"
-                android:textSize="25sp" />
-
-            <ImageView
-                android:id="@+id/user_iv_head"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:background="#4000" />
-        </RelativeLayout>
-        <!-- -->
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="5dp"
-            android:background="#f5efeaea" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -57,7 +30,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="昵称"
                 android:textColor="#e7525453"
-                android:textSize="25sp" />
+                android:textSize="22sp"/>
 
             <TextView
                 android:id="@+id/user_tv_nickname"
@@ -70,7 +43,7 @@
                 android:clickable="true"
                 android:text="您的昵称"
                 android:textColor="@color/blue_grey"
-                android:textSize="25sp" />
+                android:textSize="22sp"/>
         </RelativeLayout>
 
         <!-- -->
@@ -79,33 +52,7 @@
             android:layout_height="5dp"
             android:background="#f5efeaea" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:background="@color/white">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:text="修改密码"
-                android:textColor="#e7525453"
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/user_bt_update"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:text="点击修改"
-                android:textColor="@color/blue_grey"
-                android:textSize="25sp" />
-        </RelativeLayout>
 
         <!-- -->
         <ImageView
@@ -126,7 +73,7 @@
                 android:clickable="true"
                 android:text="退出登录"
                 android:textColor="@color/blue"
-                android:textSize="20sp" />
+                android:textSize="28sp"/>
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -9,37 +9,42 @@
     tools:context="com.example.samuel.expensemanager.activity.ReminderActivity"
     tools:showIn="@layout/activity_reminder">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:padding="10dp">
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_weight="1"
+            android:layout_centerVertical="true"
             android:gravity="center"
             android:text="开启记账提醒"
-            android:textSize="24sp" />
+            android:textSize="20sp"/>
 
         <com.kyleduo.switchbutton.SwitchButton
             android:id="@+id/sb_use_checked"
             style="@style/SwitchButtonStyle"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+
+            android:layout_toRightOf="@id/tv_title"
             android:focusable="false" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.example.samuel.expensemanager.view.ClickView
         android:id="@+id/cv_day"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
     <com.example.samuel.expensemanager.view.ClickView
         android:id="@+id/cv_time"

@@ -4,12 +4,12 @@
 
     <PreferenceCategory
         android:title="基本设置">
-        <PreferenceScreen
+        <!-- <PreferenceScreen
 
-            android:title="账户">
-            <intent android:action="com.example.samuel.expensemanager.account"/>
+             android:title="账户">
+             <intent android:action="com.example.samuel.expensemanager.account"/>
 
-        </PreferenceScreen>
+         </PreferenceScreen>-->
 
 
         <PreferenceScreen

@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +19,7 @@ import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.model.MyUser;
 import com.example.samuel.expensemanager.utils.Constants;
 import com.example.samuel.expensemanager.utils.NetUtils;
+import com.example.samuel.expensemanager.utils.SPUtils;
 import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tencent.tauth.IUiListener;
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int LOGIN_FAIL = 101;
     public static Tencent mTencent;
     private MyUser mBmobUser = null;
-    private ImageView login_imageView;
+    //    private ImageView login_imageView;
     //已登录
     private FloatingActionButton mFabLogin;
     private RelativeLayout login_success_relativelayout;
@@ -78,8 +78,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case LOGIN_SUCCESS:
+                    SPUtils.saveBoolean(LoginActivity.this, "haveLogin", true);
                     initData();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, UserActivity.class);
                     startActivity(intent);
                     finish();
                     break;
@@ -120,13 +121,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mSharedPerfarece = getSharedPreferences("user", MODE_PRIVATE);
             String userImageUrl = mSharedPerfarece.getString(mBmobUser.getObjectId() + "_imageUrl", "");
             String userimageUrl = (String) BmobUser.getObjectByKey(this, "userimageurl");
-            if (!"".equals(userimageUrl) || ("").equals(userimageUrl)) {
-                if ("" != userImageUrl) {
-                    imageLoader.displayImage(userImageUrl, login_imageView);
-                } else {
-                    imageLoader.displayImage(userimageUrl, login_imageView);
-                }
-            }
+//            if (!"".equals(userimageUrl) || ("").equals(userimageUrl)) {
+//                if ("" != userImageUrl) {
+//                    imageLoader.displayImage(userImageUrl, login_imageView);
+//                } else {
+//                    imageLoader.displayImage(userimageUrl, login_imageView);
+//                }
+//            }
 
             String nickName = mSharedPerfarece.getString(mBmobUser.getObjectId() + "_nickName", "");
             String nickname = (String) BmobUser.getObjectByKey(this, "nickname");
@@ -134,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             unlogin_relativelayout.setVisibility(View.VISIBLE);
             login_success_relativelayout.setVisibility(View.GONE);
-            login_imageView.setImageResource(R.drawable.ic_yingyong);
+//            login_imageView.setImageResource(R.drawable.ic_yingyong);
         }
 
     }
@@ -159,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login_success_relativelayout = (RelativeLayout) findViewById(R.id.login_relativelayout);
         unlogin_relativelayout = (RelativeLayout) findViewById(R.id.unlogin_relativelayout);
 
-        login_imageView = (ImageView) findViewById(R.id.login_imageView);
+//        login_imageView = (ImageView) findViewById(R.id.login_imageView);
 
         mFabLogin = (FloatingActionButton) findViewById(R.id.fab_login);
         mFabLogin.setOnClickListener(this);
@@ -171,16 +172,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab_login://退出登陆
-                BmobUser.logOut(LoginActivity.this);
-                if (null == BmobUser.getCurrentUser(LoginActivity.this)) {
-                    unlogin_relativelayout.setVisibility(View.VISIBLE);
-                    login_success_relativelayout.setVisibility(View.GONE);
-                    mBmobUser = null;
-                    initData();
-                    toast("退出成功");
-                }
-                break;
 
             case R.id.login_btn_qq: //QQ
                 qqAuthorize();
@@ -231,6 +222,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onSuccess() {
                         toast("登陆成功");
+
                         Message msg = handler.obtainMessage();
                         msg.what = LOGIN_SUCCESS;
                         handler.sendMessage(msg);
@@ -355,7 +347,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String userObjectId = currentUser.getObjectId();//获得ID
 
         mSharedPerfarece.edit().putString(userObjectId + "_nickName", nickName).commit();
-        mSharedPerfarece.edit().putString(userObjectId + "_imageUrl", imageUrl).commit();
+//        mSharedPerfarece.edit().putString(userObjectId + "_imageUrl", imageUrl).commit();
 
         Message msg = handler.obtainMessage();
         msg.what = LOGIN_SUCCESS;

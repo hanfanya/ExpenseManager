@@ -67,7 +67,7 @@ public class ReminderActivity extends AppCompatActivity implements View.OnClickL
         toolbarHome.setTitle("记账提醒");
         setSupportActionBar(toolbarHome);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
 

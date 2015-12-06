@@ -26,13 +26,16 @@ import java.util.Date;
 public class DetailActivity extends AppCompatActivity implements OnDateSelectedListener,
         ViewPager.OnPageChangeListener {
 
+    //自定义一个日期格式
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+    //获取系统自带的日期格式化工具
+    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private MaterialCalendarView mCvMain;
     private ViewPager vp_expanse_detail;
     private String sDate;  //上面日历选择的日期
+    //    private CollapsingToolbarLayout collapse_toolbar;
     private ActionBar actionBar;
     private Toolbar mToolbar_detail;
-//    private CollapsingToolbarLayout collapse_toolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class DetailActivity extends AppCompatActivity implements OnDateSelectedL
         }
 
         mCvMain = (MaterialCalendarView) findViewById(R.id.cv_main);
-        mCvMain = (MaterialCalendarView) findViewById(R.id.cv_main);
+//        mCvMain = (MaterialCalendarView) findViewById(R.id.cv_main);
         vp_expanse_detail = (ViewPager) findViewById(R.id.vp_expanse_detail);
 
 //        collapse_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
@@ -88,11 +91,6 @@ public class DetailActivity extends AppCompatActivity implements OnDateSelectedL
         vp_expanse_detail.setOnPageChangeListener(this);
         vp_expanse_detail.setCurrentItem(position);
     }
-
-    //自定义一个日期格式
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-    //获取系统自带的日期格式化工具
-    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
 
     /**
      * 日历控件监听器接口需要实现的方法
