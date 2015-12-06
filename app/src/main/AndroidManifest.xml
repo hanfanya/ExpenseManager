@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
+    package="com.example.samuel.expensemanager"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.samuel.expensemanager">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk tools:overrideLibrary="com.ribell.colorpickerview" />
 
@@ -132,8 +132,16 @@
                 android:value="com.example.samuel.expensemanager.activity.AddTypeInfoActivity" />
         </activity>
         <activity
-            android:name=".activity.SumTypeDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".activity.PasswordSettingActivity"
+            android:parentActivityName=".activity.SettingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="com.example.samuel.expensemanager.password"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
 
     </application>
 

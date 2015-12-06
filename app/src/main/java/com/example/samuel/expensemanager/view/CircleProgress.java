@@ -47,7 +47,7 @@ public class CircleProgress extends View {
         mBackPaint.setAntiAlias(true);
 
         mFrontPaint = new Paint();
-        mFrontPaint.setColor(Color.GREEN);
+        mFrontPaint.setColor(Color.BLUE);
         mFrontPaint.setAntiAlias(true);
 
     }
