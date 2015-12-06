@@ -1,5 +1,9 @@
 package com.example.samuel.expensemanager.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import java.math.BigDecimal;
 
 /**
@@ -19,8 +23,38 @@ public class SysUtils {
         return numberDouble;
     }
 
-    public static boolean hasNetwork() {
-
-        return true;
+    public static boolean haveNetwork(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    public static boolean canUpload(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean haveWifi = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+        boolean haveMobile = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            int networkSetting = SPUtils.getInt(context, "network_setting", 0);
+            if (networkSetting == 1 && haveWifi) {
+                return true;
+            } else if (networkSetting == 2 && haveNetwork(context)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean hasLogin() {
+
+        return false;
+    }
+
 }

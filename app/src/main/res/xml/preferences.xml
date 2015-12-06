@@ -46,11 +46,12 @@
         <intent android:action="com.example.samuel.expensemanager.reminder"/>
 
     </PreferenceScreen>
-    <PreferenceScreen
-        android:title="账本密码"
-        android:summary="账本密码未开启">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="checkbox_preference"
+        android:summary="未设置密码"
+        android:title="软件密码">
+        <intent android:action="com.example.samuel.expensemanager.password"/>
+    </CheckBoxPreference>
 
-        <intent android:action="com.example.samuel.expensemanager.passwordset"/>
-
-    </PreferenceScreen>
 </PreferenceScreen>
