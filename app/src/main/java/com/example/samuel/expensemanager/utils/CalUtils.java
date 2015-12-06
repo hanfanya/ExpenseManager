@@ -101,11 +101,7 @@ public class CalUtils {
     }
 
     public static String getFormatDisplayDate(String date) {
-//        (dateFormat.substring(0, 4) + "年" + dateFormat.substring(4, 6) + "月" + dateFormat.substring(6) + "日");
-        int year = Integer.parseInt(date.substring(0, 4));
-        int month = Integer.parseInt(date.substring(4, 6));
-        int day = Integer.parseInt(date.substring(6));
-        String displayDate = year + "年" + month + "月" + day + "日";
+        String displayDate = date.substring(0, 4) + "年" + date.substring(4, 6) + "月" + date.substring(6) + "日";
         return displayDate;
     }
 }
