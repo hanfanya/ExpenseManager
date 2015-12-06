@@ -2,6 +2,7 @@ package com.example.samuel.expensemanager.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,8 +14,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
@@ -22,12 +28,17 @@ import com.example.samuel.expensemanager.adapter.HomePagerAdapter;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
+import com.example.samuel.expensemanager.model.MyUser;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
+import com.example.samuel.expensemanager.utils.ImageHelper;
 import com.example.samuel.expensemanager.utils.SPUtils;
 
 import java.util.List;
 import java.util.Random;
+
+import cn.bmob.v3.BmobUser;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,6 +63,14 @@ public class MainActivity extends AppCompatActivity
     private ViewPager mViewPagerHome;
     private TabLayout mTabLayoutHome;
 
+
+    private LinearLayout mLoginLayout;//头布局
+    private ImageView mLoginView;//头布局中的图像
+    private TextView mLoginState;//头布局中的state
+    private TextView mLoginEmail;//头布局中的email
+    private boolean isAutoLogin = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +80,56 @@ public class MainActivity extends AppCompatActivity
         initUI();
         initData();
 
+        //Gxl
+        initlogin();
+    }
 
+
+    //GXL
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initlogin();
+    }
+
+    //检查登陆状态
+    private void initlogin() {
+        //检测是否登陆
+        //BmobUser user = BmobUser.getCurrentUser(this);
+        MyUser user = BmobUser.getCurrentUser(this, MyUser.class);
+        if (user != null) {
+            //已经登陆
+            //加载数据
+            String userObjectId = user.getObjectId();//获得ID
+            SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+            //获取数据
+            String nickName = sp.getString(userObjectId + "_nickName", "");
+            Log.i("TAG", "mainActivity+++nickname" + nickName);
+            String nickname = (String) BmobUser.getObjectByKey(this, "nickname");
+            Log.i("TAG", "mainActivity+++nickname" + nickname);
+            String userImageUrl = sp.getString(userObjectId + "_imageUrl", "");
+            String userimageUrl = (String) BmobUser.getObjectByKey(this, "userimageurl");
+            mLoginState.setText(!"".equals(nickName) ? nickName : nickname);
+            if (!"".equals(userimageUrl) || ("").equals(userimageUrl)) {
+                String userimgLoadUri = (!"".equals(userimageUrl) ? userImageUrl : userimageUrl);
+                ImageHelper helper = new ImageHelper(this);
+                helper.display(mLoginView, userimgLoadUri);
+            }
+        } else { //如果没有登陆
+            //判断是否需要自动登陆
+
+            if (isAutoLogin) {
+                //跳转到登陆页面
+                Log.i("MainActivity", "自动登录");
+            } else {
+                //停在本地
+                Log.i("MainActivity", "没有登录");
+
+                mLoginView.setImageResource(R.mipmap.ic_launcher);
+                mLoginState.setText("您尚未登陆");
+                mLoginEmail.setText("您的email");
+            }
+        }
     }
 
     private void initData() {
@@ -181,6 +249,16 @@ public class MainActivity extends AppCompatActivity
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mViewPagerHome = (ViewPager) findViewById(R.id.viewpager_tab_home);
         mTabLayoutHome = (TabLayout) findViewById(R.id.tablayout_home);
+
+        //GXL
+        //gxl 动态加载头布局
+        View headView = View.inflate(MainActivity.this, R.layout.nav_header_main, null);
+        mNavigationView.addHeaderView(headView);
+        mLoginLayout = (LinearLayout) headView.findViewById(R.id.ll_main_login);
+        mLoginView = (ImageView) headView.findViewById(R.id.iv_main_login);
+        mLoginState = (TextView) headView.findViewById(R.id.tv_main_login);
+        mLoginEmail = (TextView) headView.findViewById(R.id.tv_main_email);
+
     }
 
     private void initUI() {
@@ -220,6 +298,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        //GXL
+        mLoginView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到登陆界面
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
