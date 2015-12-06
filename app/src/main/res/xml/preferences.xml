@@ -51,7 +51,7 @@
         android:key="checkbox_preference"
         android:summary="未设置密码"
         android:title="软件密码">
-        <intent android:action="com.example.samuel.expensemanager.password"/>
+        <intent android:action="com.example.samuel.expensemanager.passwordset" />
     </CheckBoxPreference>
 
 </PreferenceScreen>
