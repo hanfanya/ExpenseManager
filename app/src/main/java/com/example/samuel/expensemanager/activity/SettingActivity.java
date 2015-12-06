@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.example.samuel.expensemanager.R;
+import com.example.samuel.expensemanager.utils.SPUtils;
 
 /**
  * Created by Samuel on 15/12/3 23:07
@@ -19,6 +21,7 @@ import com.example.samuel.expensemanager.R;
 
 
 public class SettingActivity extends AppCompatPreferenceActivity {
+    private static Context mContext;
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
@@ -33,6 +36,17 @@ public class SettingActivity extends AppCompatPreferenceActivity {
                         index >= 0
                                 ? listPreference.getEntries()[index]
                                 : null);
+
+            } else if (preference instanceof SwitchPreference) {
+                SwitchPreference switchPreference = (SwitchPreference) preference;
+                boolean hasPassword = SPUtils.getBoolean(mContext, "hasPassword", false);
+                if (hasPassword) {
+                    switchPreference.setChecked(true);
+                    preference.setSummary("已设置密码");
+                } else {
+                    switchPreference.setChecked(false);
+                    preference.setSummary("未设置密码");
+                }
 
             } else {
                 preference.setSummary(stringValue);
@@ -53,6 +67,7 @@ public class SettingActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = SettingActivity.this;
         setupActionBar();
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new PrefsFragment()).commit();
