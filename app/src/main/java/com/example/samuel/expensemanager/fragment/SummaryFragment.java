@@ -3,6 +3,7 @@ package com.example.samuel.expensemanager.fragment;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,15 +24,20 @@ import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.view.CircleProgress;
 import com.example.samuel.expensemanager.view.CountView;
-import com.example.samuel.expensemanager.view.MyMarkerView;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -62,12 +68,16 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
     LinearLayout mLlMonthOut;
     @Bind(R.id.line_chart_summary)
     LineChart mLineChart;
+    @Bind(R.id.bar_chart_summary)
+    BarChart mBarChart;
     private ExpenseDao mExpenseDao;
     private List<Expense> mExpenseMonth;
     private double mSumMonthOut;
     private double mSumMonthIn;
     private double mRemainBudget;//预算剩余
     private int mPercentage;
+    private SQLiteDatabase db;
+    private String mCurrentDate;
 
 
     public SummaryFragment() {
@@ -85,48 +95,55 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 showSetBudgetDialog();
             }
         });
-                return view;
+        return view;
     }
 
     private void initLineChart() {
+        //设置北京网格
         mLineChart.setDrawGridBackground(false);
         // no description text
         mLineChart.setDescription("");
 
+        mLineChart.setPressed(true);
         // enable touch gestures
         mLineChart.setTouchEnabled(true);
 
         // enable scaling and dragging
         mLineChart.setDragEnabled(true);
         mLineChart.setScaleEnabled(true);
-
+        mLineChart.setDrawBorders(false);
+        //设置没有数据显示描述
+        mLineChart.setDescriptionTextSize(25f);
+        mLineChart.setNoDataText("亲，快去开启您的记账之旅");
 
         // if disabled, scaling can be done on x- and y-axis separately
         mLineChart.setPinchZoom(false);
 
         mLineChart.setDrawGridBackground(false);
         // set an alternative background color
-        // mChart.setBackgroundColor(Color.GRAY);
+        // mBarChart.setBackgroundColor(Color.GRAY);
 
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
-        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view);
+        /*MyMarkerView mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
 
         // set the marker to the chart
-        mLineChart.setMarkerView(mv);
+        mLineChart.setMarkerView(mv);*/
 
         XAxis xl = mLineChart.getXAxis();
         xl.setAvoidFirstLastClipping(true);
         xl.setDrawGridLines(false);
         xl.setLabelsToSkip(0);
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xl.setSpaceBetweenLabels(3);
         // xl.setEnabled(false);
 
         YAxis leftAxis = mLineChart.getAxisLeft();
-        /*leftAxis.setStartAtZero(false);
+       /* leftAxis.setStartAtZero(false);
         leftAxis.setDrawGridLines(false);
-        leftAxis.setLabelCount(5, false);
-        leftAxis.setAxisLineColor(Color.WHITE);*/
+        leftAxis.setLabelCount(0, false);
+        leftAxis.setDrawLabels(false);
+        leftAxis.setAxisLineColor(Color.BLACK);*/
         leftAxis.setEnabled(false);
 
         YAxis rightAxis = mLineChart.getAxisRight();
@@ -135,16 +152,17 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         setData();
         mLineChart.getLegend().setEnabled(false);
 
-        mLineChart.animateXY(1000, 1000);
+        mLineChart.animateXY(2000, 1000);
         // Log.e("--------", "-------------------------");
+        mLineChart.invalidate();
     }
 
     private void setData() {
-        String mCurrentDate = CalUtils.getCurrentDate();
+
         String mLastDate = CalUtils.getLastThreeDate(7);
-        SQLiteDatabase db = getContext().openOrCreateDatabase("expense-db", getContext().MODE_PRIVATE, null);
+
         //从数据库获取近七天总支出
-        String sqllast = "select date,sum(figure) from EXPENSE where TYPE_FLAG=1 and DATE between " + mLastDate + "  and  " + mCurrentDate + " " + "group by date order by date asc;";
+        String sqllast = "select date,sum(figure) from EXPENSE where TYPE_FLAG=1 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + mLastDate + "  and  " + mCurrentDate + " " + "group by date order by date asc;";
         Cursor cursorSum = db.rawQuery(sqllast, null);
         ArrayList<String> dates = new ArrayList<String>();
         ArrayList<Entry> figures = new ArrayList<Entry>();
@@ -155,15 +173,16 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
             i++;
         }
 
-
         //传入折线图数据
         LineDataSet set1 = new LineDataSet(figures, "");
 
         set1.setDrawCubic(true);
-        set1.setLineWidth(4f);
+        set1.setLineWidth(2f);
         set1.setCircleSize(4f);
-        set1.setValueTextSize(8.0f);
-        set1.setValueTextSize(12f);
+        set1.setValueTextSize(11.5f);
+        set1.setDrawFilled(true);
+        //取消高度提示线
+        set1.setDrawHighlightIndicators(false);
 
         // create a data object with the datasets
         LineData data = new LineData(dates, set1);
@@ -173,6 +192,109 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
 
     }
 
+    private void initBarChart() {
+        mBarChart.setDescription("");
+
+//        mBarChart.setDrawBorders(true);
+
+        // scaling can now only be done on x- and y-axis separately
+        mBarChart.setPinchZoom(false);
+
+        mBarChart.setDrawBarShadow(false);
+
+        mBarChart.setDrawGridBackground(false);
+
+        // create a custom MarkerView (extend MarkerView) and specify the layout
+        // to use for it
+        mBarChart.setNoDataText("亲，快去开启您的记账之旅");
+
+        Legend l = mBarChart.getLegend();
+        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
+        /*l.setYOffset(0f);
+        l.setYEntrySpace(0f);*/
+        l.setTextSize(8f);
+
+        XAxis xl = mBarChart.getXAxis();
+        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xl.setLabelsToSkip(0);
+        xl.setDrawGridLines(false);
+
+        mBarChart.getAxisLeft().setEnabled(false);
+/*        leftAxis.setDrawGridLines(false);
+        leftAxis.setSpaceTop(30f);*/
+
+        mBarChart.getAxisRight().setEnabled(false);
+
+        mBarChart.animateXY(1000, 2000);
+        setBarData();
+    }
+
+    private String getLastSixDate() {
+        //拿到当前月份和年份
+        //初始化日历对象
+        Calendar calendar = Calendar.getInstance();
+        int mCurrentYear = calendar.get(Calendar.YEAR);
+        int mCurrentMonth = calendar.get(Calendar.MONTH) + 1;
+        int mCurrentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int lastsixmonth;
+        int lastsixyear;
+        if (mCurrentMonth > 5) {
+            lastsixmonth = mCurrentMonth - 5;
+            lastsixyear = mCurrentYear;
+        } else {
+            lastsixmonth = mCurrentMonth + 7;
+            lastsixyear = mCurrentYear - 1;
+        }
+        String lastSixDate = CalUtils.getFormatDate(lastsixyear, lastsixmonth, 1);
+        return lastSixDate;
+
+    }
+
+    private void setBarData() {
+        //X轴
+        ArrayList<String> xVals = new ArrayList<String>();
+        //Y轴
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
+        //从数据库拿到数据
+        String mlastSixDate = getLastSixDate();
+
+        String sqlLastSixEx = "select sum(figure),substr(date,0,7) from EXPENSE where TYPE_FLAG =1 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc;";
+        Cursor cursor = db.rawQuery(sqlLastSixEx, null);
+        int i = 0;
+        while (cursor.moveToNext()) {
+            xVals.add(cursor.getString(1).substring(2, 4) + "/" + cursor.getString(1).substring(4));
+            yVals1.add(new BarEntry(cursor.getFloat(0), i));
+            i++;
+        }
+        String sqlLastSixIn = "select sum(figure),substr(date,0,7) from EXPENSE where TYPE_FLAG =0 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc;";
+        Cursor cursor2 = db.rawQuery(sqlLastSixIn, null);
+        i = 0;
+        while (cursor2.moveToNext()) {
+            yVals2.add(new BarEntry(cursor2.getFloat(0), i));
+            i++;
+        }
+        BarDataSet set1 = new BarDataSet(yVals1, "支出");
+        // set1.setColors(ColorTemplate.createColors(getApplicationContext(),
+        // ColorTemplate.FRESH_COLORS));
+        set1.setColor(Color.rgb(104, 241, 175));
+        set1.setValueTextSize(12f);
+        BarDataSet set2 = new BarDataSet(yVals2, "收入");
+        set2.setColor(Color.rgb(164, 228, 251));
+        set2.setValueTextSize(12f);
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        dataSets.add(set1);
+        dataSets.add(set2);
+        BarData data = new BarData(xVals, dataSets);
+//        data.setValueFormatter(new LargeValueFormatter());
+
+        // add space between the dataset groups in percent of bar-width
+        data.setGroupSpace(80f);
+
+        mBarChart.setData(data);
+        mBarChart.invalidate();
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -180,6 +302,10 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
 
         DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
         mExpenseDao = daoSession.getExpenseDao();
+        //初始化数据库
+        db = getContext().openOrCreateDatabase("expense-db", getContext().MODE_PRIVATE, null);
+        //初始化当前日期
+        mCurrentDate = CalUtils.getCurrentDate();
     }
 
     private void showSetBudgetDialog() {
@@ -209,6 +335,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         setMonthInAndOut();
         setBudgetProgress();
         initLineChart();
+        initBarChart();
 //        mLineChart.animateXY(3000,3000);
     }
 

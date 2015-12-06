@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item_parent"
+    style="@style/AdapterItem"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="16dp">
+
+        <ImageView
+            android:id="@+id/iv_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/tv_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="早"
+            android:textColor="?android:textColorPrimaryInverse"
+            android:textSize="18sp" />
+
+    </FrameLayout>
+    <!--tools:textColor="?android:textColorPrimary"-->
+
+    <TextView
+        android:id="@+id/tv_typename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/frameLayout"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="午餐"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_figure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="￥50"
+        android:textSize="20sp" />
+
+</RelativeLayout>

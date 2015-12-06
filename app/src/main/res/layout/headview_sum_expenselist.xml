@@ -17,6 +17,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="2015/11/1-2015/11/31"
+        android:textColor="#a000"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -42,9 +43,9 @@
             android:button="@null"
             android:gravity="center"
             android:padding="10dp"
-            android:text="自定"
+            android:text="自订"
             android:textColor="#a000"
-            android:textSize="23sp" />
+            android:textSize="22sp" />
 
         <RadioButton
             android:id="@+id/rb_month_ex"
@@ -58,7 +59,7 @@
             android:padding="10dp"
             android:text="本月"
             android:textColor="#a000"
-            android:textSize="23sp" />
+            android:textSize="22sp" />
 
         <RadioButton
             android:id="@+id/rb_halfyear_ex"
@@ -71,7 +72,7 @@
             android:padding="10dp"
             android:text="半年"
             android:textColor="#a000"
-            android:textSize="23sp" />
+            android:textSize="22sp" />
 
         <RadioButton
             android:id="@+id/rb_year_ex"
@@ -84,7 +85,7 @@
             android:padding="10dp"
             android:text="一年"
             android:textColor="#a000"
-            android:textSize="23sp" />
+            android:textSize="22sp" />
 
     </RadioGroup>
 
