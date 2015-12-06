@@ -36,7 +36,10 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="2015年12月01日" />
+        android:background="@drawable/mybutton_selector"
+        android:text="2015年12月01日"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,7 +55,10 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="2015年12月31日" />
+        android:background="@drawable/mybutton_selector"
+        android:text="2015年12月31日"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
     <RelativeLayout
         android:layout_width="240dp"
@@ -66,9 +72,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/mybutton_selector"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="取消" />
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btn_ok_dialog"
@@ -76,9 +85,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/mybutton_selector"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="确定" />
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </LinearLayout>

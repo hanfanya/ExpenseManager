@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -21,10 +22,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.samuel.expensemanager.ExpenseApplication;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.HomePagerAdapter;
+import com.example.samuel.expensemanager.model.CloudExpense;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
@@ -41,6 +44,14 @@ import java.util.Random;
 import cn.bmob.v3.BmobUser;
 import cn.sharesdk.framework.ShareSDK;
 
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.CountListener;
+import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,6 +75,8 @@ public class MainActivity extends AppCompatActivity
     private NavigationView mNavigationView;
     private ViewPager mViewPagerHome;
     private TabLayout mTabLayoutHome;
+    private int mSum;
+    private int mCount;
 
 
     private LinearLayout mLoginLayout;//头布局
@@ -81,6 +94,7 @@ public class MainActivity extends AppCompatActivity
         assignViews();
         initUI();
         initData();
+//        testBmob();
 
         //Gxl
         //初始化sharedsdk
@@ -142,6 +156,108 @@ public class MainActivity extends AppCompatActivity
                 mLoginEmail.setText("您的email");
             }
         }
+    }
+
+    private void testBmob() {
+        Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
+        DaoSession daoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
+        final ExpenseDao expenseDao = daoSession.getExpenseDao();
+        final List<Expense> expenseList = expenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
+        System.out.println("expenseList size===" + expenseList.size());
+        SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+        boolean isSame = SPUtils.getBoolean(MainActivity.this, "isSame", false);
+        if (!isSame) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < expenseList.size(); i++) {
+                        final Expense expense = expenseList.get(i);
+                        Integer uploadFlag = expense.getUploadFlag();
+                        final CloudExpense cloudExpense = new CloudExpense();
+                        cloudExpense.setTypeFlag(expense.getTypeFlag());
+                        cloudExpense.setDate(expense.getDate());
+                        cloudExpense.setFigure(expense.getFigure());
+                        cloudExpense.setTypeColor(expense.getTypeColor());
+                        cloudExpense.setTypeName(expense.getTypeName());
+                        cloudExpense.setUsername("samuel");
+
+                        if (uploadFlag == 0 || uploadFlag == 1) {//向服务器插入数据
+                            cloudExpense.save(MainActivity.this, new SaveListener() {
+                                @Override
+                                public void onSuccess() {
+                                    String objectId = cloudExpense.getObjectId();
+                                    expense.setExpenseObjectId(objectId);
+                                    expense.setUploadFlag(8);
+                                    expenseDao.update(expense);
+                                    Log.i("bmobTest", "上传成功数据,objectId = " + objectId);
+                                }
+
+                                @Override
+                                public void onFailure(int i, String s) {
+                                    String objectId = cloudExpense.getObjectId();
+
+                                    SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+                                    Log.i("bmobTest", "上传数据失败,objectId = " + objectId + "错误信息为：" + s);
+
+                                }
+                            });
+                        } else if (uploadFlag == 5) {
+                            String expenseObjectId = expense.getExpenseObjectId();
+                            cloudExpense.update(MainActivity.this, expenseObjectId, new UpdateListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.i("bmobTest", "更新数据成功,getUpdatedAt = " + cloudExpense.getUpdatedAt());
+                                    expense.setUploadFlag(200);
+                                    expenseDao.update(expense);
+                                }
+
+                                @Override
+                                public void onFailure(int i, String s) {
+                                    Log.i("bmobTest", "更新数据失败,失败信息为：" + cloudExpense.getUpdatedAt());
+                                    SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+
+
+                                }
+                            });
+
+                        } else if (uploadFlag == 6 || uploadFlag == 7) {
+                            String expenseObjectId = expense.getExpenseObjectId();
+                            cloudExpense.setObjectId(expenseObjectId);
+                            cloudExpense.delete(MainActivity.this, new DeleteListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.i("bmobTest", "删除数据成功");
+//                                expense.setUploadFlag(200);
+                                    expenseDao.delete(expense);
+                                }
+
+                                @Override
+                                public void onFailure(int i, String s) {
+                                    Log.i("bmobTest", "删除数据失败,失败信息为：" + s);
+                                    SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+
+                                }
+                            });
+
+                        }
+                    }
+                }
+            }).start();
+            List<Expense> list = expenseDao.queryBuilder()
+                    .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
+            if (list.size() == 0) {
+                Log.i("bombTest", "全部上传成功============================");
+                SPUtils.saveBoolean(MainActivity.this, "isSame", true);
+            }
+        } else {
+            Toast.makeText(MainActivity.this, "数据已经全部更新", Toast.LENGTH_SHORT).show();
+            Log.i("bombTest", "数据已经全部更新");
+        }
+
+
+//        System.out.println("全部上传成功============================");
+
     }
 
     private void initData() {
@@ -347,11 +463,99 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void testBmobDownload() {
+        Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
+
+        mSum = 0;
+        BmobQuery<CloudExpense> query = new BmobQuery<>();
+        query.addWhereEqualTo("username", "samuel");
+        query.count(this, CloudExpense.class, new CountListener() {
+            @Override
+            public void onSuccess(int i) {
+                mSum = i;
+                mCount = mSum / 50 + 1;
+                Log.i("bmobTest", "查询成功，总个数为：" + i);
+                downloadData();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.i("bmobTest", "查询失败" + s);
+
+            }
+        });
+
+
+    }
+
+    private void downloadData() {
+        Log.i("bmobTest", "一共需要下载 " + mCount + " 次");
+
+        DaoSession daoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
+
+        final ExpenseDao expenseDao = daoSession.getExpenseDao();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < mCount; i++) {
+                    final BmobQuery<CloudExpense> bmobQuery = new BmobQuery<>();
+                    bmobQuery.addWhereEqualTo("username", "samuel");
+                    bmobQuery.setLimit(50);
+                    bmobQuery.setSkip(i * 50);
+                    final int finalI = i;
+                    bmobQuery.findObjects(MainActivity.this, new FindListener<CloudExpense>() {
+                        @Override
+                        public void onSuccess(List<CloudExpense> list) {
+                            Log.i("bmobTest", "下载数据成功,数据数量：" + list.size());
+                            int num = 0;
+                            for (CloudExpense cloudExpense : list) {
+                                Expense expense = new Expense();
+
+                                expense.setDate(cloudExpense.getDate());
+                                expense.setUploadFlag(8);
+                                expense.setExpenseObjectId(cloudExpense.getObjectId());
+                                expense.setFigure(cloudExpense.getFigure());
+                                expense.setTypeName(cloudExpense.getTypeName());
+                                expense.setTypeFlag(cloudExpense.getTypeFlag());
+                                expense.setTypeColor(cloudExpense.getTypeColor());
+
+                                expenseDao.insertOrReplace(expense);
+                                num++;
+                                Log.i("bmob", "成功写入第 " + (finalI * 50 + num) + " 条数据");
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            Log.i("bmobTest", "下载数据失败,错误信息为：" + s + " 已下载数据 " + mCount);
+                            SPUtils.saveInt(MainActivity.this, "hasDownloadCount", mCount);
+
+
+                        }
+                    });
+
+
+                }
+            }
+        }).start();
+
+        List<Expense> expenseList = expenseDao.queryBuilder()
+                .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
+        Log.i("bmobTest", "本地数据库的的记录数量为：" + expenseList.size());
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_upload) {
+            testBmob();
+            return true;
+        }
+        if (id == R.id.action_download) {
+            testBmobDownload();
             return true;
         }
 
@@ -374,8 +578,20 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         }
+        //抽屉收缩动画延迟0.5s
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SystemClock.sleep(500);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDrawer.closeDrawer(GravityCompat.START);
+                    }
+                });
+            }
+        }).start();
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

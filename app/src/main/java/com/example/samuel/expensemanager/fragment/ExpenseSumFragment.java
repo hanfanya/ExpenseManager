@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.example.samuel.expensemanager.R;
-import com.example.samuel.expensemanager.activity.SumTypeDetailActivity;
+import com.example.samuel.expensemanager.activity.PasswordSettingActivity;
 import com.example.samuel.expensemanager.adapter.SumExpenseListViewAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -101,7 +101,7 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                System.out.println(position + "----------------------------");
                 int Listposition = position - 1;
-                Intent intent = new Intent(getActivity(), SumTypeDetailActivity.class);
+                Intent intent = new Intent(getActivity(), PasswordSettingActivity.class);
 //                String startdate=mStartDate.startYear+mStartDate
                 /*intent.putExtra("startdate", mStartDate.getStartDate());
                 intent.putExtra("enddate", mEndDate.getEndDate());

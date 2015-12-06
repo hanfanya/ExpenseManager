@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.samuel.expensemanager.activity.ReminderActivity"
+    tools:showIn="@layout/activity_reminder">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="开启记账提醒"
+            android:textSize="24sp" />
+
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/sb_use_checked"
+            style="@style/SwitchButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:focusable="false" />
+
+    </LinearLayout>
+
+    <com.example.samuel.expensemanager.view.ClickView
+        android:id="@+id/cv_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.example.samuel.expensemanager.view.ClickView
+        android:id="@+id/cv_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

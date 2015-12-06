@@ -26,5 +26,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_choose">切换币种</string>
 
 </resources>

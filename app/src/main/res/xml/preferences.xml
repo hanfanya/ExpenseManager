@@ -1,49 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceScreen
-        android:title="账户">
-        <intent android:action="com.example.samuel.expensemanager.account"/>
 
-    </PreferenceScreen>
+    <PreferenceCategory
+        android:title="基本设置">
+        <PreferenceScreen
 
-    <EditTextPreference
-        android:capitalize="words"
-        android:inputType="number"
-        android:key="budget_figure"
-        android:maxLength="7"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/setting_budget"/>
+            android:title="账户">
+            <intent android:action="com.example.samuel.expensemanager.account"/>
 
-    <ListPreference
-        android:defaultValue="0"
-        android:entries="@array/entries_network_preference"
-        android:entryValues="@array/entryvalues_network_preference"
-        android:key="network_setting"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/setting_network"/>
+        </PreferenceScreen>
 
-    <PreferenceScreen
-        android:title="类别管理">
 
-        <intent android:action="com.example.samuel.expensemanager.typeinfo"/>
+        <PreferenceScreen
 
-    </PreferenceScreen>
+            android:title="类别管理">
 
-    <PreferenceScreen
-        android:title="汇率换算">
+            <intent android:action="com.example.samuel.expensemanager.typeinfo"/>
 
-        <intent android:action="com.example.samuel.expensemanager.exchangerate"/>
+        </PreferenceScreen>
+        <PreferenceScreen
 
-    </PreferenceScreen>
+            android:title="汇率换算">
 
-    <PreferenceScreen
-        android:title="记账提醒">
+            <intent android:action="com.example.samuel.expensemanager.exchangerate"/>
 
-        <intent android:action="com.example.samuel.expensemanager.reminder"/>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="记账提醒"
+            >
 
-    </PreferenceScreen>
+            <intent android:action="com.example.samuel.expensemanager.reminder"/>
+        </PreferenceScreen>
+
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="高级设置">
+        <EditTextPreference
+            android:capitalize="words"
+            android:inputType="number"
+            android:key="budget_figure"
+            android:maxLength="7"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/setting_budget"/>
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/entries_network_preference"
+            android:entryValues="@array/entryvalues_network_preference"
+            android:key="network_setting"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/setting_network"/>
+
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="passset"
+            android:summary="未设置密码"
+            android:title="软件密码">
+            <intent android:action="com.example.samuel.expensemanager.password"/>
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+
 </PreferenceScreen>
