@@ -26,8 +26,8 @@ public class MyListView extends ListView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        System.out.println("可见的第一个位置： " + getFirstVisiblePosition());
-        System.out.println("可见的最后一个位置：" + getLastVisiblePosition());
+//        System.out.println("可见的第一个位置： " + getFirstVisiblePosition());
+//        System.out.println("可见的最后一个位置：" + getLastVisiblePosition());
         /**
          * 那么这里就需要判断下触摸事件的各种状态了 down和move
          */
