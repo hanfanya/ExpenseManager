@@ -31,6 +31,7 @@ import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
+import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.utils.SysUtils;
 
 import java.text.SimpleDateFormat;
@@ -527,6 +528,8 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
                 getActivity().finish();
 
             }
+            SPUtils.saveBoolean(getActivity(), "isSame", false);
+
         }
     }
 }

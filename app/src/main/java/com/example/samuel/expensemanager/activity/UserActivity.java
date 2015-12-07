@@ -55,9 +55,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     private void initLogin() {
         if (mBmobUser != null) {
             mSharedPerfarece = getSharedPreferences("user", MODE_PRIVATE);
-
             String nickName = mSharedPerfarece.getString(mBmobUser.getObjectId() + "_nickName", "");
-            user_tv_nickname.setText(nickName);
+            if (nickName.equals("")) {
+                user_tv_nickname.setText(mBmobUser.getUsername());
+            } else {
+                user_tv_nickname.setText(nickName);
+            }
             boolean haveDownload = SPUtils.getBoolean(UserActivity.this, "haveDownload", false);
             if (!haveDownload) {
                 initDownload();

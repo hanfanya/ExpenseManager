@@ -131,17 +131,17 @@ public class MainActivity extends AppCompatActivity
             mLoginState.setText(!"".equals(nickName) ? nickName : nickname);
 
             //本地
-            String userImageUrl = sp.getString(userObjectId + "_imageUrl", "");
-            String userimageUrl = (String) BmobUser.getObjectByKey(this, "userimageurl");
+//            String userImageUrl = sp.getString(userObjectId + "_imageUrl", "");
+//            String userimageUrl = (String) BmobUser.getObjectByKey(this, "userimageurl");
 
-            ImageLoader imageLoader = ImageLoader.getInstance();
+            /*ImageLoader imageLoader = ImageLoader.getInstance();
             if (!"".equals(userimageUrl) || ("").equals(userimageUrl)) {
                 if ("" != userImageUrl) {
                     imageLoader.displayImage(userImageUrl, mLoginView);
                 } else {
                     imageLoader.displayImage(userimageUrl, mLoginView);
                 }
-            }
+            }*/
         } else { //如果没有登陆
             //判断是否需要自动登陆
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity
                 //停在本地
                 Log.i("MainActivity", "没有登录");
 
-                mLoginView.setImageResource(R.mipmap.ic_launcher);
+                mLoginView.setImageResource(R.drawable.ic_nav);
                 mLoginState.setText("您尚未登陆,点击头像跳转登陆界面");
                 mLoginEmail.setText("您的email");
             }
