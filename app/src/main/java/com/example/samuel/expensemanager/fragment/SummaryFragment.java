@@ -344,7 +344,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         String month = CalUtils.getCurrentDate().substring(0, 6);
         System.out.println("month=" + month);
         mExpenseMonth = mExpenseDao.queryBuilder()//查询本月数据
-                .where(ExpenseDao.Properties.Date.like(month + "%")).list();
+                .where(ExpenseDao.Properties.Date.like(month + "%"), ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 8)).list();
         for (int i = 0; i < mExpenseMonth.size(); i++) {
             Expense expense = mExpenseMonth.get(i);
             int flag = expense.getTypeFlag();

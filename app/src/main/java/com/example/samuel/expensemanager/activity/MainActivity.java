@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity
 
                 mLoginView.setImageResource(R.drawable.ic_nav);
                 mLoginState.setText("您尚未登陆,点击头像跳转登陆界面");
-                mLoginEmail.setText("您的email");
+//                mLoginEmail.setText("您的email");
             }
         }
     }
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity
         mLoginLayout = (LinearLayout) headView.findViewById(R.id.ll_main_login);
         mLoginView = (ImageView) headView.findViewById(R.id.iv_main_login);
         mLoginState = (TextView) headView.findViewById(R.id.tv_main_login);
-        mLoginEmail = (TextView) headView.findViewById(R.id.tv_main_email);
+//        mLoginEmail = (TextView) headView.findViewById(R.id.tv_main_email);
 
     }
 
@@ -604,6 +604,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingActivity.class));
 
         } else if (id == R.id.nav_share) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
 
         }
         //抽屉收缩动画延迟0.5s

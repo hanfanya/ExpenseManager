@@ -1,7 +1,6 @@
 package com.example.samuel.expensemanager.fragment;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -18,7 +16,6 @@ import android.widget.TextView;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.example.samuel.expensemanager.R;
-import com.example.samuel.expensemanager.activity.PasswordSettingActivity;
 import com.example.samuel.expensemanager.adapter.SumExpenseListViewAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -96,21 +93,21 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
         mStartDate = new MyStartDate(mCurrentYear, mCurrentMonth, mCurrentDay);
         mEndDate = new MyEndDate(mCurrentYear, mCurrentMonth, mCurrentDay);
         //给listview设置监听
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                System.out.println(position + "----------------------------");
                 int Listposition = position - 1;
                 Intent intent = new Intent(getActivity(), PasswordSettingActivity.class);
 //                String startdate=mStartDate.startYear+mStartDate
-                /*intent.putExtra("startdate", mStartDate.getStartDate());
+                *//*intent.putExtra("startdate", mStartDate.getStartDate());
                 intent.putExtra("enddate", mEndDate.getEndDate());
 
-                intent.putExtra("typename", typeNames.get(Listposition));*/
+                intent.putExtra("typename", typeNames.get(Listposition));*//*
                 startActivity(intent);
 
             }
-        });
+        });*/
 
     }
 
