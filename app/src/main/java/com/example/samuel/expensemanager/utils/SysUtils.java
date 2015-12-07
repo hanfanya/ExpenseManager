@@ -39,7 +39,9 @@ public class SysUtils {
         boolean haveWifi = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
         boolean haveMobile = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
         if (networkInfo != null && networkInfo.isConnected()) {
-            int networkSetting = SPUtils.getInt(context, "network_setting", 0);
+//            int networkSetting = SPUtils.getInt(context, "network_setting", 0);
+            String network_setting = SPUtils.getString(context, "network_setting", "0");
+            int networkSetting = Integer.parseInt(network_setting);
             if (networkSetting == 1 && haveWifi) {
                 return true;
             } else if (networkSetting == 2 && haveNetwork(context)) {
@@ -51,6 +53,27 @@ public class SysUtils {
             return false;
         }
     }
+
+    public static boolean haveWifi(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean haveWifi = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+//            int networkSetting = SPUtils.getInt(context, "network_setting", 0);
+            String network_setting = SPUtils.getString(context, "network_setting", "0");
+            int networkSetting = Integer.parseInt(network_setting);
+            if (networkSetting == 1 && !haveWifi) {
+                return false;
+            } else {
+                return true;
+            }
+
+        } else {
+            return false;
+        }
+    }
+
 
     public static boolean hasLogin() {
 

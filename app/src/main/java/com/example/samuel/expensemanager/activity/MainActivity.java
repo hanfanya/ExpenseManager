@@ -35,23 +35,22 @@ import com.example.samuel.expensemanager.model.MyUser;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
 import com.example.samuel.expensemanager.utils.SPUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 import java.util.Random;
 
-import cn.bmob.v3.BmobUser;
-import cn.sharesdk.framework.ShareSDK;
-
-
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.CountListener;
 import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.sharesdk.framework.ShareSDK;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -90,6 +89,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
+
 
         assignViews();
         initUI();
@@ -158,14 +159,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void testBmob() {
-        Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
+    private void testBmob(boolean isClickByHand) {
+        final String username = BmobUser.getCurrentUser(MainActivity.this).getUsername();
         DaoSession daoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
         final ExpenseDao expenseDao = daoSession.getExpenseDao();
         final List<Expense> expenseList = expenseDao.queryBuilder()
                 .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
         System.out.println("expenseList size===" + expenseList.size());
-        SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+//        SPUtils.saveBoolean(MainActivity.this, "isSame", false);
         boolean isSame = SPUtils.getBoolean(MainActivity.this, "isSame", false);
         if (!isSame) {
             new Thread(new Runnable() {
@@ -180,7 +181,7 @@ public class MainActivity extends AppCompatActivity
                         cloudExpense.setFigure(expense.getFigure());
                         cloudExpense.setTypeColor(expense.getTypeColor());
                         cloudExpense.setTypeName(expense.getTypeName());
-                        cloudExpense.setUsername("samuel");
+                        cloudExpense.setUsername(username);
 
                         if (uploadFlag == 0 || uploadFlag == 1) {//向服务器插入数据
                             cloudExpense.save(MainActivity.this, new SaveListener() {
@@ -250,7 +251,7 @@ public class MainActivity extends AppCompatActivity
                 Log.i("bombTest", "全部上传成功============================");
                 SPUtils.saveBoolean(MainActivity.this, "isSame", true);
             }
-        } else {
+        } else if (isClickByHand) {
             Toast.makeText(MainActivity.this, "数据已经全部更新", Toast.LENGTH_SHORT).show();
             Log.i("bombTest", "数据已经全部更新");
         }
@@ -551,15 +552,42 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_upload) {
-            testBmob();
+            uploadData(false, true);
             return true;
         }
-        if (id == R.id.action_download) {
+        /*if (id == R.id.action_download) {
             testBmobDownload();
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void uploadData(boolean autoUpload, boolean isClickByHand) {
+        if (isClickByHand) {
+            if (!SysUtils.haveNetwork(MainActivity.this)) {
+                Toast.makeText(MainActivity.this, " 不能联网，请检查网络设置", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!SysUtils.haveWifi(MainActivity.this)) {
+                Toast.makeText(MainActivity.this, "你设置仅在WiFi下连接，请更改网络设置", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            boolean haveLogin = SPUtils.getBoolean(MainActivity.this, "haveLogin", false);
+            if (!haveLogin) {
+                Toast.makeText(MainActivity.this, " 请登录后同步", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+            testBmob(isClickByHand);
+        }
+        if (autoUpload) {
+            if (SysUtils.canUpload(MainActivity.this)) {
+                testBmob(false);
+            }
+        }
+
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -127,7 +127,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                         }
                         //跳转回登陆界面
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, UserActivity.class);
+
                         startActivity(intent);
                         finish();
                     }

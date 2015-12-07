@@ -28,7 +28,9 @@ public class SettingActivity extends AppCompatPreferenceActivity {
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
+//            String stringValue = value.toString();
             String stringValue = value.toString();
+
             Log.i("++++", stringValue);
 
             if (preference instanceof ListPreference) {
