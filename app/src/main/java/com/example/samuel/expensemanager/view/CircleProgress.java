@@ -62,6 +62,9 @@ public class CircleProgress extends View {
 
         } else if (mTargetProgress > 50) {
             mFrontPaint.setColor(Color.parseColor("#4CAF50"));
+        } else {
+            mFrontPaint.setColor(Color.parseColor("#8BC34A"));
+
         }
         invalidate();
 

@@ -266,6 +266,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
             yVals1.add(new BarEntry(cursor.getFloat(0), i));
             i++;
         }
+
         String sqlLastSixIn = "select sum(figure),substr(date,0,7) from EXPENSE where TYPE_FLAG =0 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc;";
         Cursor cursor2 = db.rawQuery(sqlLastSixIn, null);
         i = 0;

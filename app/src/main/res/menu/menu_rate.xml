@@ -7,9 +7,9 @@
         android:orderInCategory="100"
         android:title="更新汇率"
         app:showAsAction="never" />
-    <item
+    <!--<item
         android:id="@+id/action_createshortcut"
         android:orderInCategory="100"
         android:title="创建快捷方式"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
 </menu>

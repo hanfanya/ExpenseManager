@@ -1,6 +1,7 @@
 package com.example.samuel.expensemanager.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -107,6 +108,13 @@ public class SettingActivity extends AppCompatPreferenceActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent("com.example.barry.clockdemo.ReminderActivity.onDestroy");
+        sendBroadcast(intent);
     }
 
     public static class PrefsFragment extends PreferenceFragment {

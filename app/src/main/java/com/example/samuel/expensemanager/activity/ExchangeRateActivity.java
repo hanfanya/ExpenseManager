@@ -523,11 +523,11 @@ public class ExchangeRateActivity extends AppCompatActivity {
             Toast.makeText(this, "汇率已刷新", Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (id == R.id.action_createshortcut) {
+        /*if (id == R.id.action_createshortcut) {
             createShortCut();
             Toast.makeText(this, "快捷方式已创建", Toast.LENGTH_SHORT).show();
             return true;
-        }
+        }*/
 
 
         return super.onOptionsItemSelected(item);
@@ -553,5 +553,12 @@ public class ExchangeRateActivity extends AppCompatActivity {
         sendBroadcast(shortcut);
 
         Log.i("createShortCut", "done");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent("com.example.barry.clockdemo.ReminderActivity.onDestroy");
+        sendBroadcast(intent);
     }
 }

@@ -458,13 +458,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onSuccess() {
-                // TODO Auto-generated method stub
                 toast("关联成功");
             }
 
             @Override
             public void onFailure(int code, String msg) {
-                // TODO Auto-generated method stub
                 toast("关联失败：code =" + code + ",msg = " + msg);
             }
         });
@@ -497,6 +495,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+    }
+
+    /**
+     * 微博认证授权回调类。
+     * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 {@link SsoHandler#authorizeCallBack} 后，
+     * 该回调才会被执行。
+     * 2. 非 SSO 授权时，当授权结束后，该回调就会被执行。
+     * 当授权成功后，请保存该 access_token、expires_in、uid 等信息到 SharedPreferences 中。
+     */
+//    class AuthListener implements WeiboAuthListener {
+//        @Override
+//        public void onComplete(Bundle values) {
+//            mAccessToken = Oauth2AccessToken.parseAccessToken(values);
+//            if (mAccessToken != null && mAccessToken.isSessionValid()) {
+//                //调用Bmob提供的授权登录方法进行微博登陆，登录成功后，你就可以在后台管理界面的User表中看到微博登陆后的用户啦
+//                String token = mAccessToken.getToken();
+//                String expires = String.valueOf(mAccessToken.getExpiresTime());
+//                String uid = mAccessToken.getUid();
+//                Log.i("smile", "微博授权成功后返回的信息:token = " + token + ",expires =" + expires + ",uid = " + uid);
+//                BmobThirdUserAuth authInfo = new BmobThirdUserAuth(BmobThirdUserAuth.SNS_TYPE_WEIBO, token, expires, uid);
+//                loginWithAuth(authInfo);
+//            }
+//        }
+//        @Override
+//        public void onCancel() {
+//            Toast.makeText(LoginActivity.this,
+//                    "取消", Toast.LENGTH_LONG).show();
+//        }
+//        @Override
+//        public void onWeiboException(WeiboException e) {
+//            Toast.makeText(LoginActivity.this,
+//                    "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
+//        }
+//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent("com.example.barry.clockdemo.ReminderActivity.onDestroy");
+        sendBroadcast(intent);
     }
 
     private class MyTecentListener implements IUiListener {
@@ -532,40 +569,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
-
-
-    /**
-     * 微博认证授权回调类。
-     * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 {@link SsoHandler#authorizeCallBack} 后，
-     * 该回调才会被执行。
-     * 2. 非 SSO 授权时，当授权结束后，该回调就会被执行。
-     * 当授权成功后，请保存该 access_token、expires_in、uid 等信息到 SharedPreferences 中。
-     */
-//    class AuthListener implements WeiboAuthListener {
-//        @Override
-//        public void onComplete(Bundle values) {
-//            mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-//            if (mAccessToken != null && mAccessToken.isSessionValid()) {
-//                //调用Bmob提供的授权登录方法进行微博登陆，登录成功后，你就可以在后台管理界面的User表中看到微博登陆后的用户啦
-//                String token = mAccessToken.getToken();
-//                String expires = String.valueOf(mAccessToken.getExpiresTime());
-//                String uid = mAccessToken.getUid();
-//                Log.i("smile", "微博授权成功后返回的信息:token = " + token + ",expires =" + expires + ",uid = " + uid);
-//                BmobThirdUserAuth authInfo = new BmobThirdUserAuth(BmobThirdUserAuth.SNS_TYPE_WEIBO, token, expires, uid);
-//                loginWithAuth(authInfo);
-//            }
-//        }
-//        @Override
-//        public void onCancel() {
-//            Toast.makeText(LoginActivity.this,
-//                    "取消", Toast.LENGTH_LONG).show();
-//        }
-//        @Override
-//        public void onWeiboException(WeiboException e) {
-//            Toast.makeText(LoginActivity.this,
-//                    "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
-//        }
-//    }
 
 
 }

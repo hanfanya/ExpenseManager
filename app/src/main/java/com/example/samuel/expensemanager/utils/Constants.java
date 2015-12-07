@@ -8,7 +8,8 @@ public interface Constants {
     /**
      * 此为腾讯官方提供给开发者用于测试的APP_ID，个人开发者需要去QQ互联官网为自己的应用申请对应的AppId
      */
-    public static final String QQ_APP_ID ="222222";
+//    public static final String QQ_APP_ID ="222222";
+    public static final String QQ_APP_ID = "1105007682";
 
     public String BMOB_APPID ="a4542ee0d42314bd2d2804e1ca838c5d" ;
 
@@ -17,6 +18,7 @@ public interface Constants {
 
 
     /** 当前 DEMO 应用的 APP_KEY，第三方应用应该使用自己的 APP_KEY 替换该 APP_KEY */
+//    public static final String WEIBO_APP_KEY      = "1281151859";
     public static final String WEIBO_APP_KEY      = "1281151859";
 
     /**

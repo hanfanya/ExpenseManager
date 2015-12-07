@@ -76,4 +76,11 @@ public class AddRecordActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent("com.example.barry.clockdemo.ReminderActivity.onDestroy");
+        sendBroadcast(intent);
+    }
+
 }

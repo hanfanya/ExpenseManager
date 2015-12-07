@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.samuel.expensemanager">
+<manifest
+    package="com.example.samuel.expensemanager"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
 
     <!-- 授予应用程序访问系统开机事件的权限 -->
@@ -9,29 +10,29 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <!-- SHARESDK -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <!-- 蓝牙分享所需的权限 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <!-- qq登陆所需 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <application
         android:name=".ExpenseApplication"
@@ -44,7 +45,7 @@
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
@@ -55,14 +56,14 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.MainActivity" />
+                android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
         </activity>
         <activity
             android:name=".activity.SettingActivity"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.MainActivity" />
+                android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
         </activity>
         <activity
             android:name=".activity.DetailActivity"
@@ -70,81 +71,80 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.MainActivity" />
+                android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
         </activity>
         <activity
             android:name=".activity.SumActivity"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.TypeInfoActivity"
             android:parentActivityName=".activity.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.typeinfo" />
+                <action android:name="com.example.samuel.expensemanager.typeinfo"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
         </activity>
         <activity
             android:name=".activity.ExchangeRateActivity"
             android:parentActivityName=".activity.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.exchangerate" />
+                <action android:name="com.example.samuel.expensemanager.exchangerate"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
         </activity>
         <activity
             android:name=".activity.ReminderActivity"
             android:parentActivityName=".activity.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.reminder" />
+                <action android:name="com.example.samuel.expensemanager.reminder"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- 自定义广播，在活动被销毁时，启动服务 -->
-                <action android:name="com.example.barry.clockdemo.MainActivity.onDestroy"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
         </activity>
         <activity
             android:name=".activity.AccountActivity"
             android:parentActivityName=".activity.SettingActivity">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.account" />
+                <action android:name="com.example.samuel.expensemanager.account"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
         </activity>
         <activity
             android:name=".activity.AboutActivity"
             android:parentActivityName=".activity.SettingActivity">
             <intent-filter>
-                <action android:name="com.example.samuel.expensemanager.about" />
+                <action android:name="com.example.samuel.expensemanager.about"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.SettingActivity" />
+                android:value="com.example.samuel.expensemanager.activity.SettingActivity"/>
         </activity>
         <activity
             android:name=".activity.AddTypeInfoActivity"
@@ -152,7 +152,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.TypeInfoActivity" />
+                android:value="com.example.samuel.expensemanager.activity.TypeInfoActivity"/>
         </activity>
         <activity
             android:name=".activity.SelectColorActivity"
@@ -160,24 +160,24 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.samuel.expensemanager.activity.AddTypeInfoActivity" />
+                android:value="com.example.samuel.expensemanager.activity.AddTypeInfoActivity"/>
         </activity>
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".activity.MainActivity" />
+            android:parentActivityName=".activity.MainActivity"/>
         <activity
             android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_regist"
-            android:parentActivityName=".activity.LoginActivity" />
+            android:parentActivityName=".activity.LoginActivity"/>
         <activity
             android:name=".activity.UserActivity"
             android:label="@string/title_activity_userinfo"
-            android:parentActivityName=".activity.MainActivity" />
+            android:parentActivityName=".activity.MainActivity"/>
         <activity
             android:name=".activity.ChangePWordActivity"
             android:label="@string/title_activity_changepwd"
-            android:parentActivityName=".activity.UserActivity" />
+            android:parentActivityName=".activity.UserActivity"/>
 
 
         <!-- qq登录所需 -->
@@ -187,19 +187,19 @@
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="tencent222222" />
+                <data android:scheme="tencent222222"/>
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -207,18 +207,18 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <data android:scheme="tencent100371282" />
+                <data android:scheme="tencent100371282"/>
 
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             <!-- 调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <!-- 微信分享回调 -->
@@ -227,7 +227,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name=".activity.PasswordSettingActivity"
             android:parentActivityName=".activity.SettingActivity"
@@ -238,7 +238,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SplishActivity">
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -272,6 +272,8 @@
                 <action android:name="android.intent.action.MEDIA_MOUNTED"/>
                 <action android:name="android.intent.action.MEDIA_UNMOUNTED"/>
                 <action android:name="MainActivity.openReminder.repeat"/>
+                <!-- 自定义广播，在活动被销毁时，启动服务 -->
+                <action android:name="com.example.barry.clockdemo.MainActivity.onDestroy"/>
 
                 <data android:scheme="file"></data>
             </intent-filter>

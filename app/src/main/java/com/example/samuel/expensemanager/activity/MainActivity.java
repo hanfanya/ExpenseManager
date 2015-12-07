@@ -350,7 +350,7 @@ public class MainActivity extends AppCompatActivity
             Expense expense = new Expense();
 
             int typeNumber = random.nextInt(typeIncome.length);
-            int figure = random.nextInt(5000);
+            int figure = random.nextInt(500);
 
             int flag = 0;//收入
             int color = typeInfos.get(typeNumber).getTypeColor();
@@ -625,5 +625,12 @@ public class MainActivity extends AppCompatActivity
         }).start();
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent("com.example.barry.clockdemo.ReminderActivity.onDestroy");
+        sendBroadcast(intent);
     }
 }

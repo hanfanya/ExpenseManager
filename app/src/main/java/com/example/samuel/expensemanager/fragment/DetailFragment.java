@@ -25,6 +25,7 @@ import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.utils.DatesUtils;
+import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.view.MyListView;
 
 import java.util.List;
@@ -100,7 +101,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         lv_detail_fragment = (MyListView) view.findViewById(R.id.lv_detail_fragment);
         tv_notice = (TextView) view.findViewById(R.id.tv_notice);
         //上数据
-        initData();
+//        initData();
         return view;
     }
 
@@ -109,6 +110,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
      */
     private void initData() {
         //通过key拿到传来的page的位置
+        sum = 0;
         position = (int) getArguments().getSerializable("position");
         //通过position得到日期
         String date = DatesUtils.getDate(position);
@@ -232,6 +234,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
                 break;
 
         }
+        SPUtils.saveBoolean(getActivity(), "isSame", false);
         mLists.remove(position);
         myAdapater.notifyDataSetChanged();
         Toast.makeText(getActivity(), "记录已删除", Toast.LENGTH_SHORT).show();

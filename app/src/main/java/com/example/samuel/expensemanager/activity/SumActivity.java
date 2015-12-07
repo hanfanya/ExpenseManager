@@ -1,6 +1,7 @@
 package com.example.samuel.expensemanager.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -60,5 +61,12 @@ public class SumActivity extends AppCompatActivity {
         mTablayoutSum.setupWithViewPager(mViewpagerSum);
         mTablayoutSum.setTabsFromPagerAdapter(sumPagerAdapter);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent("com.example.barry.clockdemo.ReminderActivity.onDestroy");
+        sendBroadcast(intent);
     }
 }
