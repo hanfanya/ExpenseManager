@@ -259,7 +259,8 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
     private void setChangeDate(String startDate, String endDate) {
         String NumberStartDate = startDate.substring(0, 4) + startDate.substring(5, 7) + startDate.substring(8, 10);
         //System.out.println(a+"---------------------------------------");
-        String NumberEndDate = endDate.substring(0, 4) + endDate.substring(5, 7) + endDate.substring(8, 10);
+        String NumberEndDate = endDate.substring(0, 4) + endDate.substring(5, 7) + "31";
+        System.out.println("=========" + NumberEndDate);
         //访问数据库，拿到数据
         SQLiteDatabase db = getContext().openOrCreateDatabase("expense-db", getContext().MODE_PRIVATE, null);
         //从数据库获取总支出

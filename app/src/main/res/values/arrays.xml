@@ -3,7 +3,7 @@
 
     <string-array name="entries_network_preference">
         <item>不自动同步</item>
-        <item>仅Wifi连接时同步</item>
+        <item>仅Wifi连接时自动同步</item>
         <item>有网络连接时自动同步</item>
     </string-array>
     <string-array name="entryvalues_network_preference">

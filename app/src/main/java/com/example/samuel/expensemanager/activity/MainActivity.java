@@ -3,6 +3,7 @@ package com.example.samuel.expensemanager.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     //支出类型
     public static final String[] typeExpense = new String[]{"早餐", "午餐", "晚餐", "夜宵", "零食", "饮料", "日用品", "话费",
-            "软件", "服装", "鞋帽", "医疗", "果蔬", "影院", "数码", "房租", "护肤", "居家", "书籍", "油盐酱醋", "交通", "摄影文印",
+            "软件", "服装", "鞋帽", "医疗", "保健", "果蔬", "影院", "数码", "房租", "护肤", "居家", "书籍", "油盐酱醋", "交通", "摄影文印",
             "娱乐", "物业", "礼物", "社交", "剁手"};
     //收入类型
     public static final String[] typeIncome = new String[]{"工资", "奖金", "彩票", "余额宝", "股票"};
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity
     private TabLayout mTabLayoutHome;
     private int mSum;
     private int mCount;
+    private DaoSession mDaoSession;
 
 
     private LinearLayout mLoginLayout;//头布局
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     private TextView mLoginState;//头布局中的state
     private TextView mLoginEmail;//头布局中的email
     private boolean isAutoLogin = false;
+    private boolean mIsUploading;
 
 
     @Override
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         assignViews();
         initUI();
         initData();
-//        testBmob();
+//        bmobUpload();
 
         //Gxl
         //初始化sharedsdk
@@ -107,11 +110,91 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private void assignViews() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_home);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mViewPagerHome = (ViewPager) findViewById(R.id.viewpager_tab_home);
+        mTabLayoutHome = (TabLayout) findViewById(R.id.tablayout_home);
+
+        //GXL
+        //gxl 动态加载头布局
+        View headView = View.inflate(MainActivity.this, R.layout.nav_header_main, null);
+        mNavigationView.addHeaderView(headView);
+        mLoginLayout = (LinearLayout) headView.findViewById(R.id.ll_main_login);
+        mLoginView = (ImageView) headView.findViewById(R.id.iv_main_login);
+        mLoginState = (TextView) headView.findViewById(R.id.tv_main_login);
+//        mLoginEmail = (TextView) headView.findViewById(R.id.tv_main_email);
+
+    }
+
+    private void initData() {
+        boolean hasInitData = SPUtils.getBoolean(this, "hasInitData", false);
+        if (!hasInitData) {
+            initInsertType();
+            SPUtils.saveBoolean(this, "hasInitData", true);
+        }
+        mIsUploading = false;
+
+//        testInsertData();
+
+    }
+
+    public void initInsertType() {
+        DaoSession daoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
+        TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
+        int[] colorArray = getResources().getIntArray(R.array.colorType);
+
+
+        Random random = new Random();
+        for (int i = 0; i < typeExpense.length; i++) {
+            TypeInfo typeInfo = new TypeInfo();
+
+            int color = random.nextInt(colorArray.length);
+            String name = typeExpense[i];
+            int flag = 1;
+            int frequency = 0;
+            int uploadFrag = 0;
+
+            typeInfo.setTypeColor(color);
+            typeInfo.setTypeName(name);
+            typeInfo.setTypeFlag(flag);
+            typeInfo.setFrequency(frequency);
+            typeInfo.setUploadFlag(uploadFrag);
+
+            typeInfoDao.insertOrReplace(typeInfo);
+        }
+
+        for (int i = 0; i < typeIncome.length; i++) {
+            TypeInfo typeInfo = new TypeInfo();
+
+            int color = random.nextInt(colorArray.length);
+            String name = typeIncome[i];
+            int flag = 0;
+            int frequency = 0;
+            int uploadFrag = 0;
+
+            typeInfo.setTypeColor(color);
+            typeInfo.setTypeName(name);
+            typeInfo.setTypeFlag(flag);
+            typeInfo.setFrequency(frequency);
+            typeInfo.setUploadFlag(uploadFrag);
+
+            typeInfoDao.insertOrReplace(typeInfo);
+        }
+
+    }
+
     //GXL
     @Override
     protected void onResume() {
         super.onResume();
         initlogin();
+        int networkSetting = Integer.parseInt(SPUtils.getString(MainActivity.this, "network_setting", "0"));
+        if (networkSetting == 1 || networkSetting == 2) {
+            uploadData(true, false);
+        }
+
     }
 
     //检查登陆状态
@@ -159,7 +242,55 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void testBmob(boolean isClickByHand) {
+    private void uploadData(boolean autoUpload, boolean isClickByHand) {
+        boolean haveLogin = SPUtils.getBoolean(MainActivity.this, "haveLogin", false);
+
+
+        if (isClickByHand) {
+
+
+            if (!SysUtils.haveNetwork(MainActivity.this)) {
+                Toast.makeText(MainActivity.this, " 不能联网，请检查网络设置", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (SPUtils.getBoolean(MainActivity.this, "isSame", false)) {
+                Toast.makeText(MainActivity.this, "数据已经全部同步到了云端", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            /*if (!SysUtils.haveWifi(MainActivity.this)) {
+                Toast.makeText(MainActivity.this, "你设置仅在WiFi下连接，请更改网络设置", Toast.LENGTH_SHORT).show();
+                return;
+            }*/
+            if (mIsUploading) {
+                Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!haveLogin) {
+                Toast.makeText(MainActivity.this, " 请登录后同步", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+//            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+            bmobUpload(isClickByHand);
+            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+
+
+        }
+        if (autoUpload && haveLogin) {
+            if (SPUtils.getBoolean(MainActivity.this, "isSame", false)) {
+                return;
+            }
+            if (SysUtils.canUpload(MainActivity.this)) {
+                bmobUpload(false);
+            }
+        }
+
+
+    }
+
+    private void bmobUpload1(final boolean isClickByHand) {
+        Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+        mIsUploading = true;
         final String username = BmobUser.getCurrentUser(MainActivity.this).getUsername();
         DaoSession daoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
         final ExpenseDao expenseDao = daoSession.getExpenseDao();
@@ -168,7 +299,7 @@ public class MainActivity extends AppCompatActivity
         System.out.println("expenseList size===" + expenseList.size());
 //        SPUtils.saveBoolean(MainActivity.this, "isSame", false);
         boolean isSame = SPUtils.getBoolean(MainActivity.this, "isSame", false);
-        if (!isSame) {
+                /*if (!isSame) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -243,75 +374,38 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     }
+
+                    List<Expense> list = expenseDao.queryBuilder()
+                            .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
+                    System.out.println("同步后长度:" + list.size());
+                    if (list.size() == 0) {
+                        Log.i("bombTest", "全部上传成功============================");
+                        SPUtils.saveBoolean(MainActivity.this, "isSame", true);
+                        if (isClickByHand) {
+                            Toast.makeText(MainActivity.this, "数据已经全部更新", Toast.LENGTH_SHORT).show();
+
+                            Log.i("bombTest", "数据已经全部更新");
+                        }
+
+                    }
+                    mIsUploading = false;
                 }
             }).start();
-            List<Expense> list = expenseDao.queryBuilder()
-                    .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
-            if (list.size() == 0) {
-                Log.i("bombTest", "全部上传成功============================");
-                SPUtils.saveBoolean(MainActivity.this, "isSame", true);
-            }
-        } else if (isClickByHand) {
-            Toast.makeText(MainActivity.this, "数据已经全部更新", Toast.LENGTH_SHORT).show();
-            Log.i("bombTest", "数据已经全部更新");
-        }
 
-
-//        System.out.println("全部上传成功============================");
+        }*/
 
     }
 
-    private void initData() {
-        boolean hasInitData = SPUtils.getBoolean(this, "hasInitData", false);
-        if (!hasInitData) {
-            testInsertType();
-            SPUtils.saveBoolean(this, "hasInitData", true);
-        }
-//        testInsertData();
+    private void bmobUpload(boolean isClickByHand) {
+        boolean isSame = SPUtils.getBoolean(MainActivity.this, "isSame", false);
+        mIsUploading = true;
 
-    }
-
-    public void testInsertType() {
-        DaoSession daoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
-        TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
-        int[] colorArray = getResources().getIntArray(R.array.colorType);
-
-
-        Random random = new Random();
-        for (int i = 0; i < typeExpense.length; i++) {
-            TypeInfo typeInfo = new TypeInfo();
-
-            int color = random.nextInt(colorArray.length);
-            String name = typeExpense[i];
-            int flag = 1;
-            int frequency = 0;
-            int uploadFrag = 0;
-
-            typeInfo.setTypeColor(color);
-            typeInfo.setTypeName(name);
-            typeInfo.setTypeFlag(flag);
-            typeInfo.setFrequency(frequency);
-            typeInfo.setUploadFlag(uploadFrag);
-
-            typeInfoDao.insertOrReplace(typeInfo);
-        }
-
-        for (int i = 0; i < typeIncome.length; i++) {
-            TypeInfo typeInfo = new TypeInfo();
-
-            int color = random.nextInt(colorArray.length);
-            String name = typeIncome[i];
-            int flag = 0;
-            int frequency = 0;
-            int uploadFrag = 0;
-
-            typeInfo.setTypeColor(color);
-            typeInfo.setTypeName(name);
-            typeInfo.setTypeFlag(flag);
-            typeInfo.setFrequency(frequency);
-            typeInfo.setUploadFlag(uploadFrag);
-
-            typeInfoDao.insertOrReplace(typeInfo);
+//        SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+        if (!isSame) {
+//            new UploadTask().execute(Void, Void, isClickByHand);
+            UploadTask uploadTask = new UploadTask();
+//            uploadTask.execute(isClickByHand, isClickByHand);
+            new UploadTask().execute(isClickByHand);
         }
 
     }
@@ -369,24 +463,6 @@ public class MainActivity extends AppCompatActivity
             expenseDao.insertOrReplace(expense);
 
         }
-
-    }
-
-    private void assignViews() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_home);
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mViewPagerHome = (ViewPager) findViewById(R.id.viewpager_tab_home);
-        mTabLayoutHome = (TabLayout) findViewById(R.id.tablayout_home);
-
-        //GXL
-        //gxl 动态加载头布局
-        View headView = View.inflate(MainActivity.this, R.layout.nav_header_main, null);
-        mNavigationView.addHeaderView(headView);
-        mLoginLayout = (LinearLayout) headView.findViewById(R.id.ll_main_login);
-        mLoginView = (ImageView) headView.findViewById(R.id.iv_main_login);
-        mLoginState = (TextView) headView.findViewById(R.id.tv_main_login);
-//        mLoginEmail = (TextView) headView.findViewById(R.id.tv_main_email);
 
     }
 
@@ -462,6 +538,17 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_upload) {
+            uploadData(false, true);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void testBmobDownload() {
@@ -547,49 +634,6 @@ public class MainActivity extends AppCompatActivity
         Log.i("bmobTest", "本地数据库的的记录数量为：" + expenseList.size());
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_upload) {
-            uploadData(false, true);
-            return true;
-        }
-        /*if (id == R.id.action_download) {
-            testBmobDownload();
-            return true;
-        }*/
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void uploadData(boolean autoUpload, boolean isClickByHand) {
-        if (isClickByHand) {
-            if (!SysUtils.haveNetwork(MainActivity.this)) {
-                Toast.makeText(MainActivity.this, " 不能联网，请检查网络设置", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!SysUtils.haveWifi(MainActivity.this)) {
-                Toast.makeText(MainActivity.this, "你设置仅在WiFi下连接，请更改网络设置", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            boolean haveLogin = SPUtils.getBoolean(MainActivity.this, "haveLogin", false);
-            if (!haveLogin) {
-                Toast.makeText(MainActivity.this, " 请登录后同步", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
-            testBmob(isClickByHand);
-        }
-        if (autoUpload) {
-            if (SysUtils.canUpload(MainActivity.this)) {
-                testBmob(false);
-            }
-        }
-
-
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -632,5 +676,117 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         Intent intent = new Intent("com.example.barry.clockdemo.ReminderActivity.onDestroy");
         sendBroadcast(intent);
+    }
+
+    private class UploadTask extends AsyncTask<Boolean, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Boolean... params) {
+            String username = BmobUser.getCurrentUser(MainActivity.this).getUsername();
+            mDaoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
+            final ExpenseDao expenseDao = mDaoSession.getExpenseDao();
+            final List<Expense> expenseList = expenseDao.queryBuilder()
+                    .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
+            System.out.println("expenseList size===" + expenseList.size());
+            for (int i = 0; i < expenseList.size(); i++) {
+                final Expense expense = expenseList.get(i);
+                Integer uploadFlag = expense.getUploadFlag();
+                final CloudExpense cloudExpense = new CloudExpense();
+                cloudExpense.setTypeFlag(expense.getTypeFlag());
+                cloudExpense.setDate(expense.getDate());
+                cloudExpense.setFigure(expense.getFigure());
+                cloudExpense.setTypeColor(expense.getTypeColor());
+                cloudExpense.setTypeName(expense.getTypeName());
+                cloudExpense.setUsername(username);
+
+                if (uploadFlag == 0 || uploadFlag == 1) {//向服务器插入数据
+                    cloudExpense.save(MainActivity.this, new SaveListener() {
+                        @Override
+                        public void onSuccess() {
+                            String objectId = cloudExpense.getObjectId();
+                            expense.setExpenseObjectId(objectId);
+                            expense.setUploadFlag(8);
+                            expenseDao.update(expense);
+                            Log.i("bmobTest", "上传成功数据,objectId = " + objectId);
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+                            String objectId = cloudExpense.getObjectId();
+
+                            SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+                            Log.i("bmobTest", "上传数据失败,objectId = " + objectId + "错误信息为：" + s);
+
+                        }
+                    });
+                } else if (uploadFlag == 5) {
+                    String expenseObjectId = expense.getExpenseObjectId();
+                    cloudExpense.update(MainActivity.this, expenseObjectId, new UpdateListener() {
+                        @Override
+                        public void onSuccess() {
+                            Log.i("bmobTest", "更新数据成功,getUpdatedAt = " + cloudExpense.getUpdatedAt());
+                            expense.setUploadFlag(200);
+                            expenseDao.update(expense);
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+                            Log.i("bmobTest", "更新数据失败,失败信息为：" + cloudExpense.getUpdatedAt());
+                            SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+
+
+                        }
+                    });
+
+                } else if (uploadFlag == 6 || uploadFlag == 7) {
+                    String expenseObjectId = expense.getExpenseObjectId();
+                    cloudExpense.setObjectId(expenseObjectId);
+                    cloudExpense.delete(MainActivity.this, new DeleteListener() {
+                        @Override
+                        public void onSuccess() {
+                            Log.i("bmobTest", "删除数据成功");
+//                                expense.setUploadFlag(200);
+                            expenseDao.delete(expense);
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+                            Log.i("bmobTest", "删除数据失败,失败信息为：" + s);
+                            SPUtils.saveBoolean(MainActivity.this, "isSame", false);
+
+                        }
+                    });
+
+                }
+            }
+            return params[0];
+        }
+
+
+        @Override
+        protected void onPostExecute(Boolean isClickByHand) {
+            super.onPostExecute(isClickByHand);
+            DaoSession daoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
+            ExpenseDao expenseDao = daoSession.getExpenseDao();
+
+            List<Expense> list = expenseDao.queryBuilder()
+                    .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
+            System.out.println("同步后长度:" + list.size());
+            if (list.size() == 0) {
+                Log.i("bombTest", "全部上传成功============================");
+                SPUtils.saveBoolean(MainActivity.this, "isSame", true);
+                if (isClickByHand) {
+                    Toast.makeText(MainActivity.this, "数据已经全部更新", Toast.LENGTH_SHORT).show();
+
+                    Log.i("bombTest", "数据已经全部更新");
+                }
+
+            }
+            mIsUploading = false;
+
+
+        }
+
+
     }
 }

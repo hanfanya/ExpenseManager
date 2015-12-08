@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.model.MyUser;
 import com.example.samuel.expensemanager.utils.SPUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
@@ -90,6 +91,10 @@ public class RegisterActivity extends AppCompatActivity {
         regist_btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!SysUtils.haveNetwork(RegisterActivity.this)) {
+                    Toast.makeText(RegisterActivity.this, "网络不可用，请连接网络", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String username = regist_et_account.getText().toString().trim();
                 String pwd = regist_et_pwd.getText().toString().trim();
                 String repwd = regist_et_repwd.getText().toString().trim();
@@ -135,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int i, String s) {
-                        toast("注册失败,已经有该用户");
+                        toast("注册失败，请重新注册");
                     }
                 });
             }

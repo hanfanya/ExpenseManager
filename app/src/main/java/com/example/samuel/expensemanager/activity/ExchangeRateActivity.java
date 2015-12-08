@@ -18,6 +18,7 @@ import com.example.samuel.expensemanager.adapter.CurrencyListAdapter;
 import com.example.samuel.expensemanager.bean.Country;
 import com.example.samuel.expensemanager.utils.PrefUtils;
 import com.example.samuel.expensemanager.utils.RefreshRateUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,7 @@ public class ExchangeRateActivity extends AppCompatActivity {
     private ArrayList<Country> mCountryList;//原始数据
     private ArrayList<Country> mShownCountryList;//要显示的数据
     private ArrayList<Integer> indexInCountryList = new ArrayList<Integer>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -519,6 +521,10 @@ public class ExchangeRateActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if (!SysUtils.haveNetwork(ExchangeRateActivity.this)) {
+                Toast.makeText(ExchangeRateActivity.this, "网络不可用，请连接网络", Toast.LENGTH_SHORT).show();
+                return true;
+            }
             initRate();
             Toast.makeText(this, "汇率已刷新", Toast.LENGTH_SHORT).show();
             return true;

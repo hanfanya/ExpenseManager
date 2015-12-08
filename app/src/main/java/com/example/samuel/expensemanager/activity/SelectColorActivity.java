@@ -40,6 +40,11 @@ public class SelectColorActivity extends AppCompatActivity {
 
         mColorArray = getResources().getIntArray(R.array.colorType);
 
+        Intent intent = getIntent();
+        int defaultColor = intent.getIntExtra("defaultColor", 0);
+        intent.putExtra("color_position", defaultColor);
+        setResult(1, intent);
+
 
     }
 
@@ -59,7 +64,7 @@ public class SelectColorActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
-    }
+    }*/
 }

@@ -204,7 +204,7 @@ public class ReminderActivity extends AppCompatActivity implements View.OnClickL
                                 pick[which] = isChecked;// 获取勾选状态
                             }
                         })
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 写入配置文件
@@ -221,7 +221,7 @@ public class ReminderActivity extends AppCompatActivity implements View.OnClickL
                                 , "一 二 三 四 五 六 日 "));
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("取消", null)
                 .show();
     }
 
@@ -318,7 +318,21 @@ public class ReminderActivity extends AppCompatActivity implements View.OnClickL
         //回显三个数据
         mUseChecked.setCheckedImmediately(status ? true : false);// 开关
         mDay.setTextViewText(mSelectDay);//日期
-        mTime.setTextViewText(mSelectHour + " : " + mSelectMinute);// 时间
+        String text = null;
+        if (mSelectHour < 10) {
+            if (mSelectMinute < 10) {
+                text = "0" + mSelectHour + "时" + "0" + mSelectMinute + "分";
+            } else {
+                text = "0" + mSelectHour + "时" + mSelectMinute + "分";
+            }
+        } else if (mSelectHour >= 10) {
+            if (mSelectMinute < 10) {
+                text = mSelectHour + "时" + "0" + mSelectMinute + "分";
+            } else {
+                text = mSelectHour + "时" + mSelectMinute + "分";
+            }
+        }
+        mTime.setTextViewText(text);// 时间
         mDay.setClickable(status);
         mTime.setClickable(status);
         setAlarm();

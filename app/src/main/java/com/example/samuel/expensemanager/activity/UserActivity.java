@@ -71,10 +71,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initDownload() {
+        String username = mBmobUser.getUsername();
+
 
         mSum = 0;
         BmobQuery<CloudExpense> query = new BmobQuery<>();
-        query.addWhereEqualTo("username", "samuel");
+        query.addWhereEqualTo("username", username);
         query.count(this, CloudExpense.class, new CountListener() {
             @Override
             public void onSuccess(int i) {
@@ -86,6 +88,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(int i, String s) {
+                Toast.makeText(UserActivity.this, "同步失败，请稍后重试", Toast.LENGTH_SHORT).show();
                 Log.i("bmobTest", "查询失败" + s);
 
             }

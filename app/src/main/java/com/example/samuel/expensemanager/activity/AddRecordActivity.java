@@ -17,6 +17,8 @@ public class AddRecordActivity extends AppCompatActivity {
     private TabLayout mTablayoutAddRecord;
     private ViewPager mViewpagerTabAddRecord;
     private AddRecordPagerAdapter mPagerAdapter;
+    private boolean mIsCreated;
+    private int mTypeFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +43,14 @@ public class AddRecordActivity extends AppCompatActivity {
 
     private void initFragment() {//初始化Fragment
         Intent intent = getIntent();
-        boolean isCreated = intent.getBooleanExtra("isCreated", true);
+        mIsCreated = intent.getBooleanExtra("isCreated", true);
         long recordId = intent.getLongExtra("edit_record", 0);
-        int typeFlag = intent.getIntExtra("type_flag", 0);
+        mTypeFlag = intent.getIntExtra("type_flag", 0);
 
         Bundle bundle = new Bundle();
-        bundle.putBoolean("isCreated", isCreated);
+        bundle.putBoolean("isCreated", mIsCreated);
         bundle.putLong("edit_record", recordId);
-        bundle.putInt("type_flag", typeFlag);
+        bundle.putInt("type_flag", mTypeFlag);
 
         mPagerAdapter.addFragment(ExpenseFragment.newInstance(bundle), "支出");
         mPagerAdapter.addFragment(IncomeFragment.newInstance(bundle), "收入");
@@ -72,6 +74,16 @@ public class AddRecordActivity extends AppCompatActivity {
 
         mTablayoutAddRecord.setupWithViewPager(mViewpagerTabAddRecord);
         mTablayoutAddRecord.setTabsFromPagerAdapter(mPagerAdapter);
+
+
+        if (mTypeFlag == 1) {
+            mViewpagerTabAddRecord.setCurrentItem(0);
+        } else {
+            mViewpagerTabAddRecord.setCurrentItem(1);
+        }
+        if (mIsCreated) {
+            mViewpagerTabAddRecord.setCurrentItem(0);
+        }
 
 
     }

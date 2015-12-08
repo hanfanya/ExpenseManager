@@ -71,6 +71,7 @@ public class AddTypeInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddTypeInfoActivity.this, SelectColorActivity.class);
+                intent.putExtra("defaultColor", mTypeColor);
                 startActivityForResult(intent, REQUEST_COLOR);
             }
         });

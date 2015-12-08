@@ -152,7 +152,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         setData();
         mLineChart.getLegend().setEnabled(false);
 
-        mLineChart.animateXY(2000, 1000);
+        mLineChart.animateXY(1000, 800);
         // Log.e("--------", "-------------------------");
         mLineChart.invalidate();
     }
@@ -224,7 +224,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
 
         mBarChart.getAxisRight().setEnabled(false);
 
-        mBarChart.animateXY(1000, 2000);
+        mBarChart.animateXY(800, 1000);
         setBarData();
     }
 
@@ -258,22 +258,34 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         //从数据库拿到数据
         String mlastSixDate = getLastSixDate();
 
-        String sqlLastSixEx = "select sum(figure),substr(date,0,7) from EXPENSE where TYPE_FLAG =1 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc;";
+        String sqlLastSixEx = "select a.[sum(figure)],b.[sum(figure)],a.[substr(date,0,7)] as mydate from (select sum(figure),substr(date,0,7) from EXPENSE where  TYPE_FLAG =1 and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc) as a left outer join (select sum(figure),substr(date,0,7) from EXPENSE where  TYPE_FLAG =0 and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc) as b on a.[substr(date,0,7)]=b.[substr(date,0,7)] " +
+                "union select b.[sum(figure)],a.[sum(figure)],a.[substr(date,0,7)] as mydate from (select sum(figure),substr(date,0,7) from EXPENSE where  TYPE_FLAG =0 and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc) as a left outer join (select sum(figure),substr(date,0,7) from EXPENSE where  TYPE_FLAG =1 and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc) as b on a.[substr(date,0,7)]=b.[substr(date,0,7)] order by mydate asc;";
+//        String sqlLastSixEx = "select sum(figure),substr(date,0,7) from EXPENSE where TYPE_FLAG =1 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc;";
         Cursor cursor = db.rawQuery(sqlLastSixEx, null);
         int i = 0;
         while (cursor.moveToNext()) {
-            xVals.add(cursor.getString(1).substring(2, 4) + "/" + cursor.getString(1).substring(4));
-            yVals1.add(new BarEntry(cursor.getFloat(0), i));
+//            xVals.add(cursor.getString(1).substring(2, 4) + "/" + cursor.getString(1).substring(4));
+            if (cursor.getString(0) != null) {
+//                xVals.add(cursor.getString(1).substring(2, 4) + "/" + cursor.getString(1).substring(4));
+                yVals1.add(new BarEntry(cursor.getFloat(0), i));
+
+            }
+//            yVals1.add(new BarEntry(cursor.getFloat(0), i));
+            if (cursor.getString(1) != null) {
+                yVals2.add(new BarEntry(cursor.getFloat(1), i));
+            }
+            xVals.add(cursor.getString(2).substring(2, 4) + "/" + cursor.getString(2).substring(4));
+            System.out.println("++++++" + cursor.getString(2));
             i++;
         }
 
-        String sqlLastSixIn = "select sum(figure),substr(date,0,7) from EXPENSE where TYPE_FLAG =0 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc;";
-        Cursor cursor2 = db.rawQuery(sqlLastSixIn, null);
-        i = 0;
-        while (cursor2.moveToNext()) {
+//        String sqlLastSixIn = "select sum(figure),substr(date,0,7) from EXPENSE where TYPE_FLAG =0 and  UPLOAD_FLAG in (0,1,5,8) and DATE between " + mlastSixDate + " and " + mCurrentDate + " group by substr(date,0,7) order by date asc;";
+//        Cursor cursor2 = db.rawQuery(sqlLastSixIn, null);
+//        i = 0;
+        /*while (cursor2.moveToNext()) {
             yVals2.add(new BarEntry(cursor2.getFloat(0), i));
             i++;
-        }
+        }*/
         BarDataSet set1 = new BarDataSet(yVals1, "支出");
         // set1.setColors(ColorTemplate.createColors(getApplicationContext(),
         // ColorTemplate.FRESH_COLORS));
@@ -305,7 +317,7 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
         //初始化数据库
         db = getContext().openOrCreateDatabase("expense-db", getContext().MODE_PRIVATE, null);
         //初始化当前日期
-        mCurrentDate = CalUtils.getCurrentDate();
+        mCurrentDate = CalUtils.getCurrentDate().substring(0, 4) + "31";
     }
 
     private void showSetBudgetDialog() {
