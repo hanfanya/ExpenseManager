@@ -23,6 +23,7 @@ import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
+import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.view.CountView;
 import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -202,6 +203,7 @@ public class HomeFragment extends Fragment {
         mExpenseList.remove(position);
         mHomeListAdapter.notifyDataSetChanged();
         Toast.makeText(getActivity(), "记录已删除", Toast.LENGTH_SHORT).show();
+        SPUtils.saveBoolean(getActivity(), "isSame", false);
 
     }
 

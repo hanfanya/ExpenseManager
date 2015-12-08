@@ -39,7 +39,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 public class DetailFragment extends Fragment implements AdapterView.OnItemLongClickListener {
 
     public List<Expense> mLists;
-    public double sum; //支出总额
+    public double sum = 0; //支出总额
     private int[] colorArray;
     private int position;
     private View view;
@@ -48,16 +48,18 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
     private MyAdapater myAdapater;
     private Menu mMenu;
     private MenuItem mDateItem;
+    private boolean hasInited = false;
     private String sumString;
     private ExpenseDao mExpenseDao;
-
     public DetailFragment() {
+        System.out.println("构造方法------------------------------");
     }
 
     /**
      * 静态方法，在对象创建之前就存在了
      */
     public static DetailFragment newInstance(int position) {
+//        System.out.println("newInstance-------------------------");
         /**
          * 将传来的date当做一个参数实体封装到bunlde中
          */
@@ -74,9 +76,53 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        System.out.println("onCreateView---------------------");
         setHasOptionsMenu(true);
         colorArray = getActivity().getResources().getIntArray(R.array.colorType);
         return initViews();
+    }
+
+    /**
+     * 初始化view对象
+     */
+    private View initViews() {
+//        System.out.println("initViews------------------------");
+        view = View.inflate(getContext(), R.layout.fragment_detail, null);
+
+        lv_detail_fragment = (MyListView) view.findViewById(R.id.lv_detail_fragment);
+        tv_notice = (TextView) view.findViewById(R.id.tv_notice);
+        return view;
+    }
+
+    /**
+     * 每次得焦的时候call到
+     */
+    @Override
+    public void onResume() {
+//        System.out.println("onResume----------------------------");
+        super.onResume();
+        initData();
+        //判断menu是否已经初始化！
+        if (hasInited) {
+            mDateItem.setTitle(sumString);
+        }
+    }
+
+    /**
+     * 给view上数据
+     */
+    private void initData() {
+//        System.out.println("initData--------------------------");
+        //通过key拿到传来的page的位置
+        position = (int) getArguments().getSerializable("position");
+        //通过position得到日期
+        String date = DatesUtils.getDate(position);
+        //取出该天的数据，封装到集合中
+        getData(date);
+        refreshSum();
+        myAdapater = new MyAdapater();
+        lv_detail_fragment.setAdapter(myAdapater);
+        lv_detail_fragment.setOnItemLongClickListener(this);
     }
 
     /**
@@ -86,36 +132,16 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
      */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        System.out.println("onCreateOptionsMenu----------------------");
         inflater.inflate(R.menu.menu_detail_fragment, menu);
         this.mMenu = menu;
         mDateItem = mMenu.findItem(R.id.action_date_title);
         mDateItem.setTitle(sumString);
+
+        hasInited = true; //表明菜单栏初始化完毕
     }
 
-    /**
-     * 初始化view对象
-     */
-    private View initViews() {
-        view = View.inflate(getContext(), R.layout.fragment_detail, null);
-
-        lv_detail_fragment = (MyListView) view.findViewById(R.id.lv_detail_fragment);
-        tv_notice = (TextView) view.findViewById(R.id.tv_notice);
-        //上数据
-//        initData();
-        return view;
-    }
-
-    /**
-     * 给view上数据
-     */
-    private void initData() {
-        //通过key拿到传来的page的位置
-        sum = 0;
-        position = (int) getArguments().getSerializable("position");
-        //通过position得到日期
-        String date = DatesUtils.getDate(position);
-        //取出该天的数据，封装到集合中
-        getData(date);
+    public void refreshSum() {
         getSum();
 //        for (Expense e : mLists) {
 //            System.out.println("日期： " + e.getDate() + " 金额: " + e.getFigure()
@@ -124,18 +150,11 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
 //                    + " 是否删除：" + e.getIsDeleted());
 //        }
         sumString = "总支出：￥" + sum;
-        myAdapater = new MyAdapater();
-        lv_detail_fragment.setAdapter(myAdapater);
-        lv_detail_fragment.setOnItemLongClickListener(this);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        initData();
     }
 
     public void getSum() {
+        sum = 0;
         for (Expense e : mLists) {
             if (e.getTypeFlag() == 1) { //支出
                 Double figure = e.getFigure();
@@ -154,6 +173,11 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         QueryBuilder qb = mExpenseDao.queryBuilder();
         qb.where(ExpenseDao.Properties.Date.eq(date), ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 8));
         mLists = qb.list();
+        isEmpty();
+
+    }
+
+    public void isEmpty() {
         if (mLists.size() == 0) {
             //如果没有记录，提示下
             tv_notice.setVisibility(View.VISIBLE);
@@ -164,7 +188,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
             lv_detail_fragment.setVisibility(View.VISIBLE);
         }
     }
-
 
     /**
      * 长按删除
@@ -194,8 +217,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
                 dialog.dismiss();   //点击后，关闭对话框
             }
         }).show();
-
-
     }
 
     //编辑选中的记录
@@ -210,7 +231,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         intent.putExtra("type_flag", typeFlag);
         intent.putExtra("isCreated", false);
         startActivity(intent);
-
     }
 
     //删除选中的记录
@@ -234,10 +254,14 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
                 break;
 
         }
-        SPUtils.saveBoolean(getActivity(), "isSame", false);
         mLists.remove(position);
         myAdapater.notifyDataSetChanged();
+        refreshSum();
+        isEmpty();
+        mDateItem.setTitle(sumString);
         Toast.makeText(getActivity(), "记录已删除", Toast.LENGTH_SHORT).show();
+        SPUtils.saveBoolean(getActivity(), "isSame", false);
+
     }
 
     static class ViewHolder {

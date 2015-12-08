@@ -1,6 +1,5 @@
 package com.example.samuel.expensemanager.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,9 +33,9 @@ public class DetailActivity extends AppCompatActivity implements OnDateSelectedL
     private MaterialCalendarView mCvMain;
     private ViewPager vp_expanse_detail;
     private String sDate;  //上面日历选择的日期
-    //    private CollapsingToolbarLayout collapse_toolbar;
     private ActionBar actionBar;
     private Toolbar mToolbar_detail;
+    private MyAdapter myPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +57,8 @@ public class DetailActivity extends AppCompatActivity implements OnDateSelectedL
         }
 
         mCvMain = (MaterialCalendarView) findViewById(R.id.cv_main);
-//        mCvMain = (MaterialCalendarView) findViewById(R.id.cv_main);
+        mCvMain = (MaterialCalendarView) findViewById(R.id.cv_main);
         vp_expanse_detail = (ViewPager) findViewById(R.id.vp_expanse_detail);
-
-//        collapse_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-//        int height = getWindowManager().getDefaultDisplay().getHeight();
-//        AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) collapse_toolbar.getLayoutParams();
-//        layoutParams.height = height * 11 / 16;
-//        collapse_toolbar.setLayoutParams(layoutParams);
     }
 
     /**
@@ -88,7 +81,8 @@ public class DetailActivity extends AppCompatActivity implements OnDateSelectedL
         mCvMain.setDateTextAppearance(R.color.mcv_text_date_light);//日期字体设为白色
         mCvMain.setSelectedDate(d); //选中当前日期
         mCvMain.setOnDateChangedListener(this); //当点选不同的日期时call到
-        vp_expanse_detail.setAdapter(new MyAdapter(getSupportFragmentManager()));
+        myPagerAdapter = new MyAdapter(getSupportFragmentManager());
+        vp_expanse_detail.setAdapter(myPagerAdapter);
         vp_expanse_detail.setOnPageChangeListener(this);
         vp_expanse_detail.setCurrentItem(position);
     }
@@ -141,12 +135,6 @@ public class DetailActivity extends AppCompatActivity implements OnDateSelectedL
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Intent intent = new Intent("com.example.barry.clockdemo.ReminderActivity.onDestroy");
-        sendBroadcast(intent);
-    }
 
     /**
      * viewpager的适配器
@@ -157,7 +145,7 @@ public class DetailActivity extends AppCompatActivity implements OnDateSelectedL
             super(fm);
         }
 
-        // 返回相应position的fragment对象
+        // 返回相应position的fragment对象,只有在pager改变的时候才会call到!!!
         @Override
         public Fragment getItem(int position) {
             return DetailFragment.newInstance(position);

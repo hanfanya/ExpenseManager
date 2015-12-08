@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity
 
 
             if (!SysUtils.haveNetwork(MainActivity.this)) {
-                Toast.makeText(MainActivity.this, " 不能联网，请检查网络设置", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "无法连接网络，请检查网络设置", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (SPUtils.getBoolean(MainActivity.this, "isSame", false)) {
@@ -680,6 +680,7 @@ public class MainActivity extends AppCompatActivity
 
     private class UploadTask extends AsyncTask<Boolean, Void, Boolean> {
 
+
         @Override
         protected Boolean doInBackground(Boolean... params) {
             String username = BmobUser.getCurrentUser(MainActivity.this).getUsername();
@@ -758,10 +759,10 @@ public class MainActivity extends AppCompatActivity
                     });
 
                 }
+
             }
             return params[0];
         }
-
 
         @Override
         protected void onPostExecute(Boolean isClickByHand) {
@@ -772,21 +773,15 @@ public class MainActivity extends AppCompatActivity
             List<Expense> list = expenseDao.queryBuilder()
                     .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
             System.out.println("同步后长度:" + list.size());
-            if (list.size() == 0) {
-                Log.i("bombTest", "全部上传成功============================");
-                SPUtils.saveBoolean(MainActivity.this, "isSame", true);
-                if (isClickByHand) {
-                    Toast.makeText(MainActivity.this, "数据已经全部更新", Toast.LENGTH_SHORT).show();
-
-                    Log.i("bombTest", "数据已经全部更新");
-                }
+            Log.i("bombTest", "全部上传成功============================");
+            SPUtils.saveBoolean(MainActivity.this, "isSame", true);
+            if (isClickByHand) {
+                Toast.makeText(MainActivity.this, "数据已经全部更新", Toast.LENGTH_SHORT).show();
+                Log.i("bombTest", "数据已经全部更新");
 
             }
             mIsUploading = false;
 
-
         }
-
-
     }
 }
