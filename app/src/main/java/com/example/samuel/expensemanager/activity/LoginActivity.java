@@ -1,11 +1,16 @@
 package com.example.samuel.expensemanager.activity;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -55,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "LoginActivity";
     private static final int LOGIN_SUCCESS = 100;
     private static final int LOGIN_FAIL = 101;
+    private static final int MY_PERMISSIONS_REQUEST_READ_PHONE = 0;
     public static Tencent mTencent;
     private MyUser mBmobUser = null;
     //    private ImageView login_imageView;
@@ -105,7 +111,70 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         initView();
         initData();
+        askForPermission();
 
+    }
+
+    private void askForPermission() {
+        if (ContextCompat.checkSelfPermission(LoginActivity.this,
+                Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
+                    Manifest.permission.READ_PHONE_STATE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(LoginActivity.this,
+                        new String[]{Manifest.permission.READ_PHONE_STATE},
+                        MY_PERMISSIONS_REQUEST_READ_PHONE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_PHONE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    showHintDialog();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    private void showHintDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("特别提示");
+        builder.setMessage("没有相关权限不能使用同步功能，请到设置->应用中开启权限");
+        builder.setPositiveButton("OK", null);
+        builder.show();
     }
 
     private void initData() {
@@ -388,14 +457,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void run() {
                 String result = null;
                 try {
-                    String oauth_consumer_key = "222222"; //应用的KEY
+                    String oauth_consumer_key = "S5UoWPr8gqm0r7l6"; //应用的KEY
                     String info = userAuth.getString("qq");
                     String openid = userAuth.getJSONObject("qq").getString("openid");
                     String access_token = userAuth.getJSONObject("qq").getString("access_token");
                     String expires_in = userAuth.getJSONObject("qq").getString("expires_in");
 
                     //拼接路径
-                    String path = "https://graph.qq.com/user/get_simple_userinfo?oauth_consumer_key=222222&access_token=" + access_token + "&openid=" + openid + "&format=json";
+                    String path = "https://graph.qq.com/user/get_simple_userinfo?oauth_consumer_key=S5UoWPr8gqm0r7l6&access_token=" + access_token + "&openid=" + openid + "&format=json";
                     URL url = new URL(path);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
@@ -404,8 +473,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         result = NetUtils.getStringFromInputstream(is);
 
                         JSONObject qqInfo = new JSONObject(result);
+                        Log.e("qqinfo", qqInfo.toString());
                         String nickName = qqInfo.getString("nickname");
-                        String imageUrl = qqInfo.getString("figureurl_qq_2");
+//                        String imageUrl = qqInfo.getString("figureurl_qq_2");
 
                         //获得当前用户的id
                         MyUser user = BmobUser.getCurrentUser(LoginActivity.this, MyUser.class);
@@ -413,11 +483,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (user != null) {
                             //保存到本地
                             user.setNickname(nickName);
-                            user.setUserimageurl(imageUrl);
+//                            user.setUserimageurl(imageUrl);
 
                             String userObjectId = user.getObjectId();//获得ID
                             mSharedPerfarece.edit().putString(userObjectId + "_nickName", nickName).commit();
-                            mSharedPerfarece.edit().putString(userObjectId + "_imageUrl", imageUrl).commit();
+//                            mSharedPerfarece.edit().putString(userObjectId + "_imageUrl", imageUrl).commit();
 
                             Message msg = handler.obtainMessage();
                             msg.what = LOGIN_SUCCESS;
@@ -499,7 +569,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * 微博认证授权回调类。
-     * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 {@link SsoHandler#authorizeCallBack} 后，
+     * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 { SsoHandler#authorizeCallBack} 后，
      * 该回调才会被执行。
      * 2. 非 SSO 授权时，当授权结束后，该回调就会被执行。
      * 当授权成功后，请保存该 access_token、expires_in、uid 等信息到 SharedPreferences 中。

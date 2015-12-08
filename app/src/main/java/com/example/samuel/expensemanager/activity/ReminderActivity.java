@@ -192,7 +192,7 @@ public class ReminderActivity extends AppCompatActivity implements View.OnClickL
     private void selectDay() {
         //拿到选择状态
         for (int i = 0; i < 7; i++) {
-            pick[i] = SPUtils.getBoolean(ReminderActivity.this, "pick_status" + i, false);
+            pick[i] = SPUtils.getBoolean(ReminderActivity.this, "pick_status" + i, true);
         }
         mSelectDayBuilder = new StringBuilder();
         new AlertDialog.Builder(ReminderActivity.this)

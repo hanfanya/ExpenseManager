@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -639,6 +638,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+//        mDrawer.closeDrawer(GravityCompat.START);
+
 
         if (id == R.id.nav_detail) {
             startActivity(new Intent(this, DetailActivity.class));
@@ -655,7 +656,7 @@ public class MainActivity extends AppCompatActivity
 
         }
         //抽屉收缩动画延迟0.5s
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 SystemClock.sleep(500);
@@ -666,9 +667,16 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
             }
-        }).start();
+        }).start();*/
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mDrawer.closeDrawer(GravityCompat.START);
+
     }
 
     @Override
