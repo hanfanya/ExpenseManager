@@ -1,196 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-    >
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.samuel.expensemanager.activity.RegisterActivity">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
-            <!-- <LinearLayout
-                 android:id="@+id/regist_layout_touxiang"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:orientation="vertical">
-
-                 <ImageView
-                     android:id="@+id/regist_iv_touxiang"
-                     android:layout_width="80dp"
-                     android:layout_height="80dp"
-                     android:background="#4000"
-                     android:clickable="true" />
-
-                &lt;!&ndash; <ProgressBar
-                     android:id="@+id/regist_progressBar_touxiang"
-                     style="?android:attr/progressBarStyleHorizontal"
-                     android:layout_width="80dp"
-                     android:layout_height="wrap_content" />&ndash;&gt;
-
-                 &lt;!&ndash;<Button
-                     android:id="@+id/regist_bn_touxiang"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:background="@color/colorPrimary"
-                     android:text="点击上方空白，选择头像"
-                     android:textColor="@color/white" />&ndash;&gt;
-             </LinearLayout>-->
-
-            <!-- username -->
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/regist_fl_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-                <EditText
-                    android:id="@+id/regist_et_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-
-                    android:hint="请输入用户名"
-                    android:paddingLeft="20dip"
-                    android:paddingRight="10dip"
-                    android:singleLine="true"
-                    android:textColor="#ff444444"
-                    android:textColorHint="#ffcccccc"
-                    android:textSize="16sp"></EditText>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/regist_fl_nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/regist_fl_username">
-
-                <EditText
-                    android:id="@+id/regist_et_nickname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-
-                    android:hint="请输入昵称"
-                    android:paddingLeft="20dip"
-                    android:paddingRight="10dip"
-                    android:singleLine="true"
-                    android:textColor="#ff444444"
-                    android:textColorHint="#ffcccccc"
-                    android:textSize="16sp"></EditText>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <!--pwd -->
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/regist_fl_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/regist_fl_nickname">
-
-                <EditText
-                    android:id="@+id/regist_et_pwd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-
-                    android:hint="请输入密码"
-                    android:inputType="textPassword"
-                    android:paddingLeft="20dip"
-                    android:paddingRight="10dip"
-                    android:singleLine="true"
-                    android:textColor="#ff444444"
-                    android:textColorHint="#ffcccccc"
-                    android:textSize="16sp"/>
-
-            </android.support.design.widget.TextInputLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_regist"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="top"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleMarginTop="13dp">
 
 
-            <!--pwd -->
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/regist_fl_repassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/regist_fl_password">
-
-                <EditText
-                    android:id="@+id/regist_et_repwd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-
-                    android:hint="请再次输入密码"
-                    android:inputType="textPassword"
-                    android:paddingLeft="20dip"
-                    android:paddingRight="10dip"
-                    android:singleLine="true"
-                    android:textColor="#ff444444"
-                    android:textColorHint="#ffcccccc"
-                    android:textSize="16sp"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <!-- nickname -->
+        </android.support.v7.widget.Toolbar>
 
 
-            <!-- email-->
-            <!--<android.support.design.widget.TextInputLayout
-                android:id="@+id/regist_fl_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/regist_fl_nickname">
+    </android.support.design.widget.AppBarLayout>
 
-                <EditText
-                    android:id="@+id/regist_et_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+    <include layout="@layout/content_regist"/>
 
-                    android:hint="请输入email"
-                    android:paddingLeft="20dip"
-                    android:paddingRight="10dip"
-                    android:singleLine="true"
-                    android:textColor="#ff444444"
-                    android:textColorHint="#ffcccccc"
-                    android:textSize="16sp"></EditText>
+</android.support.design.widget.CoordinatorLayout>
 
-            </android.support.design.widget.TextInputLayout>-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/regist_fl_repassword"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip">
-
-                <Button
-                    android:id="@+id/regist_btn_cancel"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1.0"
-                    android:background="@color/colorPrimary"
-                    android:text="取消"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"/>
-
-                <Button
-                    android:id="@+id/regist_btn_reg"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1.0"
-                    android:background="@color/colorPrimary"
-                    android:text="注册"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>

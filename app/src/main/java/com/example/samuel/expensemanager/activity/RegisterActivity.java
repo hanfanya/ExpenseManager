@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -354,23 +355,29 @@ public class RegisterActivity extends AppCompatActivity {
         inputLayoutUserName = (TextInputLayout) findViewById(R.id.regist_fl_username);
         inputLayoutNickName = (TextInputLayout) findViewById(R.id.regist_fl_nickname);
 //        inputLayoutEmail = (TextInputLayout) findViewById(R.id.regist_fl_email);
-        inputLayoutPassword = (TextInputLayout) findViewById(R.id.regist_fl_repassword);
+        inputLayoutPassword = (TextInputLayout) findViewById(R.id.regist_fl_password);
         inputLayoutRePassword = (TextInputLayout) findViewById(R.id.regist_fl_repassword);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_regist);
+
 
         regist_et_account = (EditText) findViewById(R.id.regist_et_account);
         regist_et_pwd = (EditText) findViewById(R.id.regist_et_pwd);
         regist_et_repwd = (EditText) findViewById(R.id.regist_et_repwd);
         regist_et_nickname = (EditText) findViewById(R.id.regist_et_nickname);
 //        regist_et_email = (EditText) findViewById(R.id.regist_et_email);
+        regist_btn_reg = (Button) findViewById(R.id.regist_btn_reg);
+        regist_btn_cancel = (Button) findViewById(R.id.regist_btn_cancel);
 
         regist_et_account.addTextChangedListener(new MyTextWatcher(regist_et_account));
         regist_et_pwd.addTextChangedListener(new MyTextWatcher(regist_et_pwd));
         regist_et_repwd.addTextChangedListener(new MyTextWatcher(regist_et_repwd));
         regist_et_nickname.addTextChangedListener(new MyTextWatcher(regist_et_nickname));
 
-
-        regist_btn_reg = (Button) findViewById(R.id.regist_btn_reg);
-        regist_btn_cancel = (Button) findViewById(R.id.regist_btn_cancel);
+        toolbar.setTitle("注册");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
 
     }

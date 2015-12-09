@@ -107,6 +107,7 @@ public class SettingActivity extends AppCompatPreferenceActivity {
         actionBar.setTitle("设置");//设置标题
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setElevation(0);
         }
     }
 

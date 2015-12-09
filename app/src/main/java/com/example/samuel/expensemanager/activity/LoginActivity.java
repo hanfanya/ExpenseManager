@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,7 @@ import com.example.samuel.expensemanager.model.MyUser;
 import com.example.samuel.expensemanager.utils.Constants;
 import com.example.samuel.expensemanager.utils.NetUtils;
 import com.example.samuel.expensemanager.utils.SPUtils;
-import com.melnykov.fab.FloatingActionButton;
+import com.example.samuel.expensemanager.utils.SysUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private MyUser mBmobUser = null;
     //    private ImageView login_imageView;
     //已登录
-    private FloatingActionButton mFabLogin;
+//    private FloatingActionButton mFabLogin;
     private RelativeLayout login_success_relativelayout;
     private TextView login_success_tv_nickname;
     //未登录
@@ -181,8 +182,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mBmobUser = BmobUser.getCurrentUser(this, MyUser.class);
         if (mBmobUser != null) {
             //已经登录
-            unlogin_relativelayout.setVisibility(View.GONE);
-            login_success_relativelayout.setVisibility(View.VISIBLE);
+//            unlogin_relativelayout.setVisibility(View.GONE);
+//            login_success_relativelayout.setVisibility(View.VISIBLE);
 
             //设置头像
             ImageLoader imageLoader = ImageLoader.getInstance();
@@ -202,8 +203,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String nickname = (String) BmobUser.getObjectByKey(this, "nickname");
             login_success_tv_nickname.setText(!"".equals(nickName) ? nickName : nickname);
         } else {
-            unlogin_relativelayout.setVisibility(View.VISIBLE);
-            login_success_relativelayout.setVisibility(View.GONE);
+//            unlogin_relativelayout.setVisibility(View.VISIBLE);
+//            login_success_relativelayout.setVisibility(View.GONE);
 //            login_imageView.setImageResource(R.drawable.ic_yingyong);
         }
 
@@ -212,29 +213,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initView() {
         et_account = (EditText) findViewById(R.id.login_et_account);
         et_pwd = (EditText) findViewById(R.id.login_et_pwd);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_login);
         btn_login = (Button) findViewById(R.id.btn_login);//登陆按钮
-        btn_login.setOnClickListener(this);
-
         btn_register = (Button) findViewById(R.id.btn_register);//注册按钮
-        btn_register.setOnClickListener(this);
-
         btn_qq = (Button) findViewById(R.id.login_btn_qq);
         btn_weibo = (Button) findViewById(R.id.login_btn_weibo);
+//        login_success_relativelayout = (RelativeLayout) findViewById(R.id.login_relativelayout);
+        unlogin_relativelayout = (RelativeLayout) findViewById(R.id.unlogin_relativelayout);
+//        mFabLogin = (FloatingActionButton) findViewById(R.id.fab_login);
+        login_success_tv_nickname = (TextView) findViewById(R.id.login_success_tv_nickname);
+
+
+        btn_login.setOnClickListener(this);
+        btn_register.setOnClickListener(this);
         //btn_weixin = (Button) findViewById(R.id.btn_weixin);
         btn_qq.setOnClickListener(this);
         btn_weibo.setOnClickListener(this);
         //btn_weixin.setOnClickListener(this);
 
-        login_success_relativelayout = (RelativeLayout) findViewById(R.id.login_relativelayout);
-        unlogin_relativelayout = (RelativeLayout) findViewById(R.id.unlogin_relativelayout);
-
 //        login_imageView = (ImageView) findViewById(R.id.login_imageView);
 
-        mFabLogin = (FloatingActionButton) findViewById(R.id.fab_login);
-        mFabLogin.setOnClickListener(this);
+//        mFabLogin.setOnClickListener(this);
+        toolbar.setTitle("登录");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        login_success_tv_nickname = (TextView) findViewById(R.id.login_success_tv_nickname);
 
     }
 
@@ -243,10 +248,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
 
             case R.id.login_btn_qq: //QQ
+                if (!SysUtils.haveNetwork(LoginActivity.this)) {
+                    Toast.makeText(LoginActivity.this, "无法连接网络，请检查网络设置", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 qqAuthorize();
                 break;
 
             case R.id.login_btn_weibo: //weibo
+                if (!SysUtils.haveNetwork(LoginActivity.this)) {
+                    Toast.makeText(LoginActivity.this, "无法连接网络，请检查网络设置", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Platform weibo = ShareSDK.getPlatform(this, SinaWeibo.NAME);
                 if (weibo.isValid()) {
                     weibo.removeAccount();
@@ -283,6 +296,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     return;
                 }
 
+                if (!SysUtils.haveNetwork(LoginActivity.this)) {
+                    Toast.makeText(LoginActivity.this, "无法连接网络，请检查网络设置", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 BmobUser user = new BmobUser();
                 user.setUsername(account);
                 user.setPassword(pwd);
@@ -299,8 +317,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onFailure(int arg0, String arg1) {
-                        // TODO Auto-generated method stub
-                        toast("登陆失败: 账号或者密码不对");
+                        toast("登陆失败: 账号或者密码不正确");
                     }
                 });
                 break;

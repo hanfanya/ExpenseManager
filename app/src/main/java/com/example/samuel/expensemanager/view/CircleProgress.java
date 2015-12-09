@@ -57,14 +57,17 @@ public class CircleProgress extends View {
         if (mTargetProgress >= 100) {
             mFrontPaint.setColor(Color.parseColor("#FF9800"));
 
-        } else if (mTargetProgress > 70) {
-            mFrontPaint.setColor(Color.parseColor("#00796B"));
+        } else if (mTargetProgress >= 80) {
+            mFrontPaint.setColor(Color.parseColor("#FFC107"));
 
-        } else if (mTargetProgress > 50) {
+        } else if (mTargetProgress >= 60) {
+            mFrontPaint.setColor(Color.parseColor("#00BCD4"));
+        } else if (mTargetProgress >= 40) {
             mFrontPaint.setColor(Color.parseColor("#4CAF50"));
+        } else if (mTargetProgress >= 20) {
+            mFrontPaint.setColor(Color.parseColor("#009688"));
         } else {
             mFrontPaint.setColor(Color.parseColor("#8BC34A"));
-
         }
         invalidate();
 
