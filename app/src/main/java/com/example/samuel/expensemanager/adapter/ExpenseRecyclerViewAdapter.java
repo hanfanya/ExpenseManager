@@ -71,6 +71,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             });*/
         } else {
             final ExpenseViewHolder viewHolder = (ExpenseViewHolder) holder;
+
             TypeInfo typeInfo = mTypeInfos.get(position);
             int[] colorArray = mContext.getResources().getIntArray(R.array.colorType);
 

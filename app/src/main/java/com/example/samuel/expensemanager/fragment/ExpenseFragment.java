@@ -166,7 +166,8 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
         System.out.println("typeFlag= " + typeFlag);
 
         mTypeInfos = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1),
-                TypeInfoDao.Properties.UploadFlag.in(0, 8)).list();
+                TypeInfoDao.Properties.UploadFlag.in(0, 8)).orderDesc(TypeInfoDao.Properties.Frequency).list();
+
         mColorArray = getActivity().getResources().getIntArray(R.array.colorType);
         if (typeFlag == 1) {
 
@@ -313,7 +314,7 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
     public void onResume() {
         super.onResume();
         mTypeInfos = mTypeInfoDao.queryBuilder().where(TypeInfoDao.Properties.TypeFlag.eq(1),
-                TypeInfoDao.Properties.UploadFlag.in(0, 8)).list();
+                TypeInfoDao.Properties.UploadFlag.in(0, 8)).orderDesc(TypeInfoDao.Properties.Frequency).list();
         initUI();
         initListener();
 
@@ -513,7 +514,8 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
                 mExpenseDao.insertOrReplace(mExpense);
 
                 Integer frequency = mTypeInfo.getFrequency();
-                mTypeInfo.setFrequency(++frequency);
+                frequency++;
+                mTypeInfo.setFrequency(frequency);
 
                 mTypeInfoDao.update(mTypeInfo);
 
@@ -543,7 +545,8 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
                 mExpenseDao.update(mExpense);
 
                 Integer frequency = mTypeInfo.getFrequency();
-                mTypeInfo.setFrequency(++frequency);
+                frequency++;
+                mTypeInfo.setFrequency(frequency);
 
                 mTypeInfoDao.update(mTypeInfo);
 
