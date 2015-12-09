@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/keyline"
         android:layout_marginRight="@dimen/keyline"
-        android:layout_marginTop="@dimen/keyline"
+        android:layout_marginTop="@dimen/keyline_half"
         android:orientation="vertical">
 
         <LinearLayout

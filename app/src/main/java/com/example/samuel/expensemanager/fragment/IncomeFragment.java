@@ -176,6 +176,9 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
                 mYear = Integer.parseInt(mDateFormat.substring(0, 4));
                 mMonth = Integer.parseInt(mDateFormat.substring(4, 6));
                 mDay = Integer.parseInt(mDateFormat.substring(6));
+
+                mStringBufferInt = new StringBuffer();
+                mStringBufferDecimal = new StringBuffer();
             } else {
                 isInsert = isCreated;
                 List<Expense> list = mExpenseDao.queryBuilder().where(ExpenseDao.Properties.Id.eq(editRecord)).list();
@@ -195,11 +198,13 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
             mYear = Integer.parseInt(mDateFormat.substring(0, 4));
             mMonth = Integer.parseInt(mDateFormat.substring(4, 6));
             mDay = Integer.parseInt(mDateFormat.substring(6));
+
+            mStringBufferInt = new StringBuffer();
+            mStringBufferDecimal = new StringBuffer();
         }
 
 
-        mStringBufferInt = new StringBuffer();
-        mStringBufferDecimal = new StringBuffer();
+
 
 
 //        mExpense = new Expense();
@@ -287,7 +292,13 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
         DaoSession daoSession = ((ExpenseApplication) getActivity().getApplicationContext()).getDaoSession();
         TypeInfoDao typeInfoDao = daoSession.getTypeInfoDao();
         if (!isInsert) {
-            mTvExpenseFigure.setText("" + mExpense.getFigure());
+            String figure = String.valueOf(mExpense.getFigure());
+//            mTvExpenseFigure.setText("" + mExpense.getFigure());
+            mTvExpenseFigure.setText(figure);
+            String[] split = figure.split("\\.");
+
+            mStringBufferInt = new StringBuffer(split[0]);
+            mStringBufferDecimal = new StringBuffer(split[1]);
         } else {
             mTvExpenseFigure.setText("0.0");
 
@@ -406,6 +417,12 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
 
     @OnClick(R.id.key_del)
     public void keyDel(View view) {
+        if (mTvExpenseFigure.getText().toString().equals("0.0")) {
+            isInt = true;
+            mStringBufferInt = new StringBuffer();
+            mStringBufferDecimal = new StringBuffer();
+
+        }
 
         if (!mTvExpenseFigure.getText().toString().endsWith("0")) {
 //            mStringBufferDecimal.setCharAt(0, '0');
