@@ -226,10 +226,10 @@ public class IncomeSumFragment extends Fragment implements RadioGroup.OnCheckedC
     }
 
     public void setMonthDate() {
-        mEndDate.endDay = mCurrentDay;
+//        mEndDate.endDay = mCurrentDay;
         startDate = mCurrentYear + "年" + getTwoBmonth(mCurrentMonth) + "月";
         mTvDate.setText(startDate);
-        setChangeDate(startDate + "01日", mCurrentYear + "年" + getTwoBmonth(mCurrentMonth) + "月" + getTwoBmonth(mEndDate.endDay) + "日");
+        setChangeDate(startDate + "01日", mCurrentYear + "年" + getTwoBmonth(mCurrentMonth) + "月" + "31日");
     }
 
 

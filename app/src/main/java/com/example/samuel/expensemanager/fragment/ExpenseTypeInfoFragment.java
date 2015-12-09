@@ -4,6 +4,7 @@ package com.example.samuel.expensemanager.fragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -78,6 +79,20 @@ public class ExpenseTypeInfoFragment extends Fragment {
                 showActionDialog(position);
 
                 return false;
+            }
+        });
+        mRecyclerviewTypeinfo.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                FloatingActionButton floatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.fab_typeinfo);
+                if (dy > 0) {
+                    floatingActionButton.hide();
+                }
+                if (dy < 0) {
+                    floatingActionButton.show();
+
+                }
             }
         });
 

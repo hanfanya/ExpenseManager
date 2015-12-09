@@ -457,14 +457,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void run() {
                 String result = null;
                 try {
-                    String oauth_consumer_key = "S5UoWPr8gqm0r7l6"; //应用的KEY
+                    String oauth_consumer_key = "1105007682"; //应用的KEY
                     String info = userAuth.getString("qq");
                     String openid = userAuth.getJSONObject("qq").getString("openid");
                     String access_token = userAuth.getJSONObject("qq").getString("access_token");
                     String expires_in = userAuth.getJSONObject("qq").getString("expires_in");
 
                     //拼接路径
-                    String path = "https://graph.qq.com/user/get_simple_userinfo?oauth_consumer_key=S5UoWPr8gqm0r7l6&access_token=" + access_token + "&openid=" + openid + "&format=json";
+                    String path = "https://graph.qq.com/user/get_simple_userinfo?oauth_consumer_key=1105007682&access_token=" + access_token + "&openid=" + openid + "&format=json";
                     URL url = new URL(path);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");

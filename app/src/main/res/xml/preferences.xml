@@ -14,7 +14,8 @@
 
         <PreferenceScreen
 
-            android:title="类别管理">
+            android:title="类别管理"
+            >
 
             <intent android:action="com.example.samuel.expensemanager.typeinfo"/>
 

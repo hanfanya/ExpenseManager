@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,6 +180,9 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
                 mRgRoot.clearCheck();
                 String startDate = mStartDate.startYear + "年" + getTwoBmonth(mStartDate.startMonth) + "月" + getTwoBmonth(mStartDate.startDay) + "日";
                 String endDate = mEndDate.endYear + "年" + getTwoBmonth(mEndDate.endMonth) + "月" + getTwoBmonth(mEndDate.endDay) + "日";
+                Log.i("+++++++++", "mEndDate.endDay===" + mEndDate.endDay);
+
+                Log.i("+++++++++", "endDate===" + endDate);
                 mTvDate.setText(startDate + "~" + endDate);
                 mBuilder.dismiss();
                 mBtnDiy.setBackgroundColor(Color.rgb(204, 204, 204));
@@ -241,10 +245,12 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
     }
 
     public void setMonthDate() {
-        mEndDate.endDay = mCurrentDay;
+//        mEndDate.endDay = mCurrentDay;
+        Log.i("+++++++++", "setMonthDate,mEndDate.endDay===" + mEndDate.endDay);
+
         startDate = mCurrentYear + "年" + getTwoBmonth(mCurrentMonth) + "月";
         mTvDate.setText(startDate);
-        setChangeDate(startDate + "01日", mCurrentYear + "年" + getTwoBmonth(mCurrentMonth) + "月" + getTwoBmonth(mEndDate.endDay) + "日");
+        setChangeDate(startDate + "01日", mCurrentYear + "年" + getTwoBmonth(mCurrentMonth) + "月" + "31日");
     }
 
 
@@ -382,6 +388,8 @@ public class ExpenseSumFragment extends Fragment implements RadioGroup.OnChecked
                 mEndDate.endYear = year;
                 mEndDate.endMonth = monthOfYear + 1;
                 mEndDate.endDay = dayOfMonth;
+                Log.i("+++++++++", "mEndDate.endDay===" + mEndDate.endDay);
+
                 mBtnEndDate.setText(year + "年" + getTwoBmonth(monthOfYear + 1) + "月" + dayOfMonth + "日");
             }
         }

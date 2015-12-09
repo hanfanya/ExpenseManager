@@ -40,11 +40,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -54,7 +55,9 @@
         </activity>
         <activity
             android:name=".activity.AddRecordActivity"
+
             android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -62,14 +65,18 @@
         </activity>
         <activity
             android:name=".activity.SettingActivity"
-            android:parentActivityName=".activity.MainActivity">
+
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
         </activity>
         <activity
             android:name=".activity.DetailActivity"
+
             android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -77,11 +84,15 @@
         </activity>
         <activity
             android:name=".activity.SumActivity"
+
             android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.TypeInfoActivity"
+
             android:parentActivityName=".activity.SettingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.typeinfo"/>
@@ -95,7 +106,9 @@
         </activity>
         <activity
             android:name=".activity.ExchangeRateActivity"
+
             android:parentActivityName=".activity.SettingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.exchangerate"/>
@@ -109,7 +122,9 @@
         </activity>
         <activity
             android:name=".activity.ReminderActivity"
+
             android:parentActivityName=".activity.SettingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.reminder"/>
@@ -124,7 +139,9 @@
         </activity>
         <activity
             android:name=".activity.AccountActivity"
-            android:parentActivityName=".activity.SettingActivity">
+
+            android:parentActivityName=".activity.SettingActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.account"/>
 
@@ -137,7 +154,8 @@
         </activity>
         <activity
             android:name=".activity.AboutActivity"
-            android:parentActivityName=".activity.SettingActivity">
+            android:parentActivityName=".activity.SettingActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.about"/>
 
@@ -151,6 +169,7 @@
         <activity
             android:name=".activity.AddTypeInfoActivity"
             android:parentActivityName=".activity.TypeInfoActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -159,6 +178,7 @@
         <activity
             android:name=".activity.SelectColorActivity"
             android:parentActivityName=".activity.AddTypeInfoActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -167,7 +187,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_regist"
@@ -176,18 +197,16 @@
             android:name=".activity.UserActivity"
             android:label="@string/title_activity_userinfo"
             android:parentActivityName=".activity.MainActivity"/>
-        <activity
-            android:name=".activity.ChangePWordActivity"
-            android:label="@string/title_activity_changepwd"
-            android:parentActivityName=".activity.UserActivity"/>
 
 
         <!-- qq登录所需 -->
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"
+
             android:launchMode="singleTask"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -199,10 +218,12 @@
             </intent-filter>
         </activity>
         <activity
+
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
+
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
@@ -223,16 +244,12 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <!-- 微信分享回调 -->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
         <activity
             android:name=".activity.PasswordSettingActivity"
+
             android:parentActivityName=".activity.SettingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.password"/>
@@ -240,7 +257,9 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SplashActivity">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -249,8 +268,10 @@
         </activity>
         <activity
             android:name=".activity.ChooseActivity"
+
             android:label="@string/title_activity_choose"
             android:parentActivityName=".activity.ExchangeRateActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.chooseactivity"/>
@@ -259,6 +280,8 @@
         </activity>
         <activity
             android:name=".activity.PassInputActivity"
+
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <category android:name="android.intent.category.DEFAULT"/>

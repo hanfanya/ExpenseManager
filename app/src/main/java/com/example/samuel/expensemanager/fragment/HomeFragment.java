@@ -4,6 +4,7 @@ package com.example.samuel.expensemanager.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,7 +26,6 @@ import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.utils.CalUtils;
 import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.view.CountView;
-import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
@@ -49,8 +49,7 @@ public class HomeFragment extends Fragment {
     CountView mTvMonthOut;
     @Bind(R.id.recyclerview_home)
     RecyclerView mRecyclerviewHome;
-    @Bind(R.id.fab_home)
-    FloatingActionButton mFabHome;
+
     //    private RecyclerView mRecyclerViewHome;
 //    private FloatingActionButton mFabHome;
     private HomeListAdapter mHomeListAdapter;
@@ -78,14 +77,18 @@ public class HomeFragment extends Fragment {
                 .build());//设置 divider 分割线 margin(110, 55)
 
 //      recyclerview 滑动时，FabButton 隐藏或显示
-        mFabHome.attachToRecyclerView(mRecyclerviewHome);
-//        fab的点击事件
-        mFabHome.setOnClickListener(new View.OnClickListener() {
+        mRecyclerviewHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddRecordActivity.class);
-                intent.putExtra("isCreated", true);
-                startActivity(intent);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                FloatingActionButton floatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.fab_home);
+                if (dy > 0) {
+                    floatingActionButton.hide();
+                }
+                if (dy < 0) {
+                    floatingActionButton.show();
+
+                }
             }
         });
 

@@ -35,7 +35,7 @@ public class TypeInfoActivity extends AppCompatActivity {
         mToolbarAddRecord = (Toolbar) findViewById(R.id.toolbar_add_record);
         mTablayoutAddRecord = (TabLayout) findViewById(R.id.tablayout_add_record);
         mViewpagerTabAddRecord = (ViewPager) findViewById(R.id.viewpager_tab_add_record);
-        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab_typeinfo);
     }
 
 

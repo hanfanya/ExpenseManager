@@ -38,5 +38,18 @@
 
     <include layout="@layout/content_main"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:elevation="0dp"
+        android:src="@drawable/ic_plus"
+        app:backgroundTint="@color/colorPrimary"
+        app:borderWidth="0dp"
+
+        />
+
 
 </android.support.design.widget.CoordinatorLayout>

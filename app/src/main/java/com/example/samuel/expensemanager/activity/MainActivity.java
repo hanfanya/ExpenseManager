@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mViewPagerHome = (ViewPager) findViewById(R.id.viewpager_tab_home);
         mTabLayoutHome = (TabLayout) findViewById(R.id.tablayout_home);
+        mFabHome = (FloatingActionButton) findViewById(R.id.fab_home);
 
         //GXL
         //gxl 动态加载头布局
@@ -260,14 +261,15 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "你设置仅在WiFi下连接，请更改网络设置", Toast.LENGTH_SHORT).show();
                 return;
             }*/
-            if (mIsUploading) {
-                Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
-                return;
-            }
             if (!haveLogin) {
                 Toast.makeText(MainActivity.this, " 请登录后同步", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (mIsUploading) {
+                Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
 //            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
             bmobUpload(isClickByHand);
@@ -496,6 +498,10 @@ public class MainActivity extends AppCompatActivity
                 if (position == 1) {
                     Fragment fragment = homePagerAdapter.getItem(position);
                     fragment.onResume();
+                    mFabHome.hide();
+                } else {
+                    mFabHome.show();
+
                 }
             }
 
@@ -518,6 +524,14 @@ public class MainActivity extends AppCompatActivity
                     Intent intent = new Intent(MainActivity.this, UserActivity.class);
                     startActivity(intent);
                 }
+            }
+        });
+        mFabHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddRecordActivity.class);
+                intent.putExtra("isCreated", true);
+                startActivity(intent);
             }
         });
     }
