@@ -110,10 +110,12 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
     private TypeInfoDao mTypeInfoDao;
     private ExpenseDao mExpenseDao;
     private SimpleDateFormat mSimpleDateFormat;
+    private SimpleDateFormat mTimeFormat;
     private String mDateFormat;
     private int mYear;
     private int mMonth;
     private int mDay;
+    private String mExpenseTime;
 
 
     public ExpenseFragment() {
@@ -159,7 +161,9 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
         mTypeInfo = new TypeInfo();
 
         mSimpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        mTimeFormat = new SimpleDateFormat("yyyyMMddHHMMss", Locale.getDefault());
         mDateFormat = mSimpleDateFormat.format(new Date());
+        mExpenseTime = mTimeFormat.format(new Date());
 
         System.out.println("isCreated= " + isCreated);
         System.out.println("editRecord= " + editRecord);
@@ -509,6 +513,7 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
                 mExpense.setTypeName(mTypeInfo.getTypeName());
                 mExpense.setTypeColor(mTypeInfo.getTypeColor());
                 mExpense.setTypeFlag(mTypeInfo.getTypeFlag());
+                mExpense.setTime(mExpenseTime);
 
                 mExpense.setUploadFlag(0);
                 mExpenseDao.insertOrReplace(mExpense);
@@ -526,6 +531,7 @@ public class ExpenseFragment extends Fragment implements CalendarDatePickerDialo
                 mExpense.setFigure(inputNumber);
                 mExpense.setTypeName(mTypeInfo.getTypeName());
                 mExpense.setTypeColor(mTypeInfo.getTypeColor());
+                mExpense.setTime(mExpenseTime);
                 mExpense.setTypeFlag(mTypeInfo.getTypeFlag());
 
                 Integer uploadFlag = mExpense.getUploadFlag();

@@ -113,6 +113,8 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
     private int mYear;
     private int mMonth;
     private int mDay;
+    private SimpleDateFormat mTimeFormat;
+    private String mExpenseTime;
 
 
     public IncomeFragment() {
@@ -158,7 +160,9 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
         mTypeInfo = new TypeInfo();
 
         mSimpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        mTimeFormat = new SimpleDateFormat("yyyyMMddHHMMss", Locale.getDefault());
         mDateFormat = mSimpleDateFormat.format(new Date());
+        mExpenseTime = mTimeFormat.format(new Date());
 
         System.out.println("isCreated= " + isCreated);
         System.out.println("editRecord= " + editRecord);
@@ -503,6 +507,7 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
                 mExpense.setTypeName(mTypeInfo.getTypeName());
                 mExpense.setTypeColor(mTypeInfo.getTypeColor());
                 mExpense.setTypeFlag(mTypeInfo.getTypeFlag());
+                mExpense.setTime(mExpenseTime);
 
                 mExpense.setUploadFlag(0);
                 mExpenseDao.insertOrReplace(mExpense);
@@ -521,6 +526,7 @@ public class IncomeFragment extends Fragment implements CalendarDatePickerDialog
                 mExpense.setTypeName(mTypeInfo.getTypeName());
                 mExpense.setTypeColor(mTypeInfo.getTypeColor());
                 mExpense.setTypeFlag(mTypeInfo.getTypeFlag());
+                mExpense.setTime(mExpenseTime);
 
                 Integer uploadFlag = mExpense.getUploadFlag();
                 switch (uploadFlag) {

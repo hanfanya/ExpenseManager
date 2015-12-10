@@ -142,9 +142,12 @@ public class HomeFragment extends Fragment {
         QueryBuilder builder = mExpenseDao.queryBuilder();
         builder.where(ExpenseDao.Properties.Date.between(mStartDate, mEndDate),
                 ExpenseDao.Properties.TypeFlag.eq(1), ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 8))
-                .orderDesc(ExpenseDao.Properties.Date);
+                .orderDesc(ExpenseDao.Properties.Time);
 
         mExpenseList = builder.list();
+        for (Expense expense : mExpenseList) {
+            Log.i("Time:", expense.getTime());
+        }
         System.out.println("mExpenseList=" + mExpenseList.size());
 
         mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());

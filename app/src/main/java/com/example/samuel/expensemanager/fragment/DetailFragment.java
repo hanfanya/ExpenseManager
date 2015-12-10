@@ -51,6 +51,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
     private boolean hasInited = false;
     private String sumString;
     private ExpenseDao mExpenseDao;
+
     public DetailFragment() {
         System.out.println("构造方法------------------------------");
     }
@@ -171,7 +172,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemLongCl
         mExpenseDao = daoSession.getExpenseDao();
 
         QueryBuilder qb = mExpenseDao.queryBuilder();
-        qb.where(ExpenseDao.Properties.Date.eq(date), ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 8));
+        qb.where(ExpenseDao.Properties.Date.eq(date), ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 8)).orderDesc(ExpenseDao.Properties.Time);
         mLists = qb.list();
         isEmpty();
 
