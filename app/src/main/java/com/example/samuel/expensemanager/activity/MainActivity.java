@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity
     private TextView mLoginEmail;//头布局中的email
     private boolean isAutoLogin = false;
     private boolean mIsUploading;
+    private MenuItem mItemUpload;
 
 
     @Override
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
     private void assignViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar_home);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -124,7 +127,10 @@ public class MainActivity extends AppCompatActivity
         mLoginLayout = (LinearLayout) headView.findViewById(R.id.ll_main_login);
         mLoginView = (ImageView) headView.findViewById(R.id.iv_main_login);
         mLoginState = (TextView) headView.findViewById(R.id.tv_main_login);
-        mFabHome.setElevation(0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mFabHome.setElevation(0);
+        }
 //        mLoginEmail = (TextView) headView.findViewById(R.id.tv_main_email);
 
     }
@@ -135,7 +141,7 @@ public class MainActivity extends AppCompatActivity
             initInsertType();
             SPUtils.saveBoolean(this, "hasInitData", true);
         }
-        mIsUploading = false;
+//        mIsUploading = false;
 
 //        testInsertData();
 
@@ -266,10 +272,10 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, " 请登录后同步", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (mIsUploading) {
-                Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (mIsUploading) {
+//                Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
 
 //            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
@@ -292,7 +298,7 @@ public class MainActivity extends AppCompatActivity
 
     private void bmobUpload1(final boolean isClickByHand) {
         Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
-        mIsUploading = true;
+//        mIsUploading = true;
         final String username = BmobUser.getCurrentUser(MainActivity.this).getUsername();
         DaoSession daoSession = ((ExpenseApplication) getApplicationContext()).getDaoSession();
         final ExpenseDao expenseDao = daoSession.getExpenseDao();
@@ -400,7 +406,7 @@ public class MainActivity extends AppCompatActivity
 
     private void bmobUpload(boolean isClickByHand) {
         boolean isSame = SPUtils.getBoolean(MainActivity.this, "isSame", false);
-        mIsUploading = true;
+//        mIsUploading = true;
 
 //        SPUtils.saveBoolean(MainActivity.this, "isSame", false);
         if (!isSame) {
@@ -551,6 +557,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mItemUpload = menu.findItem(R.id.action_upload);
+
         return true;
     }
 
@@ -559,10 +567,25 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_upload) {
+            /*ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mItemUpload, "rotation",0,360);
+            objectAnimator.setDuration(3000);
+            objectAnimator.start();*/
+//            Animation rotation = AnimationUtils.loadAnimation(this, R.anim.upload_refresh);
+//            rotation.setRepeatCount(Animation.INFINITE);
             uploadData(false, true);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setRefreshState(boolean refreshing) {
+        if (mItemUpload != null) {
+            if (refreshing) {
+                mItemUpload.setActionView(R.layout.toolbar_progress);
+            } else {
+                mItemUpload.setActionView(null);
+            }
+        }
     }
 
     private void testBmobDownload() {
@@ -703,7 +726,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private class UploadTask extends AsyncTask<Boolean, Void, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            setRefreshState(true);
 
+        }
 
         @Override
         protected Boolean doInBackground(Boolean... params) {
@@ -804,7 +832,9 @@ public class MainActivity extends AppCompatActivity
                 Log.i("bombTest", "数据已经全部更新");
 
             }
-            mIsUploading = false;
+//            mIsUploading = false;
+            setRefreshState(false);
+
 
         }
     }

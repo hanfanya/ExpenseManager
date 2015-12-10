@@ -41,9 +41,10 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
         searchView.setIconified(false);
+
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -54,12 +55,13 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Toast.makeText(SearchActivity.this, "hello " + query, Toast.LENGTH_SHORT).show();
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        Toast.makeText(SearchActivity.this, "hello " + newText, Toast.LENGTH_SHORT).show();
+
         return false;
     }
 }

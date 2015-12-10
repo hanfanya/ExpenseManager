@@ -1,6 +1,7 @@
 package com.example.samuel.expensemanager.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -61,7 +62,9 @@ public class TypeInfoActivity extends AppCompatActivity {
         mTablayoutAddRecord.setupWithViewPager(mViewpagerTabAddRecord);
         mTablayoutAddRecord.setTabsFromPagerAdapter(mPagerAdapter);
 
-        mFloatingActionButton.setElevation(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mFloatingActionButton.setElevation(0);
+        }
 
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

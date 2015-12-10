@@ -1,6 +1,7 @@
 package com.example.samuel.expensemanager.activity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -529,34 +530,31 @@ public class ExchangeRateActivity extends AppCompatActivity {
             Toast.makeText(this, "汇率已刷新", Toast.LENGTH_SHORT).show();
             return true;
         }
-        /*if (id == R.id.action_createshortcut) {
+        if (id == R.id.action_createshortcut) {
             createShortCut();
             Toast.makeText(this, "快捷方式已创建", Toast.LENGTH_SHORT).show();
             return true;
-        }*/
+        }
 
 
         return super.onOptionsItemSelected(item);
     }
 
     private void createShortCut() {
-        Intent intent = new Intent(getApplicationContext(), ExchangeRateActivity.class);
+        Intent shortcutIntent = new Intent(this, ExchangeRateActivity.class);
+        shortcutIntent.setAction("com.example.samuel.expensemanager.exchangerate");
+        shortcutIntent.addCategory(Intent.CATEGORY_DEFAULT);
+//        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        intent.setAction("com.example.samuel.expensemanager.exchangerate");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        Intent intent = new Intent();
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        intent.putExtra("duplicate", false);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, BitmapFactory.decodeResource(getResources(), R.drawable.exchange_rate_icon));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "汇率换算");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
 
-        Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
-        // 不允许重建
-        shortcut.putExtra("duplicate", false);
-        // 设置名字
-        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, "汇率转换");
-        // 设置图标
-        Intent.ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.exchange_rate_icon);
-        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes);
-        // 设置意图和快捷方式关联程序
-        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
-
-        sendBroadcast(shortcut);
+        sendBroadcast(intent);
 
         Log.i("createShortCut", "done");
     }
