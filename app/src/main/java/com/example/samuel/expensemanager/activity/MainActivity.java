@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity
         mLoginLayout = (LinearLayout) headView.findViewById(R.id.ll_main_login);
         mLoginView = (ImageView) headView.findViewById(R.id.iv_main_login);
         mLoginState = (TextView) headView.findViewById(R.id.tv_main_login);
+        mFabHome.setElevation(0);
 //        mLoginEmail = (TextView) headView.findViewById(R.id.tv_main_email);
 
     }
@@ -661,14 +662,15 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SumActivity.class));
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(this, SettingActivity.class));
-
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_search) {
+            startActivity(new Intent(this, SearchActivity.class));
+        } /*else if (id == R.id.nav_share) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             }
 
-        }
+        }*/
         //抽屉收缩动画延迟0.5s
         /*new Thread(new Runnable() {
             @Override

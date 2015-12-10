@@ -61,6 +61,8 @@ public class TypeInfoActivity extends AppCompatActivity {
         mTablayoutAddRecord.setupWithViewPager(mViewpagerTabAddRecord);
         mTablayoutAddRecord.setTabsFromPagerAdapter(mPagerAdapter);
 
+        mFloatingActionButton.setElevation(0);
+
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

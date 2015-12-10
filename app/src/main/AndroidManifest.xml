@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     package="com.example.samuel.expensemanager"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 授予应用程序访问系统开机事件的权限 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS"/>-->
-    <!--<uses-permission android:name="android.permission.READ_PROFILE"/>-->
-    <!--<uses-permission android:name="android.permission.READ_CONTACTS"/>-->
+    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
+    <!-- <uses-permission android:name="android.permission.READ_PROFILE"/> -->
+    <!-- <uses-permission android:name="android.permission.READ_CONTACTS"/> -->
+
 
     <!-- SHARESDK -->
-    <!--<uses-permission android:name="android.permission.GET_TASKS"/>-->
+    <!-- <uses-permission android:name="android.permission.GET_TASKS"/> -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!--<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>-->
-    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS"/>-->
+
+    <!-- <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/> -->
+    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
     <!-- 蓝牙分享所需的权限 -->
-    <!--<uses-permission android:name="android.permission.BLUETOOTH"/>-->
-    <!--<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>-->
-
+    <!-- <uses-permission android:name="android.permission.BLUETOOTH"/> -->
+    <!-- <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/> -->
     <!-- qq登陆所需 -->
-    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
-    <!--<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>-->
-    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
-    <!--<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>-->
-
-
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/> -->
+    <!-- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/> -->
+    <!-- <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/> -->
     <application
         android:name=".ExpenseApplication"
         android:allowBackup="true"
@@ -50,12 +47,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -65,7 +60,6 @@
         </activity>
         <activity
             android:name=".activity.AddRecordActivity"
-
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -75,7 +69,6 @@
         </activity>
         <activity
             android:name=".activity.SettingActivity"
-
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SettingTheme">
@@ -85,7 +78,6 @@
         </activity>
         <activity
             android:name=".activity.DetailActivity"
-
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -95,13 +87,11 @@
         </activity>
         <activity
             android:name=".activity.SumActivity"
-
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.TypeInfoActivity"
-
             android:parentActivityName=".activity.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -117,7 +107,6 @@
         </activity>
         <activity
             android:name=".activity.ExchangeRateActivity"
-
             android:parentActivityName=".activity.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -133,7 +122,6 @@
         </activity>
         <activity
             android:name=".activity.ReminderActivity"
-
             android:parentActivityName=".activity.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -141,7 +129,6 @@
                 <action android:name="com.example.samuel.expensemanager.reminder"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
-
             </intent-filter>
 
             <meta-data
@@ -150,7 +137,6 @@
         </activity>
         <activity
             android:name=".activity.AccountActivity"
-
             android:parentActivityName=".activity.SettingActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -201,12 +187,10 @@
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
         </activity>
-
         <activity
             android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_regist"
@@ -221,12 +205,10 @@
             android:label="@string/title_activity_userinfo"
             android:parentActivityName=".activity.MainActivity"/>
 
-
         <!-- qq登录所需 -->
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"
-
             android:launchMode="singleTask"
             android:noHistory="true"
             android:screenOrientation="portrait">
@@ -241,12 +223,10 @@
             </intent-filter>
         </activity>
         <activity
-
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
-
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
@@ -267,10 +247,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.PasswordSettingActivity"
-
             android:parentActivityName=".activity.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -280,22 +258,18 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.ChooseActivity"
-
             android:label="@string/title_activity_choose"
             android:parentActivityName=".activity.ExchangeRateActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.samuel.expensemanager.chooseactivity"/>
-
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.PassInputActivity"
-
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
@@ -315,7 +289,7 @@
                 <!-- 自定义广播，在活动被销毁时，启动服务 -->
                 <action android:name="com.example.barry.clockdemo.MainActivity.onDestroy"/>
 
-                <data android:scheme="file"></data>
+                <data android:scheme="file"/>
             </intent-filter>
         </receiver>
 
@@ -328,6 +302,15 @@
                 <!-- 自定义广播 -->
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".activity.SearchActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
