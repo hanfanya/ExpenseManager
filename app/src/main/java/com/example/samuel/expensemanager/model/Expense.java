@@ -14,6 +14,7 @@ public class Expense {
     private Integer typeColor;
     private Integer typeFlag;
     private Integer uploadFlag;
+    private String time;
 
     public Expense() {
     }
@@ -22,7 +23,7 @@ public class Expense {
         this.id = id;
     }
 
-    public Expense(Long id, String expenseObjectId, String date, Double figure, String typeName, Integer typeColor, Integer typeFlag, Integer uploadFlag) {
+    public Expense(Long id, String expenseObjectId, String date, Double figure, String typeName, Integer typeColor, Integer typeFlag, Integer uploadFlag, String time) {
         this.id = id;
         this.expenseObjectId = expenseObjectId;
         this.date = date;
@@ -31,6 +32,7 @@ public class Expense {
         this.typeColor = typeColor;
         this.typeFlag = typeFlag;
         this.uploadFlag = uploadFlag;
+        this.time = time;
     }
 
     public Long getId() {
@@ -95,6 +97,14 @@ public class Expense {
 
     public void setUploadFlag(Integer uploadFlag) {
         this.uploadFlag = uploadFlag;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
 }

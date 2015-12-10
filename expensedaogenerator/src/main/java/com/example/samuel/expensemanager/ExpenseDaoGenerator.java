@@ -22,6 +22,7 @@ public class ExpenseDaoGenerator {
         expense.addIntProperty("typeColor");//类别颜色
         expense.addIntProperty("typeFlag");//类别属性，1 表示支出，0表示收入
         expense.addIntProperty("uploadFlag");//数据状态
+        expense.addStringProperty("time");//增加记录或修改记录的具体时间
 
         Entity typeInfo = schema.addEntity("TypeInfo");
         typeInfo.addIdProperty();

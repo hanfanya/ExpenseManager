@@ -41,7 +41,8 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
                 "\"TYPE_NAME\" TEXT," + // 4: typeName
                 "\"TYPE_COLOR\" INTEGER," + // 5: typeColor
                 "\"TYPE_FLAG\" INTEGER," + // 6: typeFlag
-                "\"UPLOAD_FLAG\" INTEGER);"); // 7: uploadFlag
+                "\"UPLOAD_FLAG\" INTEGER," + // 7: uploadFlag
+                "\"TIME\" TEXT);"); // 8: time
     }
 
     /** Drops the underlying database table. */
@@ -94,6 +95,11 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         if (uploadFlag != null) {
             stmt.bindLong(8, uploadFlag);
         }
+
+        String time = entity.getTime();
+        if (time != null) {
+            stmt.bindString(9, time);
+        }
     }
 
     /** @inheritdoc */
@@ -113,7 +119,8 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
                 cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // typeName
                 cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // typeColor
                 cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // typeFlag
-                cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7) // uploadFlag
+                cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // uploadFlag
+                cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // time
         );
         return entity;
     }
@@ -129,15 +136,16 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         entity.setTypeColor(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
         entity.setTypeFlag(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
         entity.setUploadFlag(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-    }
-
+        entity.setTime(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+     }
+     
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Expense entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(Expense entity) {
@@ -147,7 +155,7 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
             return null;
         }
     }
-
+    
     /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {
@@ -167,6 +175,7 @@ public class ExpenseDao extends AbstractDao<Expense, Long> {
         public final static Property TypeColor = new Property(5, Integer.class, "typeColor", false, "TYPE_COLOR");
         public final static Property TypeFlag = new Property(6, Integer.class, "typeFlag", false, "TYPE_FLAG");
         public final static Property UploadFlag = new Property(7, Integer.class, "uploadFlag", false, "UPLOAD_FLAG");
+    public final static Property Time = new Property(8, String.class, "time", false, "TIME");
     }
     
 }

@@ -49,7 +49,9 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         db.execSQL(sql);
     }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     @Override
     protected void bindValues(SQLiteStatement stmt, TypeInfo entity) {
         stmt.clearBindings();
@@ -121,15 +123,15 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
         entity.setTypeFlag(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
         entity.setFrequency(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
         entity.setUploadFlag(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
-    }
-
+     }
+     
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(TypeInfo entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(TypeInfo entity) {
@@ -139,7 +141,7 @@ public class TypeInfoDao extends AbstractDao<TypeInfo, Long> {
             return null;
         }
     }
-
+    
     /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {
