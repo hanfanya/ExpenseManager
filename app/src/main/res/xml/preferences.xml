@@ -5,16 +5,21 @@
     <PreferenceCategory
         android:title="基本设置">
         <PreferenceScreen
+            android:icon="@drawable/ic_typeinfo"
             android:title="类别管理"
+
             >
             <intent android:action="com.example.samuel.expensemanager.typeinfo"/>
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:title="汇率换算">
+            android:icon="@drawable/ic_exchangerate"
+            android:title="汇率换算"
+            >
             <intent android:action="com.example.samuel.expensemanager.exchangerate"/>
         </PreferenceScreen>
         <PreferenceScreen
+            android:icon="@drawable/ic_reminder"
             android:title="记账提醒"
             >
             <intent android:action="com.example.samuel.expensemanager.reminder"/>
@@ -26,6 +31,7 @@
         android:title="高级设置">
         <EditTextPreference
             android:capitalize="words"
+            android:icon="@drawable/ic_budget"
             android:inputType="number"
             android:key="budget_figure"
             android:maxLength="7"
@@ -38,6 +44,7 @@
             android:defaultValue="0"
             android:entries="@array/entries_network_preference"
             android:entryValues="@array/entryvalues_network_preference"
+            android:icon="@drawable/ic_sync"
             android:key="network_setting"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
@@ -47,6 +54,7 @@
             android:defaultValue="0"
             android:entries="@array/entries_theme_preference"
             android:entryValues="@array/entryvalues_theme_preference"
+            android:icon="@drawable/ic_theme"
 
             android:key="theme_setting"
             android:negativeButtonText="@null"
@@ -56,11 +64,22 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:icon="@drawable/ic_lock"
             android:key="passset"
             android:summary="未设置密码"
             android:title="软件密码">
             <intent android:action="com.example.samuel.expensemanager.password"/>
         </CheckBoxPreference>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="其他设置">
+        <PreferenceScreen
+            android:icon="@drawable/ic_about"
+            android:title="关于本软件"
+            >
+            <intent android:action="com.example.samuel.expensemanager.about"/>
+        </PreferenceScreen>
+
     </PreferenceCategory>
 
 
