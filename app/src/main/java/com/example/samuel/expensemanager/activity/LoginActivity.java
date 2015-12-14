@@ -91,9 +91,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     SPUtils.saveBoolean(LoginActivity.this, "haveLogin", true);
                     initData();
                     mDialog.dismiss();
+                    finish();
                     Intent intent = new Intent(LoginActivity.this, UserActivity.class);
                     startActivity(intent);
-                    finish();
                     break;
                 default:
                     break;
@@ -296,6 +296,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.btn_login://denglu
+                if (!SysUtils.haveNetwork(LoginActivity.this)) {
+                    Toast.makeText(LoginActivity.this, "无法连接网络，请检查网络设置", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String account = et_account.getText().toString().trim();
                 String pwd = et_pwd.getText().toString().trim();
                 if (account.equals("")) {
@@ -308,10 +312,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     return;
                 }
 
-                if (!SysUtils.haveNetwork(LoginActivity.this)) {
-                    Toast.makeText(LoginActivity.this, "无法连接网络，请检查网络设置", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+
 
                 BmobUser user = new BmobUser();
                 user.setUsername(account);
@@ -322,6 +323,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onSuccess() {
                         toast("登陆成功");
 
+                        mDialog = ProgressDialog.show(LoginActivity.this, "提示", "正在登录中，请稍候", true);
                         Message msg = handler.obtainMessage();
                         msg.what = LOGIN_SUCCESS;
                         handler.sendMessage(msg);
@@ -655,14 +657,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onError(UiError arg0) {
-            // TODO Auto-generated method stub
             Toast.makeText(LoginActivity.this, "QQ授权出错：" + arg0.errorCode + "--" + arg0.errorDetail, Toast.LENGTH_SHORT).show();
 
         }
 
         @Override
         public void onCancel() {
-            // TODO Auto-generated method stub
 
             Toast.makeText(LoginActivity.this, "QQ取消授权：", Toast.LENGTH_SHORT).show();
         }
