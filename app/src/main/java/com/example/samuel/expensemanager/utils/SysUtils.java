@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.example.samuel.expensemanager.R;
+
 import java.math.BigDecimal;
 
 /**
@@ -75,9 +77,44 @@ public class SysUtils {
     }
 
 
-    public static boolean hasLogin() {
+    public static int getThemeResId(Context context) {
+        String themeSetting = SPUtils.getString(context, "theme_setting", "0");
+        if (themeSetting.equals("0")) {
+            return R.style.AppTheme;
+        } else if (themeSetting.equals("1")) {
+            return R.style.AppThemeRed;
 
-        return false;
+        } else if (themeSetting.equals("2")) {
+            return R.style.AppThemePink;
+
+        } else if (themeSetting.equals("3")) {
+            return R.style.AppThemePurple;
+
+        } else if (themeSetting.equals("4")) {
+            return R.style.AppThemeIndigo;
+
+        } else if (themeSetting.equals("5")) {
+            return R.style.AppThemeCyan;
+
+        } else if (themeSetting.equals("6")) {
+            return R.style.AppThemeTeal;
+
+        } else if (themeSetting.equals("7")) {
+            return R.style.AppThemeGreen;
+
+        } else if (themeSetting.equals("8")) {
+            return R.style.AppThemeLime;
+
+        } else if (themeSetting.equals("9")) {
+            return R.style.AppThemeAmber;
+
+        } else if (themeSetting.equals("10")) {
+            return R.style.AppThemeOrange;
+
+        } else {
+            return R.style.AppTheme;
+        }
+
     }
 
 }

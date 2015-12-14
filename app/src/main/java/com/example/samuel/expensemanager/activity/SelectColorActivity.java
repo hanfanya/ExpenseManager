@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.SelectColorAdapter;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,6 +27,8 @@ public class SelectColorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(SelectColorActivity.this));
+
         setContentView(R.layout.activity_select_color);
         ButterKnife.bind(this);
 

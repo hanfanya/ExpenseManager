@@ -22,6 +22,7 @@ import com.example.samuel.expensemanager.receiver.TimeChangeReceiver;
 import com.example.samuel.expensemanager.service.TimeService;
 import com.example.samuel.expensemanager.utils.CheckServiceUtils;
 import com.example.samuel.expensemanager.utils.SPUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 import com.example.samuel.expensemanager.view.ClickView;
 import com.kyleduo.switchbutton.SwitchButton;
 
@@ -61,6 +62,8 @@ public class ReminderActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(ReminderActivity.this));
+
         setContentView(R.layout.activity_reminder);
         ButterKnife.bind(this);
 

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,8 @@ public class IncomeSumFragment extends Fragment implements RadioGroup.OnCheckedC
     private PieChart mChart;
     private ListView mListView;
     private Double SumExpense = 0.0;
+    private Button mBtnOk;
+    private Button mBtnCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,7 +80,9 @@ public class IncomeSumFragment extends Fragment implements RadioGroup.OnCheckedC
         mBtnDiy = (Button) headerview.findViewById(R.id.btn_diy_ex);
         mChart = (PieChart) headerview.findViewById(R.id.chart1);
         mListView = (ListView) view.findViewById(R.id.rcv_expense_sum);
+
         mListView.addHeaderView(headerview);
+
 
         //初始化日历对象
         mCalendar = Calendar.getInstance();
@@ -126,19 +131,28 @@ public class IncomeSumFragment extends Fragment implements RadioGroup.OnCheckedC
         //填充自定义布局
         View view = View.inflate(getActivity(), R.layout.dialog_dateset_sum, null);
         mBuilder = new AlertDialog.Builder(getActivity()).setView(view).show();
-
         mBtnStartDate = (Button) view.findViewById(R.id.btn_start_date);
         mBtnEndDate = (Button) view.findViewById(R.id.btn_end_date);
-        Button btnOk = (Button) view.findViewById(R.id.btn_ok_dialog);
-        Button btnCancle = (Button) view.findViewById(R.id.btn_cancle_dialog);
+        mBtnOk = (Button) view.findViewById(R.id.btn_ok_dialog);
+        mBtnCancel = (Button) view.findViewById(R.id.btn_cancle_dialog);
+        //设置button颜色
+        TypedValue typedValue = new TypedValue();
+        getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int primaryColor = typedValue.data;
+
+        mBtnStartDate.setBackgroundColor(primaryColor);
+        mBtnEndDate.setBackgroundColor(primaryColor);
+        mBtnOk.setBackgroundColor(primaryColor);
+        mBtnCancel.setBackgroundColor(primaryColor);
+
         //每次选择完为button设置变化后的时间
         mBtnStartDate.setText(mStartDate.startYear + "年" + getTwoBmonth(mStartDate.startMonth) + "月" + mStartDate.startDay + "日");
         mBtnEndDate.setText(mEndDate.endYear + "年" + getTwoBmonth(mEndDate.endMonth) + "月" + mEndDate.endDay + "日");
         //设置点击监听
         mBtnStartDate.setOnClickListener(this);
         mBtnEndDate.setOnClickListener(this);
-        btnOk.setOnClickListener(this);
-        btnCancle.setOnClickListener(this);
+        mBtnOk.setOnClickListener(this);
+        mBtnCancel.setOnClickListener(this);
     }
 
     //Button的点击监听
@@ -305,7 +319,7 @@ public class IncomeSumFragment extends Fragment implements RadioGroup.OnCheckedC
             //System.out.println("Figure"+cursor.getFloat(0)+"类别"+cursor.getString(1)+"colorid"+cursor.getInt(2));
             i++;
         }
-        System.out.println("-------------------------------------------");
+
         PieDataSet dataSet = new PieDataSet(yVals1, "支出类别");
         dataSet.setSliceSpace(2f);
         dataSet.setSelectionShift(5f);

@@ -3,6 +3,7 @@ package com.example.samuel.expensemanager.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(MainActivity.this));
         setContentView(R.layout.activity_main);
         Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
 
@@ -109,7 +112,6 @@ public class MainActivity extends AppCompatActivity
         initlogin();
 
     }
-
 
 
     private void assignViews() {
@@ -243,7 +245,7 @@ public class MainActivity extends AppCompatActivity
                 Log.i("MainActivity", "没有登录");
 
                 mLoginView.setImageResource(R.drawable.ic_nav);
-                mLoginState.setText("您尚未登陆,点击头像跳转登陆界面");
+                mLoginState.setText("点击头像登陆/注册");
 //                mLoginEmail.setText("您的email");
             }
         }
@@ -280,7 +282,7 @@ public class MainActivity extends AppCompatActivity
 
 //            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
             bmobUpload(isClickByHand);
-            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
 
 
         }
@@ -411,8 +413,8 @@ public class MainActivity extends AppCompatActivity
 //        SPUtils.saveBoolean(MainActivity.this, "isSame", false);
         if (!isSame) {
 //            new UploadTask().execute(Void, Void, isClickByHand);
-            UploadTask uploadTask = new UploadTask();
 //            uploadTask.execute(isClickByHand, isClickByHand);
+            UploadTask uploadTask = new UploadTask();
             new UploadTask().execute(isClickByHand);
         }
 
@@ -478,6 +480,12 @@ public class MainActivity extends AppCompatActivity
 
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int primaryColor = typedValue.data;
+//        mLoginLayout.setBackgroundTintList(ColorStateList.valueOf(primaryColor));
+        mLoginLayout.setBackgroundColor(primaryColor);
+        mFabHome.setBackgroundTintList(ColorStateList.valueOf(primaryColor));
 
         //设置 drawlayout
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -519,10 +527,9 @@ public class MainActivity extends AppCompatActivity
         });
 
         //GXL
-        mLoginView.setOnClickListener(new View.OnClickListener() {
+        mLoginLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (BmobUser.getCurrentUser(MainActivity.this) == null) {//跳转到登陆界面
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
@@ -533,6 +540,13 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+        /*mLoginView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });*/
         mFabHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -567,11 +581,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_upload) {
-            /*ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mItemUpload, "rotation",0,360);
-            objectAnimator.setDuration(3000);
-            objectAnimator.start();*/
-//            Animation rotation = AnimationUtils.loadAnimation(this, R.anim.upload_refresh);
-//            rotation.setRepeatCount(Animation.INFINITE);
+
             uploadData(false, true);
             return true;
         }
@@ -684,30 +694,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_sum) {
             startActivity(new Intent(this, SumActivity.class));
         } else if (id == R.id.nav_setting) {
+            finish();
             startActivity(new Intent(this, SettingActivity.class));
         } else if (id == R.id.nav_search) {
             startActivity(new Intent(this, SearchActivity.class));
-        } /*else if (id == R.id.nav_share) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            }
+        }
 
-        }*/
-        //抽屉收缩动画延迟0.5s
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SystemClock.sleep(500);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDrawer.closeDrawer(GravityCompat.START);
-                    }
-                });
-            }
-        }).start();*/
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        finish();
         return true;
     }
 
@@ -824,7 +818,7 @@ public class MainActivity extends AppCompatActivity
 
             List<Expense> list = expenseDao.queryBuilder()
                     .where(ExpenseDao.Properties.UploadFlag.in(0, 1, 5, 6, 7)).list();
-            System.out.println("同步后长度:" + list.size());
+//            System.out.println("同步后长度:" + list.size());
             Log.i("bombTest", "全部上传成功============================");
             SPUtils.saveBoolean(MainActivity.this, "isSame", true);
             if (isClickByHand) {

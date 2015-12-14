@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.model.DaoSession;
 import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -58,11 +60,18 @@ public class AddTypeInfoActivity extends AppCompatActivity {
         mBtnOk = (Button) findViewById(R.id.btn_ok);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int primaryColor = typedValue.data;
+        mBtnOk.setBackgroundColor(primaryColor);
+        mBtnCancel.setBackgroundColor(primaryColor);
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(AddTypeInfoActivity.this));
         setContentView(R.layout.activity_add_type_info);
         assignViews();
 

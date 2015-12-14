@@ -66,6 +66,8 @@ public class ExchangeRateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(ExchangeRateActivity.this));
+
         setContentView(R.layout.activity_exchange_rate);
 
         ButterKnife.bind(this);

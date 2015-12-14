@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.fragment.DetailFragment;
 import com.example.samuel.expensemanager.utils.DatesUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -40,6 +41,8 @@ public class DetailActivity extends AppCompatActivity implements OnDateSelectedL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(DetailActivity.this));
+
         setContentView(R.layout.activity_detail);
         assignViews();
         initData();

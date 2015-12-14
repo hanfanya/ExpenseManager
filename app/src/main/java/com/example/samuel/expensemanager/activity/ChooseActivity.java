@@ -13,6 +13,7 @@ import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.ChooseListAdapter;
 import com.example.samuel.expensemanager.bean.Country;
 import com.example.samuel.expensemanager.utils.PrefUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class ChooseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(ChooseActivity.this));
+
         setContentView(R.layout.activity_choose);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

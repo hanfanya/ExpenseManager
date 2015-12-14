@@ -10,6 +10,35 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+
+
+    </string-array>
+
+    <string-array name="entries_theme_preference">
+        <item>蓝色</item>
+        <item>红色</item>
+        <item>粉红色</item>
+        <item>紫色</item>
+        <item>靛蓝色</item>
+        <item>青色</item>
+        <item>蓝绿色</item>
+        <item>绿色</item>
+        <item>黄色</item>
+        <item>琥珀色</item>
+        <item>橘色</item>
+    </string-array>
+    <string-array name="entryvalues_theme_preference">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </string-array>
 
     <array name="colorType" translatable="false">

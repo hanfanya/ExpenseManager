@@ -145,9 +145,7 @@ public class HomeFragment extends Fragment {
                 .orderDesc(ExpenseDao.Properties.Time);
 
         mExpenseList = builder.list();
-        for (Expense expense : mExpenseList) {
-            Log.i("Time:", expense.getTime());
-        }
+
         System.out.println("mExpenseList=" + mExpenseList.size());
 
         mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());

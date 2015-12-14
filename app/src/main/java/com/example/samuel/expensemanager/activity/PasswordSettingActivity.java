@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.utils.SPUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,6 +54,8 @@ public class PasswordSettingActivity extends AppCompatActivity implements View.O
     TextView pass4;
     @Bind(R.id.tv_dsc)
     TextView tvDsc;
+    @Bind(R.id.pas)
+    LinearLayout mPas;
 
     private String p;
     private String first;
@@ -61,7 +66,9 @@ public class PasswordSettingActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sum_type_detail);
+        setTheme(SysUtils.getThemeResId(PasswordSettingActivity.this));
+
+        setContentView(R.layout.activity_password_setting);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -94,6 +101,10 @@ public class PasswordSettingActivity extends AppCompatActivity implements View.O
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int primaryColor = typedValue.data;
+        mPas.setBackgroundColor(primaryColor);
     }
 
 

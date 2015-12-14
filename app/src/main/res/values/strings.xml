@@ -28,5 +28,6 @@
     </string>
     <string name="title_activity_choose">切换币种</string>
     <string name="action_search">搜索</string>
+    <string name="theme_network">主题设置</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.samuel.expensemanager.activity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,12 +9,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.AddRecordPagerAdapter;
 import com.example.samuel.expensemanager.fragment.ExpenseTypeInfoFragment;
 import com.example.samuel.expensemanager.fragment.IncomeTypeInfoFragment;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 public class TypeInfoActivity extends AppCompatActivity {
     private Toolbar mToolbarAddRecord;
@@ -25,6 +28,8 @@ public class TypeInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(TypeInfoActivity.this));
+
         setContentView(R.layout.activity_type_info);
 
         assignViews();
@@ -52,6 +57,11 @@ public class TypeInfoActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int primaryColor = typedValue.data;
+        mFloatingActionButton.setBackgroundTintList(ColorStateList.valueOf(primaryColor));
 
         mTablayoutAddRecord.setTabMode(TabLayout.MODE_FIXED);//设置tab的模式
 

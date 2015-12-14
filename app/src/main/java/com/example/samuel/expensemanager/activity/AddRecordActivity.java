@@ -11,6 +11,7 @@ import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.AddRecordPagerAdapter;
 import com.example.samuel.expensemanager.fragment.ExpenseFragment;
 import com.example.samuel.expensemanager.fragment.IncomeFragment;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 public class AddRecordActivity extends AppCompatActivity {
     private Toolbar mToolbarAddRecord;
@@ -23,6 +24,7 @@ public class AddRecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(AddRecordActivity.this));
         setContentView(R.layout.activity_add_record);
 
 

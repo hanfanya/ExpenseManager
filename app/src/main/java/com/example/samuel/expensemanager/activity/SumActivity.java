@@ -7,11 +7,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Window;
 import android.widget.ImageButton;
 
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.adapter.SumPagerAdapter;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 /**
  * author: 刘万鹏
@@ -30,8 +30,9 @@ public class SumActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(SumActivity.this));
 
         setContentView(R.layout.activity_sum);
         assignViews();

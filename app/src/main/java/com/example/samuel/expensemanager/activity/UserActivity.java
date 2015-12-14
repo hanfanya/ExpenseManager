@@ -18,6 +18,7 @@ import com.example.samuel.expensemanager.model.Expense;
 import com.example.samuel.expensemanager.model.ExpenseDao;
 import com.example.samuel.expensemanager.model.MyUser;
 import com.example.samuel.expensemanager.utils.SPUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import java.util.List;
 
@@ -41,6 +42,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(UserActivity.this));
+
         setContentView(R.layout.activity_user);
 
 //        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);

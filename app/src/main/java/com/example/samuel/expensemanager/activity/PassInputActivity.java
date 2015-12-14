@@ -5,12 +5,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.utils.SPUtils;
+import com.example.samuel.expensemanager.utils.SysUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,6 +53,8 @@ public class PassInputActivity extends AppCompatActivity implements View.OnClick
     TextView pass4;
     @Bind(R.id.tv_dsc)
     TextView tvDsc;
+    @Bind(R.id.pas)
+    LinearLayout mPas;
 
     private String p;
     private String password;
@@ -61,7 +66,9 @@ public class PassInputActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sum_type_detail);
+        setTheme(SysUtils.getThemeResId(PassInputActivity.this));
+
+        setContentView(R.layout.activity_password_setting);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -82,6 +89,12 @@ public class PassInputActivity extends AppCompatActivity implements View.OnClick
 
         toolbar.setTitle("请输入密码");
         setSupportActionBar(toolbar);
+
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int primaryColor = typedValue.data;
+        mPas.setBackgroundColor(primaryColor);
+
         password = SPUtils.getString(this, "password", "");
     }
 

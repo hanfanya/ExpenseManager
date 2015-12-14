@@ -2,6 +2,7 @@ package com.example.samuel.expensemanager.activity;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,6 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btn_weixin;
     private MyTecentListener mTecentListener;
     private SharedPreferences mSharedPerfarece;
+    private ProgressDialog mDialog;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -87,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 case LOGIN_SUCCESS:
                     SPUtils.saveBoolean(LoginActivity.this, "haveLogin", true);
                     initData();
+                    mDialog.dismiss();
                     Intent intent = new Intent(LoginActivity.this, UserActivity.class);
                     startActivity(intent);
                     finish();
@@ -101,6 +105,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(LoginActivity.this));
+
         setContentView(R.layout.activity_login);
 
         mSharedPerfarece = getSharedPreferences("user", MODE_PRIVATE);
@@ -222,6 +228,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         unlogin_relativelayout = (RelativeLayout) findViewById(R.id.unlogin_relativelayout);
 //        mFabLogin = (FloatingActionButton) findViewById(R.id.fab_login);
         login_success_tv_nickname = (TextView) findViewById(R.id.login_success_tv_nickname);
+
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int primaryColor = typedValue.data;
+        btn_login.setBackgroundColor(primaryColor);
+        btn_register.setBackgroundColor(primaryColor);
 
 
         btn_login.setOnClickListener(this);
@@ -395,27 +407,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onSuccess(JSONObject userAuth) {
-                // TODO Auto-generated method stub
                 Log.i("smile", authInfo.getSnsType() + "登陆成功返回:" + userAuth);
 
                 //已经登陆成功
                 //1.获得相关信息
                 //如果是QQ登陆
-                if ("qq" == authInfo.getSnsType()) {
+                mDialog = ProgressDialog.show(LoginActivity.this, "提示", "正在登录中，请稍候", true);
+
+                if ("qq".equals(authInfo.getSnsType())) {
                     // 传入用户信息,并保存在本地
                     getQQInfo(userAuth);
 
-                } else if ("weibo" == authInfo.getSnsType()) {
+                } else if ("weibo".equals(authInfo.getSnsType())) {
                     //调用微博API，并保存在本地
                     getWeiboInfo();
-                } else if ("weixin" == authInfo.getSnsType()) {
+                } else if ("weixin".equals(authInfo.getSnsType())) {
                     getWeixinInfo();
                 }
             }
 
             @Override
             public void onFailure(int code, String msg) {
-                // TODO Auto-generated method stub
                 Toast.makeText(LoginActivity.this, "第三方登陆失败：" + msg, Toast.LENGTH_SHORT).show();
             }
         });

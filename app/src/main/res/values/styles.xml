@@ -2,31 +2,134 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
     </style>
+
+    <style name="AppThemeRed" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#F44336</item>
+        <item name="colorPrimaryDark">#F44336</item>
+        <item name="colorAccent">#2196F3</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+    </style>
+
+    <style name="AppThemePink" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#E91E63</item>
+        <item name="colorPrimaryDark">#E91E63</item>
+        <item name="colorAccent">#2196F3</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
+    <style name="AppThemePurple" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#673AB7</item>
+        <item name="colorPrimaryDark">#673AB7</item>
+        <item name="colorAccent">#03A9F4</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
+    <style name="AppThemeIndigo" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#3F51B5</item>
+        <item name="colorPrimaryDark">#3F51B5</item>
+        <item name="colorAccent">#F44336</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
+    <style name="AppThemeCyan" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#00BCD4</item>
+        <item name="colorPrimaryDark">#00BCD4</item>
+        <item name="colorAccent">#E91E63</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
+    <style name="AppThemeTeal" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#009688</item>
+        <item name="colorPrimaryDark">#009688</item>
+        <item name="colorAccent">#E91E63</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
+    <style name="AppThemeGreen" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#4CAF50</item>
+        <item name="colorPrimaryDark">#4CAF50</item>
+        <item name="colorAccent">#FF5722</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
+    <style name="AppThemeLime" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#CDDC39</item>
+        <item name="colorPrimaryDark">#CDDC39</item>
+        <item name="colorAccent">#2196F3</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
+    <style name="AppThemeAmber" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#FFC107</item>
+        <item name="colorPrimaryDark">#FFC107</item>
+        <item name="colorAccent">#2196F3</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
+    <style name="AppThemeOrange" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#FF9800</item>
+        <item name="colorPrimaryDark">#FF9800</item>
+        <item name="colorAccent">#2196F3</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="MySearchView" parent="Base.Widget.AppCompat.SearchView">
-        <item name="android:commitIcon">@drawable/ic_check</item>
-        <item name="commitIcon">@drawable/ic_check</item>
-    </style>
-
-
     <style name="SettingTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
+
+    <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
     </style>
 
 

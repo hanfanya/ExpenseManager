@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -74,6 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SysUtils.getThemeResId(RegisterActivity.this));
+
         setContentView(R.layout.activity_regist);
 
         ActionBar supportActionBar = getSupportActionBar();
@@ -367,6 +370,13 @@ public class RegisterActivity extends AppCompatActivity {
 //        regist_et_email = (EditText) findViewById(R.id.regist_et_email);
         regist_btn_reg = (Button) findViewById(R.id.regist_btn_reg);
         regist_btn_cancel = (Button) findViewById(R.id.regist_btn_cancel);
+
+        //设置按钮颜色
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int primaryColor = typedValue.data;
+        regist_btn_reg.setBackgroundColor(primaryColor);
+        regist_btn_cancel.setBackgroundColor(primaryColor);
 
         regist_et_account.addTextChangedListener(new MyTextWatcher(regist_et_account));
         regist_et_pwd.addTextChangedListener(new MyTextWatcher(regist_et_pwd));
