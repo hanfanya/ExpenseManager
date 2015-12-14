@@ -1,79 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5efeaea"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:fitsSystemWindows="true"
     tools:context="com.example.samuel.expensemanager.activity.UserActivity">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
-        android:divider="#1000"
-        android:orientation="vertical"
-        android:showDividers="middle">
-        <!--item -->
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:background="@color/white">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:text="昵称"
-                android:textColor="#e7525453"
-                android:textSize="22sp"/>
-
-            <TextView
-                android:id="@+id/user_tv_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:text="您的昵称"
-                android:textColor="@color/blue_grey"
-                android:textSize="22sp"/>
-        </RelativeLayout>
-
-        <!-- -->
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="5dp"
-            android:background="#f5efeaea" />
-
-
-
-        <!-- -->
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="25dp"
-            android:background="#f5efeaea" />
-
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_user"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/white">
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="top"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleMarginTop="13dp">
 
-            <TextView
-                android:id="@+id/user_tv_checkout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="true"
-                android:text="退出登录"
-                android:textColor="@color/blue"
-                android:textSize="28sp"/>
-        </RelativeLayout>
-    </LinearLayout>
-</RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_user"/>
+
+</android.support.design.widget.CoordinatorLayout>
+

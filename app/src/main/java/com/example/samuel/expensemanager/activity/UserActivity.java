@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -166,6 +167,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         user_tv_nickname = (TextView) findViewById(R.id.user_tv_nickname);
 //        user_bt_update = (Button) findViewById(R.id.user_bt_update);
         user_tv_checkout = (TextView) findViewById(R.id.user_tv_checkout);
+        Toolbar toolbarUser = (Toolbar) findViewById(R.id.toolbar_user);
+        toolbarUser.setTitle("用户");
+        setSupportActionBar(toolbarUser);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 //        user_bt_update.setOnClickListener(this);
         user_tv_checkout.setOnClickListener(this);
 

@@ -210,7 +210,11 @@
             android:name=".activity.UserActivity"
             android:label="@string/title_activity_userinfo"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.samuel.expensemanager.activity.MainActivity"/>
+        </activity>
 
         <!-- qq登录所需 -->
 
