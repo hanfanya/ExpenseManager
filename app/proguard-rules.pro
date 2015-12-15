@@ -15,11 +15,37 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--assumenosideeffects class android.util.Log{
-    public static int v(...);
-    public static int i(...);
-    public static int d(...);
-    public static int w(...);
-    public static int e(...);
+#-assumenosideeffects class android.util.Log{
+#    public static int v(...);
+#    public static int i(...);
+#    public static int d(...);
+#    public static int w(...);
+#    public static int e(...);
+#}
+#-ignorewarnings
+
+#-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+#public static java.lang.String TABLENAME;
+#}
+
+#-keepclassmembers class my.dao.package.** {
+#    public static final <fields>;
+#    }
+
+#-keep class **$Properties
+
+#-keep public class my.dao.package.models.** {
+#     public static <fields>;
+#}
+
+#-keep class my.dao.package.*$Properties {
+#    public static <fields>;
+#}
+
+#-keepclassmembers class my.dao.package.** {
+#    public static final <fields>;
+#    }
+-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+    public static java.lang.String TABLENAME;
 }
--ignorewarnings
+-keep class **$Properties

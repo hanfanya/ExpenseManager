@@ -39,8 +39,6 @@ import com.example.samuel.expensemanager.model.TypeInfo;
 import com.example.samuel.expensemanager.model.TypeInfoDao;
 import com.example.samuel.expensemanager.utils.SPUtils;
 import com.example.samuel.expensemanager.utils.SysUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 import java.util.Random;
@@ -53,7 +51,6 @@ import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.sharesdk.framework.ShareSDK;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -96,7 +93,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setTheme(SysUtils.getThemeResId(MainActivity.this));
         setContentView(R.layout.activity_main);
-        Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
 
 
         assignViews();
@@ -106,9 +102,8 @@ public class MainActivity extends AppCompatActivity
 
         //Gxl
         //初始化sharedsdk
-        ShareSDK.initSDK(this);
-        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
-        ImageLoader.getInstance().init(configuration);
+        /*ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
+        ImageLoader.getInstance().init(configuration);*/
         initlogin();
 
     }
