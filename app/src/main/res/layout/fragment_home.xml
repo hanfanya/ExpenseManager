@@ -5,6 +5,16 @@
 
              tools:context="com.example.samuel.expensemanager.fragment.HomeFragment">
 
+    <TextView
+        android:id="@+id/tv_no_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="没有记录"
+        android:textSize="20sp"
+        android:visibility="invisible"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -72,20 +82,5 @@
 
 
     </LinearLayout>
-
-    <!--<com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_plus"
-
-        android:elevation="0dp"
-        fab:borderWidth="0dp"
-        fab:fab_colorNormal="@color/colorPrimary"
-        />-->
-
-    <!--fab:fab_colorRipple="@color/ripple"-->
 
 </FrameLayout>

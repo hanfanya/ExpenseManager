@@ -15,14 +15,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-#-assumenosideeffects class android.util.Log{
-#    public static int v(...);
-#    public static int i(...);
-#    public static int d(...);
-#    public static int w(...);
-#    public static int e(...);
-#}
-#-ignorewarnings
+-assumenosideeffects class android.util.Log{
+    public static int v(...);
+    public static int i(...);
+    public static int d(...);
+    public static int w(...);
+    public static int e(...);
+}
+-ignorewarnings
 
 #-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
 #public static java.lang.String TABLENAME;

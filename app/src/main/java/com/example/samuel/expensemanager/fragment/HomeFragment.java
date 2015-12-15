@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.samuel.expensemanager.ExpenseApplication;
@@ -49,6 +50,8 @@ public class HomeFragment extends Fragment {
     CountView mTvMonthOut;
     @Bind(R.id.recyclerview_home)
     RecyclerView mRecyclerviewHome;
+//    @Bind(R.id.tv_no_expense)
+//    TextView mTvNoExpense;
 
     //    private RecyclerView mRecyclerViewHome;
 //    private FloatingActionButton mFabHome;
@@ -57,6 +60,7 @@ public class HomeFragment extends Fragment {
     private String mStartDate;
     private String mEndDate;
     private ExpenseDao mExpenseDao;
+    private TextView mTvNoExpense;
 
 
     public HomeFragment() {
@@ -69,28 +73,11 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
 
-        initRecyclerViewList();
+        mTvNoExpense = (TextView) view.findViewById(R.id.tv_no_expense);
+
+//        initRecyclerViewList();
         //设置recyclerview布局
-        mRecyclerviewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mRecyclerviewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
-                .build());//设置 divider 分割线 margin(110, 55)
-
-//      recyclerview 滑动时，FabButton 隐藏或显示
-        mRecyclerviewHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                FloatingActionButton floatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.fab_home);
-                if (dy > 0) {
-                    floatingActionButton.hide();
-                }
-                if (dy < 0) {
-                    floatingActionButton.show();
-
-                }
-            }
-        });
 
         return view;
     }
@@ -146,20 +133,46 @@ public class HomeFragment extends Fragment {
 
         mExpenseList = builder.list();
 
-        System.out.println("mExpenseList=" + mExpenseList.size());
 
-        mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
-        mRecyclerviewHome.setAdapter(mHomeListAdapter);
-        mRecyclerviewHome.setItemAnimator(new DefaultItemAnimator());//设置默认动画
-        mHomeListAdapter.setOnItemClickListener(new HomeListAdapter.OnItemClickListener() {
-            @Override
-            public boolean onItemLongClick(View view, int position) {
-                showActionDialog(position);
+        if (mExpenseList.size() != 0) {
+            mTvNoExpense.setVisibility(View.INVISIBLE);
 
-                return false;
-            }
-        });
+            mRecyclerviewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+            mRecyclerviewHome.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                    .build());//设置 divider 分割线 margin(110, 55)
+
+//      recyclerview 滑动时，FabButton 隐藏或显示
+
+            mHomeListAdapter = new HomeListAdapter(mExpenseList, getActivity());
+            mRecyclerviewHome.setAdapter(mHomeListAdapter);
+            mRecyclerviewHome.setItemAnimator(new DefaultItemAnimator());//设置默认动画
+            mHomeListAdapter.setOnItemClickListener(new HomeListAdapter.OnItemClickListener() {
+                @Override
+                public boolean onItemLongClick(View view, int position) {
+                    showActionDialog(position);
+
+                    return false;
+                }
+            });
+
+            mRecyclerviewHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    FloatingActionButton floatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.fab_home);
+                    if (dy > 0) {
+                        floatingActionButton.hide();
+                    }
+                    if (dy < 0) {
+                        floatingActionButton.show();
+
+                    }
+                }
+            });
+        } else {
+            mTvNoExpense.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showActionDialog(final int position) {
