@@ -57,7 +57,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
             int day = (c.get(Calendar.DAY_OF_WEEK) + 12) % 7;// 让星期一为0，星期日为6
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
-            if (SPUtils.getBoolean(context, "pick_status" + day, false)
+            if (SPUtils.getBoolean(context, "pick_status" + day, true)
                     && SPUtils.getBoolean(context, "remind_status", false)) {//是不是选中的日期
                 if (hour == SPUtils.getInt(context, "remind_time_hour", -1)
                         && minute == SPUtils.getInt(context, "remind_time_minute", -1)) {// 是不是设定的时间

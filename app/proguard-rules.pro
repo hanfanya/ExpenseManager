@@ -22,3 +22,4 @@
     public static int w(...);
     public static int e(...);
 }
+-ignorewarnings

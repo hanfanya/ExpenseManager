@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_app_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="一寸光阴一寸金，寸金难买寸光阴"
         android:textColor="@color/white"
         android:textSize="16dp"/>

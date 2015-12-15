@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
@@ -32,8 +33,15 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(this, PassInputActivity.class));
             finish();
         } else {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SystemClock.sleep(1000);
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }
+            }).start();
+
         }
     }
 
