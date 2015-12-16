@@ -51,6 +51,7 @@ import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.sharesdk.framework.ShareSDK;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity
         assignViews();
         initUI();
         initData();
+
+        ShareSDK.initSDK(this);
+        Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
 //        bmobUpload();
 
         //Gxl
@@ -277,7 +281,7 @@ public class MainActivity extends AppCompatActivity
 
 //            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
             bmobUpload(isClickByHand);
-//            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "正在同步，请稍后……", Toast.LENGTH_SHORT).show();
 
 
         }

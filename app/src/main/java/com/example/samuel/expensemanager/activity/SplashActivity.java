@@ -14,8 +14,6 @@ import com.example.samuel.expensemanager.utils.SPUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.bmob.v3.Bmob;
-import cn.sharesdk.framework.ShareSDK;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -51,9 +49,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         ButterKnife.bind(this);
-
-        ShareSDK.initSDK(this);
-        Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
 
 
         mTvVersionName.setText(getVersionName());

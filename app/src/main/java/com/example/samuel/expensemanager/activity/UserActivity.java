@@ -92,7 +92,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(int i, String s) {
-                Toast.makeText(UserActivity.this, "同步失败，请稍后重试", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(UserActivity.this, "同步失败，请稍后重试", Toast.LENGTH_SHORT).show();
                 Log.i("bmobTest", "查询失败" + s);
 
             }
