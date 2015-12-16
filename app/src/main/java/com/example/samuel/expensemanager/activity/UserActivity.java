@@ -60,11 +60,21 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         if (mBmobUser != null) {
             mSharedPerfarece = getSharedPreferences("user", MODE_PRIVATE);
             String nickName = mSharedPerfarece.getString(mBmobUser.getObjectId() + "_nickName", "");
-            if (nickName.equals("")) {
-                user_tv_nickname.setText(mBmobUser.getUsername());
-            } else {
+            String nickname = (String) BmobUser.getObjectByKey(this, "nickname");
+            if (nickname.equals("")) {
                 user_tv_nickname.setText(nickName);
+            } else {
+                user_tv_nickname.setText(nickname);
             }
+
+            /*String userObjectId = user.getObjectId();//获得ID
+            SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+            //获取数据
+
+            String nickName = sp.getString(userObjectId + "_nickName", "");
+            String nickname = (String) BmobUser.getObjectByKey(this, "nickname");
+            mLoginState.setText(!"".equals(nickName) ? nickName : nickname);*/
+
             boolean haveDownload = SPUtils.getBoolean(UserActivity.this, "haveDownload", false);
             if (!haveDownload) {
                 initDownload();

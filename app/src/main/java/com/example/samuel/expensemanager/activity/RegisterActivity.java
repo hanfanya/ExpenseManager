@@ -158,6 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
                 regist_et_pwd.setText("");
                 regist_et_nickname.setText("");
                 regist_et_email.setText("");*/
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
             }
         });
