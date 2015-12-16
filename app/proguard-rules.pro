@@ -49,3 +49,16 @@
     public static java.lang.String TABLENAME;
 }
 -keep class **$Properties
+
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+-keep class android.support.v7.widget.SearchView { *; }

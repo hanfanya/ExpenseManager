@@ -45,6 +45,7 @@
                 android:id="@+id/ll_circle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -148,10 +149,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:layout_marginLeft="8dp"
                 android:text="最近七天支出"
                 android:textColor="#000"
-                android:layout_marginBottom="4dp"
                 android:textSize="16sp" />
 
             <com.github.mikephil.charting.charts.LineChart

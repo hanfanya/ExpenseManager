@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.example.samuel.expensemanager.R;
 import com.example.samuel.expensemanager.utils.SPUtils;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.bmob.v3.Bmob;
 import cn.sharesdk.framework.ShareSDK;
 
@@ -18,10 +21,10 @@ public class SplashActivity extends AppCompatActivity {
 
     private static final int ENTER_MAIN = 1;
     private static final int INPUT_PASSWORD = 2;
-//    @Bind(R.id.tv_app_name)
+    //    @Bind(R.id.tv_app_name)
 //    TextView mTvAppName;
-//    @Bind(R.id.tv_version_name)
-//TextView mTvVersionName;
+    @Bind(R.id.tv_version_name)
+    TextView mTvVersionName;
 
     private Handler handler = new Handler() {
         @Override
@@ -47,13 +50,13 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-//        ButterKnife.bind(this);
+        ButterKnife.bind(this);
 
         ShareSDK.initSDK(this);
         Bmob.initialize(this, "a4542ee0d42314bd2d2804e1ca838c5d");
 
 
-//        mTvVersionName.setText(getVersionName());
+        mTvVersionName.setText(getVersionName());
 
 
     }

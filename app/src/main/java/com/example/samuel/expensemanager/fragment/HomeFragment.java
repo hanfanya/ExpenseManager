@@ -120,8 +120,16 @@ public class HomeFragment extends Fragment {
             sumMonth = sumMonth + expense.getFigure();//统计本月支出
         }
         Log.i("home", expenseMonth.size() + "");
-        mTvTodayOut.showNumberWithAnimation(String.valueOf(sumToday));
-        mTvMonthOut.showNumberWithAnimation(String.valueOf(sumMonth));
+        if (sumToday == 0) {
+            mTvTodayOut.setText("0");
+        } else {
+            mTvTodayOut.showNumberWithAnimation(String.valueOf(sumToday));
+        }
+        if (sumMonth == 0) {
+            mTvMonthOut.setText("0");
+        } else {
+            mTvMonthOut.showNumberWithAnimation(String.valueOf(sumMonth));
+        }
     }
 
     public void initRecyclerViewList() {

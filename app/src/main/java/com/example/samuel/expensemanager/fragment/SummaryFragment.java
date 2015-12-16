@@ -367,8 +367,16 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 mSumMonthIn = mSumMonthIn + expense.getFigure();//统计本月收入
             }
         }
-        mTvMonthIn.showNumberWithAnimation(String.valueOf(mSumMonthIn));
-        mTvMonthOut.showNumberWithAnimation(String.valueOf(mSumMonthOut));
+        if (mSumMonthIn == 0) {
+            mTvMonthIn.setText("0");
+        } else {
+            mTvMonthIn.showNumberWithAnimation(String.valueOf(mSumMonthIn));
+        }
+        if (mSumMonthOut == 0) {
+            mTvMonthOut.setText("0");
+        } else {
+            mTvMonthOut.showNumberWithAnimation(String.valueOf(mSumMonthOut));
+        }
 
     }
 
@@ -389,7 +397,11 @@ public class SummaryFragment extends Fragment implements NumberPickerDialogFragm
                 System.out.println("mPercentage" + mPercentage);
 
                 mTvBudgetTitle.setText("预算剩余");
-                mTvBudgetFigure.showNumberWithAnimation(String.valueOf(mRemainBudget));
+                if (mRemainBudget == 0) {
+                    mTvBudgetFigure.setText("0");
+                } else {
+                    mTvBudgetFigure.showNumberWithAnimation(String.valueOf(mRemainBudget));
+                }
                 mCirclePb.setTargetProgress(mPercentage);//设置自定义圆形进度条的进度
 
             } else {//预算超出
